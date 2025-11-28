@@ -23,8 +23,11 @@ export default function Sidebar() {
   const router = useRouter()
   const logout = () => {
     Cookies.remove("access_token")
-    router.push("/")
+    router.push("/login")
   }
+
+
+  
 
   // Show all navigation items (auth context removed)
   const filteredNavigation = navigation
@@ -95,20 +98,18 @@ export default function Sidebar() {
             const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
             const colors = getColorClasses(item.color, isActive)
             const Icon = item.icon
-            
+
             return (
               <button
                 key={item.name}
                 onClick={() => router.push(item.href)}
-                className={`group relative w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
-                  isActive
-                    ? `${colors.bg} text-white shadow-lg`
-                    : `text-slate-700 ${colors.hover}`
-                }`}
+                className={`group relative w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${isActive
+                  ? `${colors.bg} text-white shadow-lg`
+                  : `text-slate-700 ${colors.hover}`
+                  }`}
               >
-                <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
-                  isActive ? "bg-white/20" : "bg-slate-100 group-hover:bg-white"
-                }`}>
+                <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all ${isActive ? "bg-white/20" : "bg-slate-100 group-hover:bg-white"
+                  }`}>
                   <Icon className={`h-5 w-5 ${isActive ? "text-white" : colors.icon}`} />
                 </div>
                 <span className="flex-1 text-left">{item.name}</span>
