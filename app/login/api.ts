@@ -21,7 +21,7 @@ export const generateOtpApi = async (mobileNumber: string) => {
     return await response.json();
 
   } catch (error: any) {
-    throw new Error(error?.message || "Failed to generate OTP");
+    throw new Error(error?.message || "Failed to generate Otp");
   }
 };
 
