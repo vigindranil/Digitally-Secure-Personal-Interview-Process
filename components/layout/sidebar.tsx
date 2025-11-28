@@ -2,7 +2,7 @@
 
 import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/auth-context"
+import Cookies from "js-cookie"
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard, roles: ["systemAdministrator", "biometricVerifierExaminer", "documentVerifierExaminer", "preInterviewExaminer", "panelMember"], color: "blue" },
@@ -16,27 +16,18 @@ const navigation = [
   { name: "Settings", href: "/settings", icon: Settings, roles: ["systemAdministrator"], color: "slate" },
 ]
 
-const getRoleDisplayName = (role: string) => {
-  const roleMap: { [key: string]: string } = {
-    systemAdministrator: "System Administrator",
-    biometricVerifierExaminer: "Biometric Verifier",
-    documentVerifierExaminer: "Document Verifier",
-    preInterviewExaminer: "Pre-Interview Examiner",
-    panelMember: "Panel Member"
-  }
-  return roleMap[role] || role
-}
+// role display helpers removed
 
 export default function Sidebar() {
-  const { user, logout } = useAuth()
   const pathname = usePathname()
   const router = useRouter()
+  const logout = () => {
+    Cookies.remove("access_token")
+    router.push("/login")
+  }
 
-  // Filter navigation based on actual user role
-  const filteredNavigation = navigation.filter((item) => {
-    if (!user?.role) return false
-    return item.roles.includes(user.role)
-  })
+  // Show all navigation items (auth context removed)
+  const filteredNavigation = navigation
 
   const getColorClasses = (color: string, isActive: boolean) => {
     const colors = {
@@ -154,23 +145,17 @@ export default function Sidebar() {
           <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
             <div className="relative flex-shrink-0">
               <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 overflow-hidden border-2 border-white shadow-md">
-                {user?.avatar && (
-                  <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
-                )}
+                {/* Avatar placeholder */}
               </div>
               <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-emerald-500 border-2 border-white rounded-full"></div>
             </div>
             <div className="flex-1 overflow-hidden">
-              <p className="font-semibold text-sm text-slate-900 truncate">{user?.name}</p>
-              <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+              <p className="font-semibold text-sm text-slate-900 truncate">User</p>
+              <p className="text-xs text-slate-500 truncate">Active session</p>
             </div>
           </div>
 
-          {/* Role Badge */}
-          <div className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-blue-50 border border-blue-100">
-            <ShieldCheck className="h-3.5 w-3.5 text-blue-600" />
-            <span className="text-xs font-semibold text-blue-700 uppercase">{user?.role ? getRoleDisplayName(user.role) : 'User'}</span>
-          </div>
+          {/* Role Badge removed */}
 
           {/* Sign Out Button */}
           <button

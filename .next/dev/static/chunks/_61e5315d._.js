@@ -4,7 +4,13 @@
 
 __turbopack_context__.s([
     "cn",
-    ()=>cn
+    ()=>cn,
+    "decryptAESGCM",
+    ()=>decryptAESGCM,
+    "encryptAESGCM",
+    ()=>encryptAESGCM,
+    "hexToUint8Array",
+    ()=>hexToUint8Array
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/clsx/dist/clsx.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$tailwind$2d$merge$2f$dist$2f$bundle$2d$mjs$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/tailwind-merge/dist/bundle-mjs.mjs [app-client] (ecmascript)");
@@ -13,6 +19,67 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$tailwind$2d$
 function cn(...inputs) {
     return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$tailwind$2d$merge$2f$dist$2f$bundle$2d$mjs$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["twMerge"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["clsx"])(inputs));
 }
+const GCM_KEY_HEX = "710f5a3bbcb3c168409c47774ba11897be76f08e997085377803271c4d42e961";
+const GCM_FIXED_IV_HEX = "aabbccddeeff001122334455";
+const hexToUint8Array = (hex)=>{
+    return new Uint8Array(hex.match(/.{1,2}/g).map((byte)=>parseInt(byte, 16)));
+};
+const encryptAESGCM = async (data, ivHex = GCM_FIXED_IV_HEX)=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    try {
+        const text = typeof data === "object" ? JSON.stringify(data) : data;
+        const encoder = new TextEncoder();
+        const keyBytes = hexToUint8Array(GCM_KEY_HEX);
+        const ivBytes = hexToUint8Array(ivHex);
+        const cryptoKey = await window.crypto.subtle.importKey("raw", keyBytes.buffer, {
+            name: "AES-GCM"
+        }, false, [
+            "encrypt"
+        ]);
+        const encrypted = await window.crypto.subtle.encrypt({
+            name: "AES-GCM",
+            iv: ivBytes
+        }, cryptoKey, encoder.encode(text));
+        // Append IV + ciphertext
+        const encryptedBytes = new Uint8Array(encrypted);
+        const finalBytes = new Uint8Array(ivBytes.length + encryptedBytes.length);
+        finalBytes.set(ivBytes);
+        finalBytes.set(encryptedBytes, ivBytes.length);
+        return btoa(String.fromCharCode(...finalBytes));
+    } catch (error) {
+        throw new Error("GCM Encrypt Error: " + error.message);
+    }
+};
+const decryptAESGCM = async (cipherText, ivHex = GCM_FIXED_IV_HEX)=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    try {
+        const cleaned = cipherText.trim().replace(/^"|"$/g, "");
+        const binary = atob(cleaned);
+        const bytes = Uint8Array.from(binary, (c)=>c.charCodeAt(0));
+        const ivBytes = hexToUint8Array(ivHex);
+        const encryptedBytes = bytes.slice(ivBytes.length);
+        const keyBytes = hexToUint8Array(GCM_KEY_HEX);
+        const cryptoKey = await window.crypto.subtle.importKey("raw", keyBytes.buffer, {
+            name: "AES-GCM"
+        }, false, [
+            "decrypt"
+        ]);
+        const decrypted = await window.crypto.subtle.decrypt({
+            name: "AES-GCM",
+            iv: ivBytes
+        }, cryptoKey, encryptedBytes);
+        const text = new TextDecoder().decode(decrypted);
+        try {
+            return JSON.parse(text);
+        } catch  {
+            return text;
+        }
+    } catch (error) {
+        throw new Error("GCM Decrypt Error: " + error.message);
+    }
+};
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
