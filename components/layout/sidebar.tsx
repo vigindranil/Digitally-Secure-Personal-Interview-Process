@@ -110,7 +110,7 @@ export default function Sidebar() {
 
   const logout = () => {
     Cookies.remove("access_token")
-    router.push("/login")
+    router.push("/")
   }
 
   // Filter menu items based on user role
