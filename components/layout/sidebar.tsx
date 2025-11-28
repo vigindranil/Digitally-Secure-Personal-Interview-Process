@@ -3,6 +3,8 @@
 import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
+import { useEffect } from "react"
+import { getUser } from "@/hooks/getUser"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["systemAdministrator", "biometricVerifierExaminer", "documentVerifierExaminer", "preInterviewExaminer", "panelMember"], color: "blue" },
@@ -27,7 +29,18 @@ export default function Sidebar() {
   }
 
 
-  
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const userDetails = await getUser()
+      console.log("user name: ", userDetails?.user_full_name)
+    }
+    fetchUserDetails()
+  }, [])
+
+  // console.log(getUser())
+
+
+
 
   // Show all navigation items (auth context removed)
   const filteredNavigation = navigation
