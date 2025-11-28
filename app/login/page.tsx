@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { ShieldCheck, UserCheck, Users, Phone, Lock, Sparkles, ArrowRight } from "lucide-react"
-import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { decryptAESGCM, encryptAESGCM } from "@/lib/utils"
+import { generateOtpApi, validateOtpApi } from "./api"
 
 const DEMO_OTP = "123456"
 
@@ -79,13 +81,15 @@ const roleOptions: RoleOption[] = [
 ]
 
 export default function LoginPage() {
-  const { login, isLoading } = useAuth()
+  const router = useRouter()
   const [selectedRole, setSelectedRole] = useState<RoleId>("systemAdministrator")
-  const [mobile, setMobile] = useState(roleOptions[0].phone)
+  const [mobile, setMobile] = useState("")
   const [otp, setOtp] = useState("")
+  const [loading, setLoading] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
   const [secondsLeft, setSecondsLeft] = useState(0)
   const [status, setStatus] = useState<{ tone: "info" | "error" | "success"; message: string } | null>(null)
+  const [verifying, setVerifying] = useState(false)
 
   const currentRole = useMemo(
     () => roleOptions.find((role) => role.id === selectedRole) ?? roleOptions[0],
@@ -93,12 +97,12 @@ export default function LoginPage() {
   )
 
   useEffect(() => {
-    setMobile(currentRole.phone)
+    setMobile("")
     setOtp("")
     setOtpSent(false)
     setSecondsLeft(0)
     setStatus(null)
-  }, [currentRole])
+  }, [])
 
   useEffect(() => {
     if (!otpSent || secondsLeft <= 0) return
@@ -110,33 +114,93 @@ export default function LoginPage() {
 
   const normalizeNumber = (value: string) => value.replace(/\D/g, "")
 
-  const handleSendOtp = () => {
-    if (normalizeNumber(mobile).length < 10) {
-      setStatus({ tone: "error", message: "Enter a valid 10-digit mobile number" })
-      return
+  const handleSendOtp = async () => {
+
+    // if (mobile.length != 10) {
+    //   setStatus({ tone: "error", message: "Enter a valid 10-digit mobile number" });
+    //   return;
+    // }
+    try {
+      setLoading(true);
+
+      //  Call backend API
+      const response = await generateOtpApi(mobile);
+
+      if (response.status === 0) {
+
+        // backend DOES NOT RETURN OTP ANYMORE
+        // so DON'T read response.data.user_otp
+
+        setOtp("");
+        setOtpSent(true);
+        setSecondsLeft(45);
+
+        setStatus({
+          tone: "success",
+          message: `OTP sent to ${mobile}`
+        });
+
+      } else {
+        setStatus({
+          tone: "error",
+          message: response.message || "Failed to send OTP"
+        });
+      }
+
+    } catch (error: any) {
+      setStatus({ tone: "error", message: error.message });
+    } finally {
+      setLoading(false);
     }
-    if (normalizeNumber(mobile) !== normalizeNumber(currentRole.phone)) {
-      setStatus({ tone: "error", message: "Use the demo mobile number for selected role" })
-      return
-    }
-    setOtp("")
-    setOtpSent(true)
-    setSecondsLeft(45)
-    setStatus({ tone: "success", message: `OTP sent to ${currentRole.phone}. Demo: ${DEMO_OTP}` })
-  }
+  };
+
 
   const handleLogin = async () => {
     if (!otpSent) {
-      setStatus({ tone: "error", message: "Request an OTP first" })
-      return
+      setStatus({ tone: "error", message: "Request an OTP first" });
+      return;
     }
-    if (otp !== DEMO_OTP) {
-      setStatus({ tone: "error", message: `Invalid OTP. Use ${DEMO_OTP}` })
-      return
+
+    if (otp.trim() === "") {
+      setStatus({ tone: "error", message: "Enter your OTP" });
+      return;
     }
-    setStatus({ tone: "info", message: "Verifying..." })
-    await login(currentRole.email)
-  }
+
+    try {
+      setStatus({ tone: "info", message: "Verifying OTP..." });
+      setVerifying(true)
+
+      // 🔹 Validate OTP
+      const result = await validateOtpApi(mobile, otp);
+
+      if (result.status === 0) {
+        setStatus({ tone: "success", message: "OTP verified successfully" });
+
+        if (
+          selectedRole === "biometricVerifierExaminer" ||
+          selectedRole === "documentVerifierExaminer"
+        ) {
+          router.push("/verification")
+        } else if (
+          selectedRole === "preInterviewExaminer" ||
+          selectedRole === "panelMember"
+        ) {
+          router.push("/candidates")
+        } else {
+          router.push("/")
+        }
+
+      } else {
+        setStatus({ tone: "error", message: result.message || "OTP validation failed" });
+      }
+
+    } catch (error: any) {
+      setStatus({ tone: "error", message: error.message });
+    } finally {
+      setVerifying(false)
+    }
+  };
+
 
   return (
     <div className="relative min-h-screen w-screen overflow-hidden">
@@ -151,7 +215,7 @@ export default function LoginPage() {
 
       <div className="relative z-10 min-h-screen flex flex-col lg:items-center lg:justify-center p-3 sm:p-6">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-12 items-start lg:items-center">
-          
+
           {/* Left side - Hero content */}
           <div className="space-y-4 sm:space-y-8 hidden lg:block">
             <div className="flex items-center gap-3">
@@ -207,7 +271,7 @@ export default function LoginPage() {
           {/* Right side - Login card */}
           <div className="w-full max-w-md mx-auto lg:mx-0">
             <div className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-5 sm:p-8 space-y-4 sm:space-y-6">
-              
+
               <div className="text-center space-y-2">
                 <div className="inline-flex items-center justify-center w-12 sm:w-14 h-12 sm:h-14 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-600 shadow-lg shadow-sky-500/30">
                   <Lock className="h-6 sm:h-7 w-6 sm:w-7 text-white" />
@@ -227,11 +291,10 @@ export default function LoginPage() {
                       <button
                         key={role.id}
                         onClick={() => setSelectedRole(role.id)}
-                        className={`relative p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${
-                          isActive
-                            ? "border-sky-400 ring-2 ring-white/60 bg-gradient-to-br " + role.accent + " shadow-lg scale-105"
-                            : "border-slate-200 bg-white hover:border-sky-200 hover:shadow-md hover:scale-[1.02]"
-                        }`}
+                        className={`relative p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${isActive
+                          ? "border-sky-400 ring-2 ring-white/60 bg-gradient-to-br " + role.accent + " shadow-lg scale-105"
+                          : "border-slate-200 bg-white hover:border-sky-200 hover:shadow-md hover:scale-[1.02]"
+                          }`}
                       >
                         <Icon className={`h-4 sm:h-5 w-4 sm:w-5 mx-auto mb-1 ${isActive ? "text-white" : "text-slate-600"}`} />
                         <p className={`text-xs font-semibold leading-tight ${isActive ? "text-white" : "text-slate-700"}`}>
@@ -261,8 +324,9 @@ export default function LoginPage() {
                   </div>
                   <input
                     type="tel"
-                    value={mobile.replace(/^\+91\s?/, "")}
-                    onChange={(e) => setMobile(`+91 ${e.target.value}`)}
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                    disabled={otpSent}
                     className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-2xl border-2 border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 focus:outline-none bg-white text-sm sm:text-base text-slate-900 font-medium shadow-sm transition-colors"
                     placeholder="98765 43210"
                   />
@@ -305,11 +369,10 @@ export default function LoginPage() {
 
               {/* Status message */}
               {status && (
-                <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium ${
-                  status.tone === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
+                <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium ${status.tone === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
                   status.tone === "error" ? "bg-rose-50 text-rose-700 border border-rose-200" :
-                  "bg-sky-50 text-sky-700 border border-sky-200"
-                }`}>
+                    "bg-sky-50 text-sky-700 border border-sky-200"
+                  }`}>
                   {status.message}
                 </div>
               )}
@@ -323,13 +386,13 @@ export default function LoginPage() {
                 >
                   {otpSent && secondsLeft > 0 ? `Resend in ${secondsLeft}s` : "Send OTP"}
                 </button>
-                
+
                 <button
                   onClick={handleLogin}
-                  disabled={isLoading || otp.length !== 6}
+                  disabled={verifying || otp.length !== 6}
                   className="w-full py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 flex items-center justify-center gap-2 group"
                 >
-                  {isLoading ? "Verifying..." : (
+                  {verifying ? "Verifying..." : (
                     <>
                       Sign In Securely
                       <ArrowRight className="h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-x-1 transition-transform" />

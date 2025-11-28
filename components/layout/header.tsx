@@ -1,36 +1,21 @@
 "use client"
 
 import { useState } from "react"
-import { Bell, Search, Menu, ChevronDown, Settings, User, LogOut, Shield } from "lucide-react"
-import { useAuth } from "@/contexts/auth-context"
+import { Bell, Search, Menu, ChevronDown, Settings, User, LogOut } from "lucide-react"
+import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
 
-const getRoleDisplayName = (role: string) => {
-  const roleMap: { [key: string]: string } = {
-    systemAdministrator: "System Administrator",
-    biometricVerifierExaminer: "Biometric Verifier",
-    documentVerifierExaminer: "Document Verifier",
-    preInterviewExaminer: "Pre-Interview Examiner",
-    panelMember: "Panel Member"
-  }
-  return roleMap[role] || role
-}
-
-const getRoleColor = (role: string) => {
-  const colorMap: { [key: string]: string } = {
-    systemAdministrator: "from-blue-500 to-blue-600",
-    biometricVerifierExaminer: "from-emerald-500 to-emerald-600",
-    documentVerifierExaminer: "from-amber-500 to-amber-600",
-    preInterviewExaminer: "from-indigo-500 to-indigo-600",
-    panelMember: "from-violet-500 to-violet-600"
-  }
-  return colorMap[role] || "from-slate-500 to-slate-600"
-}
+// user role indicators removed
 
 export default function Header() {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [searchFocused, setSearchFocused] = useState(false)
-  const { user, logout } = useAuth()
+  const router = useRouter()
+  const logout = () => {
+    Cookies.remove("access_token")
+    router.push("/login")
+  }
 
   const notifications = [
     { id: 1, text: "New candidate registered", time: "2m ago", unread: true },
@@ -66,13 +51,7 @@ export default function Header() {
 
       {/* Right section */}
       <div className="flex items-center gap-3">
-        {/* Role Badge */}
-        {user && (
-          <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r ${getRoleColor(user.role)} text-white shadow-md`}>
-            <Shield className="h-3.5 w-3.5" />
-            <span className="text-xs font-semibold">{getRoleDisplayName(user.role)}</span>
-          </div>
-        )}
+        {/* Role Badge removed */}
 
         {/* Notifications */}
         <div className="relative">
@@ -149,15 +128,13 @@ export default function Header() {
           >
             <div className="relative">
               <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 overflow-hidden border-2 border-white shadow-md">
-                {user?.avatar && (
-                  <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
-                )}
+                {/* Avatar placeholder */}
               </div>
               <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 bg-emerald-500 border-2 border-white rounded-full" />
             </div>
             <div className="hidden md:block text-left">
-              <p className="text-sm font-semibold text-slate-900">{user?.name}</p>
-              <p className="text-xs text-slate-500">{user?.email}</p>
+              <p className="text-sm font-semibold text-slate-900">User</p>
+              <p className="text-xs text-slate-500">Signed in</p>
             </div>
             <ChevronDown className="hidden md:block h-4 w-4 text-slate-400 group-hover:text-slate-600 transition-colors" />
           </button>
@@ -171,8 +148,8 @@ export default function Header() {
               />
               <div className="absolute right-0 mt-2 w-56 rounded-xl border border-slate-200 bg-white shadow-2xl z-50 overflow-hidden">
                 <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-4 py-3">
-                  <p className="font-semibold text-slate-900 text-sm">{user?.name}</p>
-                  <p className="text-xs text-slate-500">{user?.email}</p>
+                  <p className="font-semibold text-slate-900 text-sm">User</p>
+                  <p className="text-xs text-slate-500">Active session</p>
                 </div>
                 <div className="py-2">
                   <button className="flex items-center gap-3 w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
