@@ -1,4 +1,8 @@
+"use client"
+import { getUser } from "@/hooks/getUser"
+import { decryptAESGCM } from "@/lib/utils"
 import { Users, ShieldCheck, ClipboardList, Activity, TrendingUp, Clock, CheckCircle2, AlertCircle } from "lucide-react"
+
 
 const stats = {
   totalCandidates: 2847,
@@ -9,6 +13,7 @@ const stats = {
 }
 
 export default function Dashboard() {
+getUser()
   return (
     <div className="min-h-screen p-6 relative">
       <div className="absolute inset-0 -z-10">

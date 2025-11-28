@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard, roles: ["systemAdministrator", "biometricVerifierExaminer", "documentVerifierExaminer", "preInterviewExaminer", "panelMember"], color: "blue" },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["systemAdministrator", "biometricVerifierExaminer", "documentVerifierExaminer", "preInterviewExaminer", "panelMember"], color: "blue" },
   { name: "Candidates", href: "/candidates", icon: Users, roles: ["systemAdministrator", "preInterviewExaminer", "panelMember"], color: "emerald" },
   { name: "Interviewers", href: "/interviewers", icon: UserCheck, roles: ["systemAdministrator", "panelMember"], color: "cyan" },
   { name: "Biometric Verification", href: "/verification", icon: ShieldCheck, roles: ["systemAdministrator", "biometricVerifierExaminer"], color: "amber" },
