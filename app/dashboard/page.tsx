@@ -1,3 +1,5 @@
+"use client"
+import { decryptAESGCM } from "@/lib/utils"
 import { Users, ShieldCheck, ClipboardList, Activity, TrendingUp, Clock, CheckCircle2, AlertCircle } from "lucide-react"
 
 const stats = {
@@ -9,6 +11,8 @@ const stats = {
 }
 
 export default function Dashboard() {
+  console.log("Dashboard rendered")
+  console.log(decryptAESGCM("P4JfYm8neG13vxXeU7tmTgKobAXjTmqgl3zMJDm6yigIuG8/UQjnkfwKw6HGS5k9EYGRofE7pYIbB2JGheyu1+fVo+AXBlkCSMvUaddUPFrA3l7u2vKrPFykqsh4ojmXySbqdNbkGUf48Y9ibmuw0ePM1pmOR/9fupnRGmLePehb0JcWiSJU6mVGvjlRdRrW7/v2IsDyyt8irlrv8xnA/rqt8gaL5UK0JV+fSkLeVuhwK5kJ9yNl+LS4Lrc="))
   return (
     <div className="min-h-screen p-6 relative">
       <div className="absolute inset-0 -z-10">
@@ -19,7 +23,7 @@ export default function Dashboard() {
         <div className="absolute inset-0 bg-gradient-to-br from-white/85 via-white/70 to-white/40 backdrop-blur-sm" />
       </div>
       <div className="max-w-7xl mx-auto space-y-6">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -104,7 +108,7 @@ export default function Dashboard() {
 
         {/* Main Content Grid */}
         <div className="grid gap-5 lg:grid-cols-3">
-          
+
           {/* Live Queue Status */}
           <div className="lg:col-span-2 bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-4">
@@ -146,7 +150,7 @@ export default function Dashboard() {
                         </p>
                         <div className="flex items-center gap-2 mt-2">
                           <div className="w-32 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                            <div 
+                            <div
                               className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-[width] duration-700"
                               style={{ width: `${item.progress}%` }}
                             />
@@ -174,27 +178,27 @@ export default function Dashboard() {
             <div className="p-6">
               <div className="space-y-4">
                 {[
-                  { 
-                    text: "Candidate 2025-001 completed interview", 
-                    time: "2m ago", 
+                  {
+                    text: "Candidate 2025-001 completed interview",
+                    time: "2m ago",
                     type: "success",
                     icon: CheckCircle2
                   },
-                  { 
-                    text: "Biometric verification failed for 2025-005", 
-                    time: "5m ago", 
+                  {
+                    text: "Biometric verification failed for 2025-005",
+                    time: "5m ago",
                     type: "error",
                     icon: AlertCircle
                   },
-                  { 
-                    text: "Panel 103 started new session", 
-                    time: "12m ago", 
+                  {
+                    text: "Panel 103 started new session",
+                    time: "12m ago",
                     type: "info",
                     icon: Activity
                   },
-                  { 
-                    text: "Batch B-04 uploaded successfully", 
-                    time: "1h ago", 
+                  {
+                    text: "Batch B-04 uploaded successfully",
+                    time: "1h ago",
                     type: "info",
                     icon: CheckCircle2
                   },
@@ -202,16 +206,14 @@ export default function Dashboard() {
                   const Icon = item.icon
                   return (
                     <div key={i} className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors">
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${
-                        item.type === "success" ? "bg-emerald-50 border border-emerald-200" : 
-                        item.type === "error" ? "bg-rose-50 border border-rose-200" : 
-                        "bg-blue-50 border border-blue-200"
-                      }`}>
-                        <Icon className={`h-4 w-4 ${
-                          item.type === "success" ? "text-emerald-600" : 
-                          item.type === "error" ? "text-rose-600" : 
-                          "text-blue-600"
-                        }`} />
+                      <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${item.type === "success" ? "bg-emerald-50 border border-emerald-200" :
+                        item.type === "error" ? "bg-rose-50 border border-rose-200" :
+                          "bg-blue-50 border border-blue-200"
+                        }`}>
+                        <Icon className={`h-4 w-4 ${item.type === "success" ? "text-emerald-600" :
+                          item.type === "error" ? "text-rose-600" :
+                            "text-blue-600"
+                          }`} />
                       </div>
                       <div className="flex-1 space-y-1">
                         <p className="text-sm font-medium text-slate-900 leading-snug">{item.text}</p>
@@ -239,11 +241,10 @@ export default function Dashboard() {
           ].map((action, i) => (
             <button
               key={i}
-              className={`group p-5 rounded-xl border-2 border-dashed bg-white/70 backdrop-blur text-left transition-all duration-200 ${
-                action.color === 'blue' ? 'border-blue-200 hover:border-blue-400 hover:bg-blue-50' :
+              className={`group p-5 rounded-xl border-2 border-dashed bg-white/70 backdrop-blur text-left transition-all duration-200 ${action.color === 'blue' ? 'border-blue-200 hover:border-blue-400 hover:bg-blue-50' :
                 action.color === 'violet' ? 'border-violet-200 hover:border-violet-400 hover:bg-violet-50' :
-                'border-slate-200 hover:border-slate-400 hover:bg-slate-50'
-              }`}
+                  'border-slate-200 hover:border-slate-400 hover:bg-slate-50'
+                }`}
             >
               <p className="font-semibold text-slate-900 mb-1">{action.label}</p>
               <p className="text-sm text-slate-600">{action.sublabel}</p>

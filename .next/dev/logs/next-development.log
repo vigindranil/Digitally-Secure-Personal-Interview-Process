@@ -1,13 +1,592 @@
-[00:00:06.380] Server  LOG      ✓ Ready in 4.9s
-[00:00:29.418] Server  LOG      ○ Compiling / ...
-[00:00:34.551] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:21.331] Server  LOG      ✓ Compiled in 284ms
-[00:01:29.412] Server  LOG      ✓ Compiled in 242ms
-[00:01:48.087] Server  LOG      ✓ Compiled in 167ms
-[00:37:23.971] Server  LOG      ✓ Compiled in 266ms
-[00:37:25.096] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:58:18.663] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:58:20.609] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:58:30.844] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:58:41.772] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:04:33.815] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:01.977] Server  LOG      ✓ Ready in 1606ms
+[00:00:04.618] Server  LOG     Dashboard rendered
+[00:00:04.625] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:04.639] Server  LOG     {}
+[00:00:04.690] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:04.691] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:00:04.692] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:04.693] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:00:04.694] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:04.695] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:00:05.150] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:05.450] Browser LOG     Dashboard rendered
+[00:00:05.450] Browser LOG     {}
+[00:00:05.450] Browser LOG     Dashboard rendered
+[00:00:05.450] Browser LOG     {}
+[00:00:05.450] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:00:05.450] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:02:03.919] Server  LOG        Reload env: .env
+[00:02:04.359] Server  LOG      ✓ Compiled in 330ms
+[00:02:06.893] Server  LOG        Reload env: .env
+[00:02:07.441] Server  LOG      ✓ Compiled in 326ms
+[00:02:16.940] Browser LOG     Dashboard rendered
+[00:02:16.940] Browser LOG     {}
+[00:02:16.940] Browser LOG     Dashboard rendered
+[00:02:16.940] Browser LOG     {}
+[00:02:16.940] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:02:16.940] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:03:37.958] Server  LOG      ✓ Compiled in 200ms
+[00:03:38.691] Browser ERROR   ./lib/utils.ts:5:14
+Ecmascript file had an error
+  3 | import { twMerge } from 'tailwind-merge'
+  4 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+> 5 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+    |              ^^^^^^^^^^^
+  6 | export const GCM_FIXED_IV_HEX: string = process.env.NEXT_PUBLIC_GCM_FIXED_IV_HEX ?? "";
+  7 |
+  8 | export function cn(...inputs: ClassValue[]) {
+
+the name `GCM_KEY_HEX` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./lib/utils.ts [Client Component Browser]
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./lib/utils.ts [Client Component SSR]
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:03:38.691] Browser ERROR   ./lib/utils.ts:5:14
+Ecmascript file had an error
+  3 | import { twMerge } from 'tailwind-merge'
+  4 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+> 5 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+    |              ^^^^^^^^^^^
+  6 | export const GCM_FIXED_IV_HEX: string = process.env.NEXT_PUBLIC_GCM_FIXED_IV_HEX ?? "";
+  7 |
+  8 | export function cn(...inputs: ClassValue[]) {
+
+the name `GCM_KEY_HEX` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./lib/utils.ts [Client Component Browser]
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./lib/utils.ts [Client Component SSR]
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:03:39.694] Browser ERROR   ./lib/utils.ts:5:14
+Ecmascript file had an error
+  3 | import { twMerge } from 'tailwind-merge'
+  4 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+> 5 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+    |              ^^^^^^^^^^^
+  6 | export const GCM_FIXED_IV_HEX: string = process.env.NEXT_PUBLIC_GCM_FIXED_IV_HEX ?? "";
+  7 |
+  8 | export function cn(...inputs: ClassValue[]) {
+
+the name `GCM_KEY_HEX` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./lib/utils.ts [Client Component Browser]
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./lib/utils.ts [Client Component SSR]
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:03:39.695] Browser ERROR   ./lib/utils.ts:5:14
+Ecmascript file had an error
+  3 | import { twMerge } from 'tailwind-merge'
+  4 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+> 5 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+    |              ^^^^^^^^^^^
+  6 | export const GCM_FIXED_IV_HEX: string = process.env.NEXT_PUBLIC_GCM_FIXED_IV_HEX ?? "";
+  7 |
+  8 | export function cn(...inputs: ClassValue[]) {
+
+the name `GCM_KEY_HEX` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./lib/utils.ts [Client Component Browser]
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./lib/utils.ts [Client Component SSR]
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:03:39.695] Browser ERROR   ./lib/utils.ts:5:14
+Ecmascript file had an error
+  3 | import { twMerge } from 'tailwind-merge'
+  4 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+> 5 | export const GCM_KEY_HEX: string = process.env.NEXT_PUBLIC_GCM_KEY_HEX ?? "";
+    |              ^^^^^^^^^^^
+  6 | export const GCM_FIXED_IV_HEX: string = process.env.NEXT_PUBLIC_GCM_FIXED_IV_HEX ?? "";
+  7 |
+  8 | export function cn(...inputs: ClassValue[]) {
+
+the name `GCM_KEY_HEX` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./lib/utils.ts [Client Component Browser]
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./lib/utils.ts [Client Component SSR]
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:03:40.366] Server  LOG      ✓ Compiled in 108ms
+[00:03:41.694] Browser LOG     Dashboard rendered
+[00:03:41.694] Browser LOG     {}
+[00:03:41.694] Browser LOG     Dashboard rendered
+[00:03:41.694] Browser LOG     {}
+[00:03:41.694] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:03:41.694] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:03:41.694] Browser LOG     Dashboard rendered
+[00:03:41.694] Browser LOG     {}
+[00:03:41.694] Browser LOG     Dashboard rendered
+[00:03:41.694] Browser LOG     {}
+[00:03:41.694] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:03:41.694] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:03:46.276] Server  LOG      ✓ Compiled in 145ms
+[00:03:46.692] Browser LOG     Dashboard rendered
+[00:03:46.692] Browser LOG     {}
+[00:03:46.692] Browser LOG     Dashboard rendered
+[00:03:46.692] Browser LOG     {}
+[00:03:46.692] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: Cannot read properties of null (reading 'map')
+[00:03:46.692] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: Cannot read properties of null (reading 'map')
+[00:03:53.329] Server  LOG      ✓ Compiled in 166ms
+[00:03:53.688] Browser LOG     Dashboard rendered
+[00:03:53.688] Browser LOG     {}
+[00:03:53.689] Browser LOG     Dashboard rendered
+[00:03:53.689] Browser LOG     {}
+[00:03:53.689] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:03:53.689] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:11.467] Browser LOG     Dashboard rendered
+[00:04:11.467] Browser LOG     {}
+[00:04:11.467] Browser LOG     Dashboard rendered
+[00:04:11.467] Browser LOG     {}
+[00:04:11.467] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:11.467] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:46.220] Server  LOG      ✓ Compiled in 93ms
+[00:04:46.687] Browser LOG     Dashboard rendered
+[00:04:46.687] Browser LOG     {}
+[00:04:46.687] Browser LOG     Dashboard rendered
+[00:04:46.687] Browser LOG     {}
+[00:04:46.687] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:46.687] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:48.799] Server  LOG      ✓ Compiled in 91ms
+[00:04:49.688] Browser LOG     Dashboard rendered
+[00:04:49.688] Browser LOG     {}
+[00:04:49.688] Browser LOG     Dashboard rendered
+[00:04:49.688] Browser LOG     {}
+[00:04:49.688] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:49.688] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:54.817] Server  LOG      ✓ Compiled in 109ms
+[00:04:55.224] Browser LOG     Dashboard rendered
+[00:04:55.224] Browser LOG     {}
+[00:04:55.224] Browser LOG     Dashboard rendered
+[00:04:55.224] Browser LOG     {}
+[00:04:55.224] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:55.224] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:59.959] Browser LOG     Dashboard rendered
+[00:04:59.959] Browser LOG     {}
+[00:04:59.959] Browser LOG     Dashboard rendered
+[00:04:59.959] Browser LOG     {}
+[00:04:59.959] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:04:59.959] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:09.938] Server  LOG      ✓ Compiled in 88ms
+[00:05:10.685] Browser LOG     Dashboard rendered
+[00:05:10.686] Browser LOG     {}
+[00:05:10.686] Browser LOG     Dashboard rendered
+[00:05:10.686] Browser LOG     {}
+[00:05:10.686] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:10.686] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:14.511] Server  LOG      ✓ Compiled in 87ms
+[00:05:14.824] Browser LOG     Dashboard rendered
+[00:05:14.825] Browser LOG     aabbccddeeff001122334455
+[00:05:14.825] Browser LOG     {}
+[00:05:14.825] Browser LOG     Dashboard rendered
+[00:05:14.825] Browser LOG     aabbccddeeff001122334455
+[00:05:14.825] Browser LOG     {}
+[00:05:14.825] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:14.825] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:18.722] Server  LOG     Dashboard rendered
+[00:05:18.723] Server  LOG     aabbccddeeff001122334455
+[00:05:18.733] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:05:18.762] Server  LOG     {}
+[00:05:18.833] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:05:18.834] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:05:18.837] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:05:18.838] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:05:18.840] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:05:18.841] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:05:19.400] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:19.692] Browser LOG     Dashboard rendered
+[00:05:19.692] Browser LOG     aabbccddeeff001122334455
+[00:05:19.692] Browser LOG     {}
+[00:05:19.692] Browser LOG     Dashboard rendered
+[00:05:19.692] Browser LOG     aabbccddeeff001122334455
+[00:05:19.692] Browser LOG     {}
+[00:05:19.692] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:19.692] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:27.071] Server  LOG      ✓ Compiled in 218ms
+[00:05:27.680] Browser LOG     Dashboard rendered
+[00:05:27.680] Browser LOG     {}
+[00:05:27.680] Browser LOG     Dashboard rendered
+[00:05:27.680] Browser LOG     {}
+[00:05:27.680] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: GCM is not defined
+[00:05:27.680] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: GCM is not defined
+[00:05:27.706] Server  LOG      ✓ Compiled in 89ms
+[00:05:27.947] Browser LOG     Dashboard rendered
+[00:05:27.947] Browser LOG     0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
+[00:05:27.947] Browser LOG     {}
+[00:05:27.947] Browser LOG     Dashboard rendered
+[00:05:27.947] Browser LOG     0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
+[00:05:27.947] Browser LOG     {}
+[00:05:27.947] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:27.947] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:49.350] Server  LOG      ✓ Compiled in 77ms
+[00:05:49.682] Browser LOG     Dashboard rendered
+[00:05:49.682] Browser LOG     {}
+[00:05:49.682] Browser LOG     Dashboard rendered
+[00:05:49.682] Browser LOG     {}
+[00:05:49.682] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:49.682] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:53.014] Server  LOG      ✓ Compiled in 105ms
+[00:05:53.688] Browser LOG     Dashboard rendered
+[00:05:53.688] Browser LOG     {}
+[00:05:53.688] Browser LOG     Dashboard rendered
+[00:05:53.688] Browser LOG     {}
+[00:05:53.688] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: GCM_KEY_HEX is not defined
+[00:05:53.688] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: GCM_KEY_HEX is not defined
+[00:05:54.705] Server  LOG      ✓ Compiled in 138ms
+[00:05:55.684] Browser LOG     Dashboard rendered
+[00:05:55.684] Browser LOG     {}
+[00:05:55.684] Browser LOG     Dashboard rendered
+[00:05:55.684] Browser LOG     {}
+[00:05:55.684] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:05:55.684] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:06:58.332] Server  LOG     Dashboard rendered
+[00:06:58.341] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:06:58.356] Server  LOG     {}
+[00:06:58.386] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:06:58.387] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:06:58.388] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:06:58.389] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:06:58.389] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:06:58.390] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:06:58.944] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:59.260] Browser LOG     Dashboard rendered
+[00:06:59.260] Browser LOG     {}
+[00:06:59.260] Browser LOG     Dashboard rendered
+[00:06:59.260] Browser LOG     {}
+[00:06:59.260] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:06:59.260] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:08:59.858] Browser LOG     Dashboard rendered
+[00:08:59.858] Browser LOG     {}
+[00:08:59.858] Browser LOG     Dashboard rendered
+[00:08:59.858] Browser LOG     {}
+[00:08:59.858] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:08:59.858] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:15:00.268] Server  LOG      ✓ Compiled in 166ms
+[00:15:03.661] Server  LOG      ✓ Compiled in 142ms
+[00:15:06.461] Server  LOG      ✓ Compiled in 192ms
+[00:15:09.218] Server  LOG      ✓ Compiled in 141ms
+[00:15:11.329] Server  LOG      ✓ Compiled in 89ms
+[00:15:13.026] Server  LOG      ✓ Compiled in 80ms
+[00:15:13.687] Browser ERROR   ./app/page.tsx:99:52
+Parsing ecmascript source code failed
+   97 |   )
+   98 |
+>  99 |   console.log("decryptAESGCM test:", decryptAESGCM("U)
+      |                                                    ^^^
+  100 |
+  101 |   useEffect(() => {
+  102 |     setMobile("")
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+[00:15:13.687] Browser ERROR   ./app/page.tsx:99:52
+Parsing ecmascript source code failed
+   97 |   )
+   98 |
+>  99 |   console.log("decryptAESGCM test:", decryptAESGCM("U)
+      |                                                    ^^^
+  100 |
+  101 |   useEffect(() => {
+  102 |     setMobile("")
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+[00:15:15.162] Server  LOG      ✓ Compiled in 86ms
+[00:15:15.685] Browser ERROR   ./app/page.tsx:99:52
+Parsing ecmascript source code failed
+   97 |   )
+   98 |
+>  99 |   console.log("decryptAESGCM test:", decryptAESGCM("U)
+      |                                                    ^^^
+  100 |
+  101 |   useEffect(() => {
+  102 |     setMobile("")
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+[00:15:15.685] Browser LOG     Dashboard rendered
+[00:15:15.685] Browser LOG     {}
+[00:15:15.685] Browser LOG     Dashboard rendered
+[00:15:15.685] Browser LOG     {}
+[00:15:15.685] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:15:15.685] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:15:21.752] Server  LOG      ✓ Compiled in 76ms
+[00:15:22.685] Browser ERROR   ./app/page.tsx:99:52
+Parsing ecmascript source code failed
+   97 |   )
+   98 |
+>  99 |   console.log("decryptAESGCM test:", decryptAESGCM("qrvM3e7/ABEiM0RVKhN6ZqhTFRSh5VqRPGq4Sw3vtmYnLYiaO11cTuhRDOzEYDci1fEEht5ohO8ghw==))
+      |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  100 |
+  101 |   useEffect(() => {
+  102 |     setMobile("")
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+[00:15:22.685] Browser ERROR   ./app/page.tsx:99:52
+Parsing ecmascript source code failed
+   97 |   )
+   98 |
+>  99 |   console.log("decryptAESGCM test:", decryptAESGCM("qrvM3e7/ABEiM0RVKhN6ZqhTFRSh5VqRPGq4Sw3vtmYnLYiaO11cTuhRDOzEYDci1fEEht5ohO8ghw==))
+      |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  100 |
+  101 |   useEffect(() => {
+  102 |     setMobile("")
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+[00:15:28.367] Server  LOG      ✓ Compiled in 86ms
+[00:15:28.698] Browser LOG     Dashboard rendered
+[00:15:28.698] Browser LOG     {}
+[00:15:28.698] Browser LOG     Dashboard rendered
+[00:15:28.698] Browser LOG     {}
+[00:15:28.698] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:15:28.698] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:15:39.753] Browser LOG     decryptAESGCM test: {}
+[00:15:39.753] Browser LOG     decryptAESGCM test: {}
+[00:16:29.488] Server  LOG      ✓ Compiled in 129ms
+[00:16:29.742] Browser LOG     decryptAESGCM test: {}
+[00:16:29.743] Browser LOG     decryptAESGCM test: {}
+[00:16:29.743] Browser LOG     decryptAESGCM test: {}
+[00:16:29.743] Browser LOG     decryptAESGCM test: {}
+[00:16:29.744] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:16:29.744] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:16:29.744] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:16:29.744] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:16:37.721] Server  LOG      ✓ Compiled in 116ms
+[00:16:38.688] Browser LOG     decryptAESGCM test: {}
+[00:16:38.688] Browser LOG     decryptAESGCM test: {}
+[00:16:40.784] Server  LOG      ✓ Compiled in 130ms
+[00:16:41.687] Browser LOG     decryptAESGCM test: {}
+[00:16:41.687] Browser LOG     decryptAESGCM test: {}
+[00:16:43.599] Server  LOG      ✓ Compiled in 77ms
+[00:16:44.695] Browser LOG     decryptAESGCM test: {}
+[00:16:44.696] Browser LOG     decryptAESGCM test: {}
+[00:16:46.953] Server  LOG      ✓ Compiled in 100ms
+[00:16:47.699] Browser LOG     decryptAESGCM test: {}
+[00:16:47.700] Browser LOG     encryptAESGCM test: {}
+[00:16:47.700] Browser LOG     decryptAESGCM test: {}
+[00:16:47.700] Browser LOG     encryptAESGCM test: {}
+[00:16:53.704] Server  LOG      ✓ Compiled in 119ms
+[00:16:54.687] Browser LOG     decryptAESGCM test: {}
+[00:16:54.688] Browser LOG     decryptAESGCM test: {}
+[00:16:54.688] Browser LOG     decryptAESGCM test: {}
+[00:16:54.688] Browser LOG     decryptAESGCM test: {}
+[00:16:57.059] Server  LOG      ✓ Compiled in 115ms
+[00:16:57.692] Browser LOG     decryptAESGCM test: {}
+[00:16:57.692] Browser LOG     decryptAESGCM test2: {}
+[00:16:57.692] Browser LOG     decryptAESGCM test: {}
+[00:16:57.692] Browser LOG     decryptAESGCM test2: {}
+[00:17:02.591] Server  LOG      ✓ Compiled in 89ms
+[00:17:03.691] Browser LOG     decryptAESGCM test: {}
+[00:17:03.691] Browser LOG     decryptAESGCM test2: {}
+[00:17:03.691] Browser LOG     decryptAESGCM test: {}
+[00:17:03.691] Browser LOG     decryptAESGCM test2: {}
+[00:17:03.691] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: Invalid Base64
+[00:17:03.691] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: Invalid Base64
+[00:17:07.918] Server  LOG      ✓ Compiled in 134ms
+[00:17:08.434] Browser LOG     decryptAESGCM test: {}
+[00:17:08.434] Browser LOG     decryptAESGCM test2: {}
+[00:17:08.434] Browser LOG     decryptAESGCM test: {}
+[00:17:08.434] Browser LOG     decryptAESGCM test2: {}
+[00:17:08.434] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:17:08.434] Browser ERROR   unhandledRejection: Error: GCM Decrypt Error: 
+[00:24:31.287] Server  LOG      ✓ Compiled in 193ms
+[00:24:31.705] Browser LOG     decryptAESGCM test: {}
+[00:24:31.705] Browser LOG     decryptAESGCM test2: {}
+[00:24:31.705] Browser LOG     decryptAESGCM test: {}
+[00:24:31.705] Browser LOG     decryptAESGCM test2: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test2: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test2: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test2: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test2: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test2: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test: {}
+[00:24:41.422] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.115] Browser LOG     decryptAESGCM test: {}
+[00:24:42.115] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.115] Browser LOG     decryptAESGCM test: {}
+[00:24:42.115] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test: {}
+[00:24:42.390] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test: {}
+[00:24:42.666] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.850] Browser LOG     decryptAESGCM test: {}
+[00:24:42.850] Browser LOG     decryptAESGCM test2: {}
+[00:24:42.850] Browser LOG     decryptAESGCM test: {}
+[00:24:42.850] Browser LOG     decryptAESGCM test2: {}
+[00:24:43.716] Browser LOG     decryptAESGCM test: {}
+[00:24:43.716] Browser LOG     decryptAESGCM test2: {}
+[00:24:43.716] Browser LOG     decryptAESGCM test: {}
+[00:24:43.716] Browser LOG     decryptAESGCM test2: {}
+[00:24:45.601] Browser LOG     decryptAESGCM test: {}
+[00:24:45.601] Browser LOG     decryptAESGCM test2: {}
+[00:24:45.601] Browser LOG     decryptAESGCM test: {}
+[00:24:45.601] Browser LOG     decryptAESGCM test2: {}
+[00:24:45.955] Browser LOG     decryptAESGCM test: {}
+[00:24:45.955] Browser LOG     decryptAESGCM test2: {}
+[00:24:45.955] Browser LOG     decryptAESGCM test: {}
+[00:24:45.955] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.020] Browser LOG     decryptAESGCM test: {}
+[00:24:47.020] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.020] Browser LOG     decryptAESGCM test: {}
+[00:24:47.020] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.204] Browser LOG     decryptAESGCM test: {}
+[00:24:47.205] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.205] Browser LOG     decryptAESGCM test: {}
+[00:24:47.205] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.355] Browser LOG     decryptAESGCM test: {}
+[00:24:47.355] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.355] Browser LOG     decryptAESGCM test: {}
+[00:24:47.355] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test: {}
+[00:24:47.600] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.766] Browser LOG     decryptAESGCM test: {}
+[00:24:47.766] Browser LOG     decryptAESGCM test2: {}
+[00:24:47.767] Browser LOG     decryptAESGCM test: {}
+[00:24:47.767] Browser LOG     decryptAESGCM test2: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test2: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test2: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test2: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test: {}
+[00:24:48.161] Browser LOG     decryptAESGCM test2: {}
+[00:24:49.182] Browser LOG     decryptAESGCM test: {}
+[00:24:49.182] Browser LOG     decryptAESGCM test2: {}
+[00:24:49.182] Browser LOG     decryptAESGCM test: {}
+[00:24:49.182] Browser LOG     decryptAESGCM test2: {}
+[00:24:50.235] Browser LOG     decryptAESGCM test: {}
+[00:24:50.235] Browser LOG     decryptAESGCM test2: {}
+[00:24:50.235] Browser LOG     decryptAESGCM test: {}
+[00:24:50.236] Browser LOG     decryptAESGCM test2: {}
+[00:24:50.602] Browser LOG     decryptAESGCM test: {}
+[00:24:50.602] Browser LOG     decryptAESGCM test2: {}
+[00:24:50.602] Browser LOG     decryptAESGCM test: {}
+[00:24:50.602] Browser LOG     decryptAESGCM test2: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test2: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test2: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test2: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test: {}
+[00:24:51.654] Browser LOG     decryptAESGCM test2: {}
+[00:24:51.872] Browser LOG     Dashboard rendered
+[00:24:51.872] Browser LOG     {}
+[00:24:51.872] Browser LOG     Dashboard rendered
+[00:24:51.872] Browser LOG     {}
+[00:25:03.275] Server  LOG      ✓ Compiled in 153ms
+[00:26:21.204] Browser LOG     Dashboard rendered
+[00:26:21.204] Browser LOG     {}
+[00:26:21.204] Browser LOG     Dashboard rendered
+[00:26:21.204] Browser LOG     {}
+[00:26:46.024] Browser LOG     Dashboard rendered
+[00:26:46.024] Browser LOG     {}
+[00:26:46.024] Browser LOG     Dashboard rendered
+[00:26:46.024] Browser LOG     {}
+[00:27:26.828] Browser LOG     Dashboard rendered
+[00:27:26.828] Browser LOG     {}
+[00:27:26.828] Browser LOG     Dashboard rendered
+[00:27:26.828] Browser LOG     {}
+[00:28:03.077] Browser LOG     Dashboard rendered
+[00:28:03.077] Browser LOG     {}
+[00:28:03.077] Browser LOG     Dashboard rendered
+[00:28:03.077] Browser LOG     {}
+[00:28:27.364] Browser LOG     Dashboard rendered
+[00:28:27.364] Browser LOG     {}
+[00:28:27.364] Browser LOG     Dashboard rendered
+[00:28:27.364] Browser LOG     {}

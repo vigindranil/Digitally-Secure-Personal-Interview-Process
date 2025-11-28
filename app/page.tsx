@@ -96,6 +96,9 @@ export default function LoginPage() {
     [selectedRole]
   )
 
+  // console.log("decryptAESGCM test:", decryptAESGCM("qrvM3e7/ABEiM0RVKhN6ZqhTFRSh5VqRPGq4Sw3vtmYnLYiaO11cTuhRDOzEYDci1fEEht5ohO8ghw=="))
+  // console.log("decryptAESGCM test2:", decryptAESGCM("Ba4a6uMVGD743fHhdKAxipnTbq3lj3ZKOo7/zXG7sm8BAiDMfi3N3ExoYgO6RgpO+7I7+XpsaLvS8uO92i/ZB2KMucroExbMTTjWfF0nY5U1CVag3VnTxUEHvQSIFKznCQuHQO1A3JYqZpCc6HbnDK1k9Cf3E8S+H2gEehne6OcDGYoX//eABpHk8An1/Aorz7VRsUUo94H1fgCQij6d5Oco6UNCLFE5wE6fihli8xPJELNCsvsEOstXav4="))
+
   useEffect(() => {
     setMobile("")
     setOtp("")
