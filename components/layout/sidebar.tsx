@@ -23,7 +23,7 @@ export default function Sidebar() {
   const router = useRouter()
   const logout = () => {
     Cookies.remove("access_token")
-    router.push("/login")
+    router.push("/")
   }
 
   // Show all navigation items (auth context removed)

@@ -1,6 +1,8 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { encryptAESGCM } from "@/lib/utils";
 import Cookies from "js-cookie";
-import { encryptAESGCM } from "../../lib/utils";
+
+
 
 
 export const generateOtpApi = async (mobileNumber: string) => {
@@ -51,7 +53,7 @@ export const generateToken = async (mobile: string, otp: string) => {
 
 export const validateOtpApi = async (mobileNumber: string, otp: string) => {
   try {
-    // Step 1 — Generate temporary token FIRST
+    // Step 1 — Generate temporary token
     const tempTokenResponse = await generateToken(mobileNumber, otp);
     const tempToken = tempTokenResponse?.data?.access_token;
 
@@ -64,7 +66,7 @@ export const validateOtpApi = async (mobileNumber: string, otp: string) => {
 
     const payload = JSON.stringify({ enc_data: encData });
 
-    // Step 3 — Validate OTP with temporary token
+    // Step 3 — Validate OTP using temporary token
     const response = await fetch(`${BASE_URL}/admin/validate_otp`, {
       method: "POST",
       headers: {
@@ -77,12 +79,19 @@ export const validateOtpApi = async (mobileNumber: string, otp: string) => {
 
     const result = await response.json();
 
-    // Step 4 — If OTP validated, save final token
+    // Step 4 — If OTP validated, generate FINAL token
     if (result.status === 0) {
       const finalTokenResponse = await generateToken(mobileNumber, otp);
 
       if (finalTokenResponse?.data?.access_token) {
         Cookies.set("access_token", finalTokenResponse.data.access_token, {
+          expires: 1,
+          secure: true,
+          sameSite: "strict",
+        });
+      }
+      if (result?.data) {
+        Cookies.set("user_info", result?.data, {
           expires: 1,
           secure: true,
           sameSite: "strict",
@@ -101,3 +110,4 @@ export const validateOtpApi = async (mobileNumber: string, otp: string) => {
     throw new Error(error?.message || "Failed to validate OTP");
   }
 };
+

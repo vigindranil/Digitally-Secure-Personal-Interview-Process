@@ -1,254 +1,411 @@
-import { Users, ShieldCheck, ClipboardList, Activity, TrendingUp, Clock, CheckCircle2, AlertCircle } from "lucide-react"
+"use client"
 
-const stats = {
-  totalCandidates: 2847,
-  biometricVerified: 2234,
-  documentVerified: 2156,
-  interviewsCompleted: 1893,
-  panelsActive: 12
+import { useEffect, useMemo, useState } from "react"
+import { ShieldCheck, UserCheck, Users, Phone, Lock, Sparkles, ArrowRight } from "lucide-react"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { decryptAESGCM, encryptAESGCM } from "@/lib/utils"
+import { generateOtpApi, validateOtpApi } from "./api"
+
+const DEMO_OTP = "123456"
+
+type RoleId =
+  | "systemAdministrator"
+  | "biometricVerifierExaminer"
+  | "documentVerifierExaminer"
+  | "preInterviewExaminer"
+  | "panelMember"
+
+type RoleOption = {
+  id: RoleId
+  label: string
+  description: string
+  phone: string
+  email: string
+  accent: string
+  icon: any
+  meta: string
 }
 
-export default function Dashboard() {
+const roleOptions: RoleOption[] = [
+  {
+    id: "systemAdministrator",
+    label: "System Admin",
+    description: "Full control & workflow",
+    phone: "+91 98765 43210",
+    email: "systemadmin@system.com",
+    accent: "from-sky-500 to-cyan-500",
+    icon: ShieldCheck,
+    meta: "Full control",
+  },
+  {
+    id: "biometricVerifierExaminer",
+    label: "Biometric Verifier",
+    description: "Device status updates",
+    phone: "+91 91234 56780",
+    email: "biometric.verifier@system.com",
+    accent: "from-emerald-500 to-teal-500",
+    icon: UserCheck,
+    meta: "External",
+  },
+  {
+    id: "documentVerifierExaminer",
+    label: "Document Verifier",
+    description: "Manual scrutiny",
+    phone: "+91 92345 67810",
+    email: "document.verifier@system.com",
+    accent: "from-amber-500 to-orange-500",
+    icon: UserCheck,
+    meta: "Manual",
+  },
+  {
+    id: "preInterviewExaminer",
+    label: "Pre-Interview",
+    description: "Readiness checks",
+    phone: "+91 93456 78100",
+    email: "pre.interview@system.com",
+    accent: "from-indigo-500 to-purple-500",
+    icon: ShieldCheck,
+    meta: "Operations",
+  },
+  {
+    id: "panelMember",
+    label: "Panel Member",
+    description: "Scoring & interviews",
+    phone: "+91 99887 66550",
+    email: "panel.member@system.com",
+    accent: "from-purple-500 to-pink-500",
+    icon: Users,
+    meta: "Interviews",
+  },
+]
+
+export default function LoginPage() {
+  const router = useRouter()
+  const [selectedRole, setSelectedRole] = useState<RoleId>("systemAdministrator")
+  const [mobile, setMobile] = useState("")
+  const [otp, setOtp] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [otpSent, setOtpSent] = useState(false)
+  const [secondsLeft, setSecondsLeft] = useState(0)
+  const [status, setStatus] = useState<{ tone: "info" | "error" | "success"; message: string } | null>(null)
+  const [verifying, setVerifying] = useState(false)
+
+  const currentRole = useMemo(
+    () => roleOptions.find((role) => role.id === selectedRole) ?? roleOptions[0],
+    [selectedRole]
+  )
+
+  useEffect(() => {
+    setMobile("")
+    setOtp("")
+    setOtpSent(false)
+    setSecondsLeft(0)
+    setStatus(null)
+  }, [])
+
+  useEffect(() => {
+    if (!otpSent || secondsLeft <= 0) return
+    const timer = setInterval(() => {
+      setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 0))
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [otpSent, secondsLeft])
+
+  const normalizeNumber = (value: string) => value.replace(/\D/g, "")
+
+  const handleSendOtp = async () => {
+
+    // if (mobile.length != 10) {
+    //   setStatus({ tone: "error", message: "Enter a valid 10-digit mobile number" });
+    //   return;
+    // }
+    try {
+      setLoading(true);
+
+      //  Call backend API
+      const response = await generateOtpApi(mobile);
+
+      if (response.status === 0) {
+
+        // backend DOES NOT RETURN OTP ANYMORE
+        // so DON'T read response.data.user_otp
+
+        setOtp("");
+        setOtpSent(true);
+        setSecondsLeft(45);
+
+        setStatus({
+          tone: "success",
+          message: `OTP sent to ${mobile}`
+        });
+
+      } else {
+        setStatus({
+          tone: "error",
+          message: response.message || "Failed to send OTP"
+        });
+      }
+
+    } catch (error: any) {
+      setStatus({ tone: "error", message: error.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const handleLogin = async () => {
+    if (!otpSent) {
+      setStatus({ tone: "error", message: "Request an OTP first" });
+      return;
+    }
+
+    if (otp.trim() === "") {
+      setStatus({ tone: "error", message: "Enter your OTP" });
+      return;
+    }
+
+    try {
+      setStatus({ tone: "info", message: "Verifying OTP..." });
+      setVerifying(true)
+
+      // 🔹 Validate OTP
+      const result = await validateOtpApi(mobile, otp);
+
+      if (result.status === 0) {
+        setStatus({ tone: "success", message: "OTP verified successfully" });
+
+        if (
+          selectedRole === "biometricVerifierExaminer" ||
+          selectedRole === "documentVerifierExaminer"
+        ) {
+          router.push("/verification")
+        } else if (
+          selectedRole === "preInterviewExaminer" ||
+          selectedRole === "panelMember"
+        ) {
+          router.push("/candidates")
+        } else {
+          router.push("/dashboard")
+        }
+
+      } else {
+        setStatus({ tone: "error", message: result.message || "OTP validation failed" });
+      }
+
+    } catch (error: any) {
+      setStatus({ tone: "error", message: error.message });
+    } finally {
+      setVerifying(false)
+    }
+  };
+
+
   return (
-    <div className="min-h-screen p-6 relative">
-      <div className="absolute inset-0 -z-10">
+    <div className="relative min-h-screen w-screen overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=60')" }}
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=60')" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-white/85 via-white/70 to-white/40 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/30 backdrop-blur-sm" />
       </div>
-      <div className="max-w-7xl mx-auto space-y-6">
-        
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-sky-200/50 shadow">
-              <TrendingUp className="h-4 w-4 text-sky-600" />
-              <span className="text-xs font-semibold text-slate-700">Real-time Monitoring</span>
-            </div>
-            <h1 className="mt-3 text-4xl font-bold text-slate-900 tracking-tight">Dashboard Overview</h1>
-            <p className="text-sm text-slate-600 mt-1">Live analytics across panels, verifications, and interviews</p>
-          </div>
-          <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-white/90 backdrop-blur border border-slate-200 shadow-sm">
-            <div className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-            </div>
-            <span className="text-sm font-medium text-slate-700">System Operational</span>
-          </div>
-        </div>
 
-        {/* Stats Grid */}
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              title: "Total Candidates",
-              value: stats.totalCandidates.toLocaleString(),
-              change: "+180 from last hour",
-              icon: Users,
-              color: "blue",
-              gradient: "from-blue-500 to-cyan-500"
-            },
-            {
-              title: "Biometric Verified",
-              value: stats.biometricVerified.toLocaleString(),
-              change: "78.4% completion rate",
-              icon: ShieldCheck,
-              color: "emerald",
-              gradient: "from-emerald-500 to-teal-500"
-            },
-            {
-              title: "Interviews Done",
-              value: stats.interviewsCompleted.toLocaleString(),
-              change: `Across ${stats.panelsActive} active panels`,
-              icon: ClipboardList,
-              color: "violet",
-              gradient: "from-violet-500 to-purple-500"
-            },
-            {
-              title: "Pending Verification",
-              value: (stats.totalCandidates - stats.documentVerified).toLocaleString(),
-              change: "Requires attention",
-              icon: Activity,
-              color: "amber",
-              gradient: "from-amber-500 to-orange-500"
-            },
-          ].map((stat, i) => {
-            const Icon = stat.icon
-            return (
-              <div key={i} className="group relative overflow-hidden bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300">
-                <div className="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 opacity-5">
-                  <Icon className="w-full h-full" />
-                </div>
-                <div className="relative p-6 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className={`w-12 h-12 rounded-xl ring-2 ring-white/60 bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <TrendingUp className="h-4 w-4 text-emerald-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-600 mb-1">{stat.title}</p>
-                    <p className="text-3xl font-bold text-slate-900 tracking-tight">{stat.value}</p>
-                    <p className="text-xs text-slate-500 mt-2 flex items-center gap-1">
-                      <span className="inline-block w-1 h-1 rounded-full bg-slate-400"></span>
-                      {stat.change}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+      <div className="relative z-10 min-h-screen flex flex-col lg:items-center lg:justify-center p-3 sm:p-6">
+        <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-12 items-start lg:items-center">
 
-        {/* Main Content Grid */}
-        <div className="grid gap-5 lg:grid-cols-3">
-          
-          {/* Live Queue Status */}
-          <div className="lg:col-span-2 bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-900">Live Queue Status</h2>
-                  <p className="text-xs text-slate-600 mt-0.5">Active interview panels and next candidates</p>
-                </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-100">
-                  <Clock className="h-3.5 w-3.5 text-blue-600" />
-                  <span className="text-xs font-semibold text-blue-700">Real-time</span>
-                </div>
+          {/* Left side - Hero content */}
+          <div className="space-y-4 sm:space-y-8 hidden lg:block">
+            <div className="flex items-center gap-3">
+              <img src="https://placehold.co/40x40.svg?text=IS&bg=2563eb&text=ffffff" alt="Interview Suite" width={40} height={40} className="rounded-xl shadow-md" />
+              <div>
+                <p className="text-xs font-semibold text-slate-500 tracking-wider">Interview Suite</p>
+                <p className="text-sm text-slate-600">Trusted. Secure. Seamless.</p>
               </div>
             </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {[
-                  { panel: 101, status: "In Progress", time: "15m remaining", next: "2025-021", progress: 65 },
-                  { panel: 102, status: "In Progress", time: "8m remaining", next: "2025-022", progress: 85 },
-                  { panel: 103, status: "Starting", time: "Just started", next: "2025-023", progress: 10 },
-                  { panel: 104, status: "In Progress", time: "22m remaining", next: "2025-024", progress: 45 },
-                ].map((item, i) => (
-                  <div key={i} className="group flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-200 bg-white">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-xl ring-2 ring-white/60 bg-gradient-to-br from-indigo-500 to-purple-500 shadow-lg">
-                        <span className="text-lg font-bold text-white">{i + 1}</span>
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm font-bold text-slate-900">Panel {item.panel}</p>
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 border border-blue-100">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                            <span className="text-xs font-medium text-blue-700">{item.status}</span>
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-600 flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {item.time}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-sky-200/50 shadow-lg">
+              <Sparkles className="h-4 w-4 text-sky-600" />
+              <span className="text-sm font-medium text-slate-700">Secure Interview Management</span>
+            </div>
+
+            <div className="space-y-4">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
+                Welcome to
+                <span className="block bg-gradient-to-r from-sky-600 to-blue-600 bg-clip-text text-transparent">
+                  Interview Suite
+                </span>
+              </h1>
+              <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-xl">
+                Unified authentication for all exam stakeholders with secure mobile OTP verification
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 max-w-xl">
+              {[
+                { label: "Biometric", detail: "Device status" },
+                { label: "Documents", detail: "Manual checks" },
+                { label: "Pre-interview", detail: "Readiness" },
+                { label: "Panels", detail: "Scoring" },
+              ].map((item) => (
+                <div key={item.label} className="group p-4 rounded-2xl bg-white/60 backdrop-blur border border-slate-200/50 shadow-sm hover:shadow-md hover:bg-white/80 transition-all duration-300">
+                  <div className="h-2 w-12 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-3 group-hover:w-16 transition-all" />
+                  <p className="font-semibold text-slate-900">{item.label}</p>
+                  <p className="text-sm text-slate-600">{item.detail}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="relative mt-6 hidden lg:block">
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-200/30 to-purple-200/30 blur-xl" />
+              <img
+                src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=60"
+                alt="Interview Room"
+                className="relative w-[520px] h-[360px] object-cover rounded-3xl border border-white shadow-xl"
+              />
+              <div className="absolute inset-0 rounded-3xl ring-1 ring-white/60 pointer-events-none" />
+            </div>
+          </div>
+
+          {/* Right side - Login card */}
+          <div className="w-full max-w-md mx-auto lg:mx-0">
+            <div className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-5 sm:p-8 space-y-4 sm:space-y-6">
+
+              <div className="text-center space-y-2">
+                <div className="inline-flex items-center justify-center w-12 sm:w-14 h-12 sm:h-14 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-600 shadow-lg shadow-sky-500/30">
+                  <Lock className="h-6 sm:h-7 w-6 sm:w-7 text-white" />
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Secure Sign In</h2>
+                <p className="text-xs sm:text-sm text-slate-600">Select role and verify with OTP</p>
+              </div>
+
+              {/* Role selection */}
+              <div className="space-y-3">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Select Role</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {roleOptions.map((role) => {
+                    const Icon = role.icon
+                    const isActive = role.id === currentRole.id
+                    return (
+                      <button
+                        key={role.id}
+                        onClick={() => setSelectedRole(role.id)}
+                        className={`relative p-2 sm:p-3 rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${isActive
+                          ? "border-sky-400 ring-2 ring-white/60 bg-gradient-to-br " + role.accent + " shadow-lg scale-105"
+                          : "border-slate-200 bg-white hover:border-sky-200 hover:shadow-md hover:scale-[1.02]"
+                          }`}
+                      >
+                        <Icon className={`h-4 sm:h-5 w-4 sm:w-5 mx-auto mb-1 ${isActive ? "text-white" : "text-slate-600"}`} />
+                        <p className={`text-xs font-semibold leading-tight ${isActive ? "text-white" : "text-slate-700"}`}>
+                          {role.label}
                         </p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <div className="w-32 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                            <div 
-                              className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-[width] duration-700"
-                              style={{ width: `${item.progress}%` }}
-                            />
+                        {isActive && (
+                          <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center">
+                            <div className="w-2 h-2 rounded-full bg-white" />
                           </div>
-                          <span className="text-xs font-medium text-slate-500">{item.progress}%</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 border border-slate-200">
-                      <span className="text-xs font-medium text-slate-600">Next:</span>
-                      <span className="text-sm font-bold text-slate-900 font-mono">{item.next}</span>
-                    </div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+                <p className="text-xs text-slate-500 italic">{currentRole.description} • {currentRole.meta}</p>
+              </div>
+
+              {/* Mobile input */}
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                  <Phone className="h-3.5 w-3.5" />
+                  Mobile Number
+                </label>
+                <div className="flex gap-2">
+                  <div className="flex items-center px-2 sm:px-3 rounded-lg sm:rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-medium text-sm">
+                    +91
                   </div>
-                ))}
+                  <input
+                    type="tel"
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                    disabled={otpSent}
+                    className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-2xl border-2 border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 focus:outline-none bg-white text-sm sm:text-base text-slate-900 font-medium shadow-sm transition-colors"
+                    placeholder="98765 43210"
+                  />
+                </div>
               </div>
+
+              {/* OTP input */}
+              <div className="space-y-3">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">One-Time Passcode</label>
+                <div className="flex justify-center gap-2 sm:gap-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <input
+                      key={i}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={otp[i] || ""}
+                      onChange={(e) => {
+                        const newOtp = otp.split("")
+                        newOtp[i] = e.target.value
+                        setOtp(newOtp.join(""))
+                        if (e.target.value && i < 5) {
+                          const next = (e.target.parentElement?.children[i + 1] as HTMLInputElement)
+                          next?.focus()
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Backspace' && !otp[i] && i > 0) {
+                          const prev = ((e.target as HTMLInputElement).parentElement?.children[i - 1] as HTMLInputElement)
+                          prev?.focus()
+                        }
+                      }}
+                      disabled={!otpSent}
+                      className="w-10 h-10 sm:w-12 sm:h-12 text-center text-base sm:text-lg font-bold rounded-lg sm:rounded-xl border-2 border-slate-200 hover:border-sky-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 focus:outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:border-slate-200 shadow-sm transition-all duration-200 placeholder:text-slate-300"
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-slate-500 text-center mt-2">Demo OTP: <span className="font-mono font-bold text-sky-600">{DEMO_OTP}</span></p>
+              </div>
+
+              {/* Status message */}
+              {status && (
+                <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium ${status.tone === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
+                  status.tone === "error" ? "bg-rose-50 text-rose-700 border border-rose-200" :
+                    "bg-sky-50 text-sky-700 border border-sky-200"
+                  }`}>
+                  {status.message}
+                </div>
+              )}
+
+              {/* Action buttons */}
+              <div className="space-y-2 sm:space-y-3">
+                <button
+                  onClick={handleSendOtp}
+                  disabled={secondsLeft > 0}
+                  className="w-full py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 hover:from-white hover:to-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-sm hover:shadow border border-slate-300"
+                >
+                  {otpSent && secondsLeft > 0 ? `Resend in ${secondsLeft}s` : "Send OTP"}
+                </button>
+
+                <button
+                  onClick={handleLogin}
+                  disabled={verifying || otp.length !== 6}
+                  className="w-full py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 flex items-center justify-center gap-2 group"
+                >
+                  {verifying ? "Verifying..." : (
+                    <>
+                      Sign In Securely
+                      <ArrowRight className="h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <p className="text-xs text-center text-slate-500">
+                🔒 AES-256 encrypted • ISO 27001 • SSL
+              </p>
             </div>
           </div>
-
-          {/* Recent Activity */}
-          <div className="bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-4">
-              <h2 className="text-lg font-bold text-slate-900">Recent Activity</h2>
-              <p className="text-xs text-slate-600 mt-0.5">Latest system events</p>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {[
-                  { 
-                    text: "Candidate 2025-001 completed interview", 
-                    time: "2m ago", 
-                    type: "success",
-                    icon: CheckCircle2
-                  },
-                  { 
-                    text: "Biometric verification failed for 2025-005", 
-                    time: "5m ago", 
-                    type: "error",
-                    icon: AlertCircle
-                  },
-                  { 
-                    text: "Panel 103 started new session", 
-                    time: "12m ago", 
-                    type: "info",
-                    icon: Activity
-                  },
-                  { 
-                    text: "Batch B-04 uploaded successfully", 
-                    time: "1h ago", 
-                    type: "info",
-                    icon: CheckCircle2
-                  },
-                ].map((item, i) => {
-                  const Icon = item.icon
-                  return (
-                    <div key={i} className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors">
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${
-                        item.type === "success" ? "bg-emerald-50 border border-emerald-200" : 
-                        item.type === "error" ? "bg-rose-50 border border-rose-200" : 
-                        "bg-blue-50 border border-blue-200"
-                      }`}>
-                        <Icon className={`h-4 w-4 ${
-                          item.type === "success" ? "text-emerald-600" : 
-                          item.type === "error" ? "text-rose-600" : 
-                          "text-blue-600"
-                        }`} />
-                      </div>
-                      <div className="flex-1 space-y-1">
-                        <p className="text-sm font-medium text-slate-900 leading-snug">{item.text}</p>
-                        <p className="text-xs text-slate-500">{item.time}</p>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-            <div className="border-t border-slate-200 bg-slate-50 px-6 py-3">
-              <button className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors">
-                View all activity →
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            { label: "Export Reports", sublabel: "Download analytics", color: "blue" },
-            { label: "Manage Panels", sublabel: "Configure settings", color: "violet" },
-            { label: "System Settings", sublabel: "Administration", color: "slate" },
-          ].map((action, i) => (
-            <button
-              key={i}
-              className={`group p-5 rounded-xl border-2 border-dashed bg-white/70 backdrop-blur text-left transition-all duration-200 ${
-                action.color === 'blue' ? 'border-blue-200 hover:border-blue-400 hover:bg-blue-50' :
-                action.color === 'violet' ? 'border-violet-200 hover:border-violet-400 hover:bg-violet-50' :
-                'border-slate-200 hover:border-slate-400 hover:bg-slate-50'
-              }`}
-            >
-              <p className="font-semibold text-slate-900 mb-1">{action.label}</p>
-              <p className="text-sm text-slate-600">{action.sublabel}</p>
-            </button>
-          ))}
         </div>
       </div>
     </div>

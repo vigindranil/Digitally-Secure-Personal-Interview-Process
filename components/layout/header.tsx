@@ -14,7 +14,8 @@ export default function Header() {
   const router = useRouter()
   const logout = () => {
     Cookies.remove("access_token")
-    router.push("/login")
+    Cookies.remove("user_info")
+    router.push("/")
   }
 
   const notifications = [

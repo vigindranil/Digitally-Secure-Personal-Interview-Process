@@ -2206,6 +2206,11 @@
     border-style: dashed;
   }
 
+  .border-solid {
+    --tw-border-style: solid;
+    border-style: solid;
+  }
+
   .border-\(--color-border\) {
     border-color: var(--color-border);
   }
@@ -2220,6 +2225,10 @@
 
   .border-blue-500 {
     border-color: var(--color-blue-500);
+  }
+
+  .border-blue-600 {
+    border-color: var(--color-blue-600);
   }
 
   .border-border {
@@ -2400,6 +2409,10 @@
 
   .border-t-transparent {
     border-top-color: #0000;
+  }
+
+  .border-r-transparent {
+    border-right-color: #0000;
   }
 
   .border-l-transparent {
@@ -2879,11 +2892,6 @@
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
-  .from-slate-500 {
-    --tw-gradient-from: var(--color-slate-500);
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-
   .from-slate-600 {
     --tw-gradient-from: var(--color-slate-600);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
@@ -3163,11 +3171,6 @@
 
   .to-slate-300 {
     --tw-gradient-to: var(--color-slate-300);
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-
-  .to-slate-600 {
-    --tw-gradient-to: var(--color-slate-600);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
@@ -3788,6 +3791,10 @@
 
   .text-purple-600 {
     color: var(--color-purple-600);
+  }
+
+  .text-red-600 {
+    color: var(--color-red-600);
   }
 
   .text-red-700 {

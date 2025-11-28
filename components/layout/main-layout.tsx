@@ -8,7 +8,7 @@ import  Header  from "@/components/layout/header"
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
-  if (pathname === "/login") {
+  if (pathname === "/") {
     return <>{children}</>
   }
 
