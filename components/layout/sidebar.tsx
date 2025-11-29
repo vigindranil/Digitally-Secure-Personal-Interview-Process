@@ -1,10 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck } from "lucide-react"
+import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck, X } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
-import { useEffect } from "react"
 import { getUser } from "@/hooks/getUser"
 
 const navigation = [
@@ -21,7 +20,7 @@ const navigation = [
 
 // role display helpers removed
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: boolean; onClose?: () => void }) {
   const [user, setUser] = useState<any>(null)
   const pathname = usePathname()
   const router = useRouter()
@@ -31,21 +30,21 @@ export default function Sidebar() {
     router.push("/")
   }
 
-
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userDetails = await getUser()
-      console.log("user name: ", userDetails?.user_full_name)
-    }
+    ;(async () => {
+      const u = await getUser()
+      setUser(u)
+    })()
   }, [])
 
-  // console.log(getUser())
 
+  
 
-
-
-  // Show all navigation items (auth context removed)
-  const filteredNavigation = navigation
+  const filteredNavigation = navigation.filter((item) => {
+    const code = user?.user_type_id
+    if (!code) return false
+    return item.allowed.includes(code)
+  })
 
   const getColorClasses = (color: string, isActive: boolean) => {
     const colors = {
@@ -89,10 +88,16 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="flex h-screen w-72 flex-col bg-white border-r border-slate-200 shadow-lg">
+    <>
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={onClose} />
+      )}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-200 md:static md:translate-x-0 md:h-screen flex flex-col bg-white border-r border-slate-200 shadow-lg ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
       {/* Header */}
       <div className="flex h-20 items-center border-b border-slate-200 px-6 bg-gradient-to-r from-slate-50 to-white">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-1">
           <div className="relative">
             <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg">I</span>
@@ -104,6 +109,13 @@ export default function Sidebar() {
             <p className="text-xs text-slate-500">Interview Management</p>
           </div>
         </div>
+        <button
+          onClick={onClose}
+          className="md:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600"
+          aria-label="Close sidebar"
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
       {/* Navigation */}
@@ -117,7 +129,10 @@ export default function Sidebar() {
             return (
               <button
                 key={item.name}
-                onClick={() => router.push(item.href)}
+                onClick={() => {
+                  router.push(item.href)
+                  onClose?.()
+                }}
                 className={`group relative w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${isActive
                   ? `${colors.bg} text-white shadow-lg`
                   : `text-slate-700 ${colors.hover}`
@@ -189,6 +204,7 @@ export default function Sidebar() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

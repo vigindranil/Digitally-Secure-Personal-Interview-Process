@@ -8,7 +8,7 @@ import { getUser } from "@/hooks/getUser"
 
 // user role indicators removed
 
-export default function Header() {
+export default function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [searchFocused, setSearchFocused] = useState(false)
@@ -63,7 +63,10 @@ export default function Header() {
     <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 px-6 shadow-sm">
       {/* Left section - Search */}
       <div className="flex flex-1 items-center gap-4">
-        <button className="lg:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors">
+        <button
+          onClick={() => onToggleSidebar?.()}
+          className="md:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors"
+        >
           <Menu className="h-5 w-5 text-slate-600" />
         </button>
         

@@ -1,15 +1,176 @@
-[02:52:29.557] Server  LOG      ✓ Compiled in 190ms
-[02:52:29.884] Browser ERROR   ./components/layout/sidebar.tsx:7:10
-Ecmascript file had an error
-   5 | import { usePathname, useRouter } from "next/navigation"
-   6 | import Cookies from "js-cookie"
->  7 | import { useEffect } from "react"
-     |          ^^^^^^^^^
-   8 | import { getUser } from "@/hooks/getUser"
-   9 |
-  10 | const navigation = [
+[00:00:05.725] Server  LOG      ✓ Ready in 4.6s
+[00:00:08.947] Server  LOG      ○ Compiling /dashboard ...
+[00:00:15.321] Server  LOG     Dashboard rendered
+[00:00:15.349] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.356] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.369] Server  LOG     {}
+[00:00:15.523] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.524] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.525] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:00:15.529] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.530] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.531] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:00:15.533] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.534] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:15.535] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:00:16.669] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:17.027] Browser LOG     Dashboard rendered
+[00:00:17.027] Browser LOG     {}
+[00:00:17.027] Browser LOG     Dashboard rendered
+[00:00:17.027] Browser LOG     {}
+[00:00:37.216] Browser ERROR   Failed to load user: {}
+[00:00:37.392] Browser LOG     Dashboard rendered
+[00:00:37.392] Browser LOG     {}
+[00:00:37.392] Browser LOG     Dashboard rendered
+[00:00:37.392] Browser LOG     {}
+[00:00:37.607] Browser ERROR   Failed to load user: {}
+[00:00:37.607] Browser ERROR   Failed to load user: {}
+[00:00:37.607] Browser ERROR   Failed to load user: {}
+[00:00:37.607] Browser ERROR   Failed to load user: {}
+[00:01:48.298] Server  LOG     Dashboard rendered
+[00:01:48.302] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.304] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.312] Server  LOG     {}
+[00:01:48.381] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.382] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.383] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:01:48.384] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.385] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.386] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:01:48.388] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.389] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:48.390] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:01:49.349] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:49.760] Browser LOG     Dashboard rendered
+[00:01:49.760] Browser LOG     {}
+[00:01:49.761] Browser LOG     Dashboard rendered
+[00:01:49.761] Browser LOG     {}
+[00:01:49.761] Browser ERROR   Failed to load user: {}
+[00:01:49.761] Browser ERROR   Failed to load user: {}
+[00:01:50.032] Server  LOG     Dashboard rendered
+[00:01:50.035] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.036] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.043] Server  LOG     {}
+[00:01:50.115] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.115] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.116] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:01:50.118] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.118] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.119] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:01:50.120] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.120] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:50.121] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:01:59.409] Server  LOG     Dashboard rendered
+[00:01:59.413] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.415] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.423] Server  LOG     {}
+[00:01:59.500] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.501] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.501] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:01:59.502] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.503] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.504] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:01:59.505] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.506] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:01:59.508] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:02:00.379] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:00.917] Browser LOG     Dashboard rendered
+[00:02:00.917] Browser LOG     {}
+[00:02:00.917] Browser LOG     Dashboard rendered
+[00:02:00.917] Browser LOG     {}
+[00:02:00.917] Browser ERROR   Failed to load user: {}
+[00:02:00.917] Browser ERROR   Failed to load user: {}
+[00:02:35.763] Browser ERROR   Failed to load user: {}
+[00:02:35.923] Browser LOG     Dashboard rendered
+[00:02:35.923] Browser LOG     {}
+[00:02:35.923] Browser LOG     Dashboard rendered
+[00:02:35.923] Browser LOG     {}
+[00:02:36.155] Browser ERROR   Failed to load user: {}
+[00:02:36.155] Browser ERROR   Failed to load user: {}
+[00:02:36.155] Browser ERROR   Failed to load user: {}
+[00:02:36.155] Browser ERROR   Failed to load user: {}
+[00:03:04.766] Browser ERROR   Failed to load user: {}
+[00:03:05.060] Browser LOG     Dashboard rendered
+[00:03:05.060] Browser LOG     {}
+[00:03:05.060] Browser LOG     Dashboard rendered
+[00:03:05.060] Browser LOG     {}
+[00:03:05.060] Browser ERROR   Failed to load user: {}
+[00:03:05.060] Browser ERROR   Failed to load user: {}
+[00:03:05.060] Browser ERROR   Failed to load user: {}
+[00:03:05.060] Browser ERROR   Failed to load user: {}
+[00:08:21.003] Server  LOG      ✓ Compiled in 242ms
+[00:08:25.462] Server  LOG      ✓ Compiled in 298ms
+[00:09:05.542] Server  LOG      ✓ Compiled in 234ms
+[00:09:06.643] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:07.529] Server  LOG      ✓ Compiled in 172ms
+[00:09:13.803] Server  LOG      ✓ Compiled in 179ms
+[00:09:16.273] Server  LOG      ✓ Compiled in 251ms
+[00:09:18.115] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:22.151] Server  LOG      ✓ Compiled in 263ms
+[00:09:25.675] Server  LOG      ✓ Compiled in 231ms
+[00:09:28.200] Server  LOG      ✓ Compiled in 308ms
+[00:09:45.226] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:51.138] Browser LOG     Dashboard rendered
+[00:09:51.138] Browser LOG     {}
+[00:09:51.138] Browser LOG     Dashboard rendered
+[00:09:51.138] Browser LOG     {}
+[00:10:32.469] Browser LOG     Dashboard rendered
+[00:10:32.469] Browser LOG     {}
+[00:10:32.469] Browser LOG     Dashboard rendered
+[00:10:32.469] Browser LOG     {}
+[00:10:42.642] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:45.031] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:47.836] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:51.613] Browser LOG     Dashboard rendered
+[00:10:51.613] Browser LOG     {}
+[00:10:51.613] Browser LOG     Dashboard rendered
+[00:10:51.613] Browser LOG     {}
+[00:10:54.711] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:58.251] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:01.734] Browser LOG     Dashboard rendered
+[00:11:01.734] Browser LOG     {}
+[00:11:01.734] Browser LOG     Dashboard rendered
+[00:11:01.734] Browser LOG     {}
+[00:18:36.584] Server  LOG      ✓ Compiled in 715ms
+[00:18:37.500] Server  LOG     Dashboard rendered
+[00:18:37.518] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.535] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.562] Server  LOG     {}
+[00:18:37.675] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.677] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.677] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:18:37.680] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.680] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.681] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:18:37.682] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.683] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:18:37.683] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:18:38.597] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:18:39.068] Browser LOG     Dashboard rendered
+[00:18:39.068] Browser LOG     {}
+[00:18:39.068] Browser LOG     Dashboard rendered
+[00:18:39.068] Browser LOG     {}
+[00:19:05.575] Server  LOG      ✓ Compiled in 519ms
+[00:19:05.577] Browser LOG     Dashboard rendered
+[00:19:05.577] Browser LOG     {}
+[00:19:05.577] Browser LOG     Dashboard rendered
+[00:19:05.577] Browser LOG     {}
+[00:19:06.451] Browser LOG     Dashboard rendered
+[00:19:06.451] Browser LOG     {}
+[00:19:06.451] Browser LOG     Dashboard rendered
+[00:19:06.451] Browser LOG     {}
+[00:19:16.883] Server  LOG      ✓ Compiled in 745ms
+[00:20:45.485] Server  LOG      ✓ Compiled in 561ms
+[00:22:55.433] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
 
-the name `useEffect` is defined multiple times
+Expression expected
 
 Import traces:
   Client Component Browser:
@@ -23,17 +184,16 @@ Import traces:
     ./components/layout/main-layout.tsx [Client Component SSR]
     ./components/layout/main-layout.tsx [Server Component]
     ./app/layout.tsx [Server Component]
-[02:52:33.889] Browser ERROR   ./components/layout/sidebar.tsx:7:10
-Ecmascript file had an error
-   5 | import { usePathname, useRouter } from "next/navigation"
-   6 | import Cookies from "js-cookie"
->  7 | import { useEffect } from "react"
-     |          ^^^^^^^^^
-   8 | import { getUser } from "@/hooks/getUser"
-   9 |
-  10 | const navigation = [
+[00:22:55.433] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
 
-the name `useEffect` is defined multiple times
+Expression expected
 
 Import traces:
   Client Component Browser:
@@ -47,3 +207,226 @@ Import traces:
     ./components/layout/main-layout.tsx [Client Component SSR]
     ./components/layout/main-layout.tsx [Server Component]
     ./app/layout.tsx [Server Component]
+[00:22:55.742] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:22:57.799] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:22:58.028] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:22:59.697] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:23:27.447] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:23:29.442] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+Parsing ecmascript source code failed
+  195 |         </div>
+  196 |       </div>
+> 197 |     </>
+      |       ^
+  198 |   )
+  199 | }
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[00:23:49.257] Server  LOG      ✓ Compiled in 289ms
+[00:23:51.263] Browser LOG     Dashboard rendered
+[00:23:51.263] Browser LOG     {}
+[00:23:51.263] Browser LOG     Dashboard rendered
+[00:23:51.263] Browser LOG     {}
+[00:24:24.415] Server  LOG     Dashboard rendered
+[00:24:24.428] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.434] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.442] Server  LOG     {}
+[00:24:24.525] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.526] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.526] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:24:24.527] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.528] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.529] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:24:24.530] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.530] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:24:24.531] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:24:25.550] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:26.020] Browser LOG     Dashboard rendered
+[00:24:26.020] Browser LOG     {}
+[00:24:26.020] Browser LOG     Dashboard rendered
+[00:24:26.020] Browser LOG     {}
+[00:26:16.032] Server  LOG      ✓ Compiled in 680ms
+[00:26:16.488] Server  LOG     Dashboard rendered
+[00:26:16.510] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:16.535] Server  LOG     {}
+[00:26:16.622] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:16.623] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:26:16.625] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:16.626] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:26:16.627] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:26:16.630] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:26:17.992] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:26:19.450] Browser LOG     Dashboard rendered
+[00:26:19.450] Browser LOG     {}
+[00:26:19.450] Browser LOG     Dashboard rendered
+[00:26:19.450] Browser LOG     {}
+[00:26:47.595] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:26:52.440] Browser LOG     Dashboard rendered
+[00:26:52.440] Browser LOG     {}
+[00:26:52.440] Browser LOG     Dashboard rendered
+[00:26:52.440] Browser LOG     {}
+[00:28:28.124] Browser LOG     Dashboard rendered
+[00:28:28.124] Browser LOG     {}
+[00:28:28.124] Browser LOG     Dashboard rendered
+[00:28:28.124] Browser LOG     {}
+[00:29:24.521] Server  LOG      ✓ Compiled in 414ms
+[00:29:37.951] Browser LOG     Dashboard rendered
+[00:29:37.951] Browser LOG     {}
+[00:29:37.952] Browser LOG     Dashboard rendered
+[00:29:37.952] Browser LOG     {}
+[00:34:20.802] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:34:27.987] Browser LOG     Dashboard rendered
+[00:34:27.987] Browser LOG     {}
+[00:34:27.987] Browser LOG     Dashboard rendered
+[00:34:27.987] Browser LOG     {}
+[00:34:33.892] Server  LOG      ✓ Compiled in 257ms
+[00:34:34.174] Browser LOG     Dashboard rendered
+[00:34:34.174] Browser LOG     {}
+[00:34:34.174] Browser LOG     Dashboard rendered
+[00:34:34.174] Browser LOG     {}
+[00:35:14.346] Server  LOG     Dashboard rendered
+[00:35:14.351] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:35:14.359] Server  LOG     {}
+[00:35:14.429] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:35:14.430] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
+[00:35:14.431] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:35:14.431] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
+[00:35:14.434] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:35:14.435] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
+[00:35:15.195] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:35:15.477] Browser LOG     Dashboard rendered
+[00:35:15.477] Browser LOG     {}
+[00:35:15.477] Browser LOG     Dashboard rendered
+[00:35:15.477] Browser LOG     {}
+[00:36:11.046] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:38:30.222] Browser LOG     Dashboard rendered
+[00:38:30.223] Browser LOG     {}
+[00:38:30.223] Browser LOG     Dashboard rendered
+[00:38:30.223] Browser LOG     {}
+[00:38:52.707] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:39:03.267] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:39:56.158] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:39:57.755] Server  LOG      ✓ Compiled in 89ms

@@ -90,8 +90,16 @@ export const validateOtpApi = async (mobileNumber: string, otp: string) => {
           sameSite: "strict",
         });
       }
+      // if (result?.data) {
+      //   Cookies.set("user_info", result?.data, {
+      //     expires: 1,
+      //     secure: true,
+      //     sameSite: "strict",
+      //   });
+      // }
+
       if (result?.data) {
-        Cookies.set("user_info", result?.data, {
+        Cookies.set("user_info", JSON.stringify(result.data), {
           expires: 1,
           secure: true,
           sameSite: "strict",
