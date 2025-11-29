@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { decryptAESGCM, encryptAESGCM } from "@/lib/utils"
 import { generateOtpApi, validateOtpApi } from "./api"
+import { getUser } from "@/hooks/getUser"
 
 const DEMO_OTP = "123456"
 
@@ -179,16 +180,16 @@ export default function LoginPage() {
       if (result.status === 0) {
         setStatus({ tone: "success", message: "OTP verified successfully" });
 
-        if (
-          selectedRole === "biometricVerifierExaminer" ||
-          selectedRole === "documentVerifierExaminer"
-        ) {
+        const profile = await getUser()
+        const code = profile?.user_type_id
+        if (code === 5) {
           router.push("/verification")
-        } else if (
-          selectedRole === "preInterviewExaminer" ||
-          selectedRole === "panelMember"
-        ) {
-          router.push("/candidates")
+        } else if (code === 6) {
+          router.push("/verification")
+        } else if (code === 4) {
+          router.push("/pre-interview")
+        } else if (code === 3) {
+          router.push("/interviews")
         } else {
           router.push("/dashboard")
         }
