@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
+import { useEffect } from "react"
 import { getUser } from "@/hooks/getUser"
 
 const navigation = [
@@ -30,21 +31,21 @@ export default function Sidebar() {
     router.push("/")
   }
 
+
   useEffect(() => {
-    ;(async () => {
-      const u = await getUser()
-      setUser(u)
-    })()
+    const fetchUserDetails = async () => {
+      const userDetails = await getUser()
+      console.log("user name: ", userDetails?.user_full_name)
+    }
   }, [])
 
+  // console.log(getUser())
 
-  
 
-  const filteredNavigation = navigation.filter((item) => {
-    const code = user?.user_type_id
-    if (!code) return false
-    return item.allowed.includes(code)
-  })
+
+
+  // Show all navigation items (auth context removed)
+  const filteredNavigation = navigation
 
   const getColorClasses = (color: string, isActive: boolean) => {
     const colors = {

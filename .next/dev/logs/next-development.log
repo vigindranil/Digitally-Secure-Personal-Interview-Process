@@ -1,0 +1,49 @@
+[02:52:29.557] Server  LOG      ✓ Compiled in 190ms
+[02:52:29.884] Browser ERROR   ./components/layout/sidebar.tsx:7:10
+Ecmascript file had an error
+   5 | import { usePathname, useRouter } from "next/navigation"
+   6 | import Cookies from "js-cookie"
+>  7 | import { useEffect } from "react"
+     |          ^^^^^^^^^
+   8 | import { getUser } from "@/hooks/getUser"
+   9 |
+  10 | const navigation = [
+
+the name `useEffect` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+[02:52:33.889] Browser ERROR   ./components/layout/sidebar.tsx:7:10
+Ecmascript file had an error
+   5 | import { usePathname, useRouter } from "next/navigation"
+   6 | import Cookies from "js-cookie"
+>  7 | import { useEffect } from "react"
+     |          ^^^^^^^^^
+   8 | import { getUser } from "@/hooks/getUser"
+   9 |
+  10 | const navigation = [
+
+the name `useEffect` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./components/layout/sidebar.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Client Component Browser]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/layout/sidebar.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Client Component SSR]
+    ./components/layout/main-layout.tsx [Server Component]
+    ./app/layout.tsx [Server Component]
