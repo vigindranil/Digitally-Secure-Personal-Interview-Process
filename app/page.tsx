@@ -183,9 +183,9 @@ export default function LoginPage() {
         const profile = await getUser()
         const code = profile?.user_type_id
         if (code === 5) {
-          router.push("/verification")
+          router.push("/biometric-verification")
         } else if (code === 6) {
-          router.push("/verification")
+          router.push("/document-verification")
         } else if (code === 4) {
           router.push("/pre-interview")
         } else if (code === 3) {

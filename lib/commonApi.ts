@@ -5,18 +5,18 @@ import { decryptAESGCM, encryptAESGCM } from "./utils";
 
 export const callAPIWithEnc: any = async (
   endpoint: string,
-  method = "GET",
+  method: string = "GET",
   body: any = null
 ) => {
   try {
-    const token = Cookies.get("token") || "";
+    const token = Cookies.get("access_token") || "";
     const headers: any = {
       accept: "*/*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
     const requestOptions: any = {
-      method,
+      method: typeof method === "string" ? method : body ? "POST" : "GET",
       headers,
     };
     if (body) {
@@ -28,9 +28,31 @@ export const callAPIWithEnc: any = async (
     let decryptedData: any = null;
 
     if (data?.data) {
-      const decrypted = await decryptAESGCM(data.data);
-      decryptedData = JSON.parse(decrypted);
+      const payload = data.data;
+      if (typeof payload === "string") {
+        try {
+          const decrypted = await decryptAESGCM(payload);
+          if (typeof decrypted === "string") {
+            try {
+              decryptedData = JSON.parse(decrypted);
+            } catch {
+              decryptedData = decrypted;
+            }
+          } else {
+            decryptedData = decrypted;
+          }
+        } catch {
+          try {
+            decryptedData = JSON.parse(payload);
+          } catch {
+            decryptedData = payload;
+          }
+        }
+      } else if (typeof payload === "object") {
+        decryptedData = payload;
+      }
     }
+
     return { ...data, data: decryptedData };
   } catch (error: any) {
     throw new Error(

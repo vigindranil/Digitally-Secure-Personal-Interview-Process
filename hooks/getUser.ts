@@ -8,8 +8,8 @@ export async function getUser() {
 
     const decrypted = await decryptAESGCM(encData);
     console.log("Decrypted user data:", decrypted);
+
     return decrypted;
-    // return JSON.parse(encData);
   } catch (error) {
     console.error("Failed to load user:", error);
     return null;

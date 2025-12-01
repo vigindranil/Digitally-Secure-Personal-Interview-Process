@@ -1,432 +1,1650 @@
-[00:00:05.725] Server  LOG      ✓ Ready in 4.6s
-[00:00:08.947] Server  LOG      ○ Compiling /dashboard ...
-[00:00:15.321] Server  LOG     Dashboard rendered
-[00:00:15.349] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.356] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.369] Server  LOG     {}
-[00:00:15.523] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.524] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.525] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:00:15.529] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.530] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.531] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:00:15.533] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.534] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:00:15.535] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:00:16.669] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:17.027] Browser LOG     Dashboard rendered
-[00:00:17.027] Browser LOG     {}
-[00:00:17.027] Browser LOG     Dashboard rendered
-[00:00:17.027] Browser LOG     {}
-[00:00:37.216] Browser ERROR   Failed to load user: {}
-[00:00:37.392] Browser LOG     Dashboard rendered
-[00:00:37.392] Browser LOG     {}
-[00:00:37.392] Browser LOG     Dashboard rendered
-[00:00:37.392] Browser LOG     {}
-[00:00:37.607] Browser ERROR   Failed to load user: {}
-[00:00:37.607] Browser ERROR   Failed to load user: {}
-[00:00:37.607] Browser ERROR   Failed to load user: {}
-[00:00:37.607] Browser ERROR   Failed to load user: {}
-[00:01:48.298] Server  LOG     Dashboard rendered
-[00:01:48.302] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.304] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.312] Server  LOG     {}
-[00:01:48.381] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.382] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.383] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:01:48.384] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.385] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.386] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:01:48.388] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.389] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:48.390] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:01:49.349] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:49.760] Browser LOG     Dashboard rendered
-[00:01:49.760] Browser LOG     {}
-[00:01:49.761] Browser LOG     Dashboard rendered
-[00:01:49.761] Browser LOG     {}
-[00:01:49.761] Browser ERROR   Failed to load user: {}
-[00:01:49.761] Browser ERROR   Failed to load user: {}
-[00:01:50.032] Server  LOG     Dashboard rendered
-[00:01:50.035] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.036] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.043] Server  LOG     {}
-[00:01:50.115] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.115] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.116] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:01:50.118] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.118] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.119] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:01:50.120] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.120] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:50.121] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:01:59.409] Server  LOG     Dashboard rendered
-[00:01:59.413] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.415] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.423] Server  LOG     {}
-[00:01:59.500] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.501] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.501] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:01:59.502] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.503] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.504] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:01:59.505] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.506] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:01:59.508] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:02:00.379] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:02:00.917] Browser LOG     Dashboard rendered
-[00:02:00.917] Browser LOG     {}
-[00:02:00.917] Browser LOG     Dashboard rendered
-[00:02:00.917] Browser LOG     {}
-[00:02:00.917] Browser ERROR   Failed to load user: {}
-[00:02:00.917] Browser ERROR   Failed to load user: {}
-[00:02:35.763] Browser ERROR   Failed to load user: {}
-[00:02:35.923] Browser LOG     Dashboard rendered
-[00:02:35.923] Browser LOG     {}
-[00:02:35.923] Browser LOG     Dashboard rendered
-[00:02:35.923] Browser LOG     {}
-[00:02:36.155] Browser ERROR   Failed to load user: {}
-[00:02:36.155] Browser ERROR   Failed to load user: {}
-[00:02:36.155] Browser ERROR   Failed to load user: {}
-[00:02:36.155] Browser ERROR   Failed to load user: {}
-[00:03:04.766] Browser ERROR   Failed to load user: {}
-[00:03:05.060] Browser LOG     Dashboard rendered
-[00:03:05.060] Browser LOG     {}
-[00:03:05.060] Browser LOG     Dashboard rendered
-[00:03:05.060] Browser LOG     {}
-[00:03:05.060] Browser ERROR   Failed to load user: {}
-[00:03:05.060] Browser ERROR   Failed to load user: {}
-[00:03:05.060] Browser ERROR   Failed to load user: {}
-[00:03:05.060] Browser ERROR   Failed to load user: {}
-[00:08:21.003] Server  LOG      ✓ Compiled in 242ms
-[00:08:25.462] Server  LOG      ✓ Compiled in 298ms
-[00:09:05.542] Server  LOG      ✓ Compiled in 234ms
-[00:09:06.643] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:09:07.529] Server  LOG      ✓ Compiled in 172ms
-[00:09:13.803] Server  LOG      ✓ Compiled in 179ms
-[00:09:16.273] Server  LOG      ✓ Compiled in 251ms
-[00:09:18.115] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:09:22.151] Server  LOG      ✓ Compiled in 263ms
-[00:09:25.675] Server  LOG      ✓ Compiled in 231ms
-[00:09:28.200] Server  LOG      ✓ Compiled in 308ms
-[00:09:45.226] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:09:51.138] Browser LOG     Dashboard rendered
-[00:09:51.138] Browser LOG     {}
-[00:09:51.138] Browser LOG     Dashboard rendered
-[00:09:51.138] Browser LOG     {}
-[00:10:32.469] Browser LOG     Dashboard rendered
-[00:10:32.469] Browser LOG     {}
-[00:10:32.469] Browser LOG     Dashboard rendered
-[00:10:32.469] Browser LOG     {}
-[00:10:42.642] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:45.031] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:47.836] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:51.613] Browser LOG     Dashboard rendered
-[00:10:51.613] Browser LOG     {}
-[00:10:51.613] Browser LOG     Dashboard rendered
-[00:10:51.613] Browser LOG     {}
-[00:10:54.711] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:58.251] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:11:01.734] Browser LOG     Dashboard rendered
-[00:11:01.734] Browser LOG     {}
-[00:11:01.734] Browser LOG     Dashboard rendered
-[00:11:01.734] Browser LOG     {}
-[00:18:36.584] Server  LOG      ✓ Compiled in 715ms
-[00:18:37.500] Server  LOG     Dashboard rendered
-[00:18:37.518] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.535] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.562] Server  LOG     {}
-[00:18:37.675] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.677] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.677] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:18:37.680] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.680] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.681] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:18:37.682] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.683] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:18:37.683] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:18:38.597] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:18:39.068] Browser LOG     Dashboard rendered
-[00:18:39.068] Browser LOG     {}
-[00:18:39.068] Browser LOG     Dashboard rendered
-[00:18:39.068] Browser LOG     {}
-[00:19:05.575] Server  LOG      ✓ Compiled in 519ms
-[00:19:05.577] Browser LOG     Dashboard rendered
-[00:19:05.577] Browser LOG     {}
-[00:19:05.577] Browser LOG     Dashboard rendered
-[00:19:05.577] Browser LOG     {}
-[00:19:06.451] Browser LOG     Dashboard rendered
-[00:19:06.451] Browser LOG     {}
-[00:19:06.451] Browser LOG     Dashboard rendered
-[00:19:06.451] Browser LOG     {}
-[00:19:16.883] Server  LOG      ✓ Compiled in 745ms
-[00:20:45.485] Server  LOG      ✓ Compiled in 561ms
-[00:22:55.433] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+[00:00:04.469] Server  LOG      ✓ Ready in 3.4s
+[00:00:32.616] Server  LOG      ○ Compiling / ...
+[00:00:35.707] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:51.815] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:00:52.806] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:00:52.806] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:00:52.806] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:00:52.806] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:00:52.806] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:00:52.806] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:04:52.307] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:04:53.336] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:04:53.336] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:04:53.336] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:04:53.336] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:04:53.336] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:04:53.336] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:05:00.821] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:00.821] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:22.093] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:05:22.094] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:07:25.998] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:07:25.998] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:07:31.514] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:07:31.514] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:08:17.449] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:08:17.449] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:08:54.569] Server  LOG      ✓ Compiled in 291ms
+[00:09:31.086] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:09:31.086] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:10:07.245] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:10:07.245] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:11:29.607] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:11:29.607] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:11:47.126] Browser LOG     Decrypted user data: {"user_contact_number":"9339370146","user_id":4,"user_type_id":4,"user_type_name":"Pre-Interview Examiner"}
+[00:11:47.514] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:47.667] Browser LOG     Decrypted user data: {"user_contact_number":"9339370146","user_id":4,"user_type_id":4,"user_type_name":"Pre-Interview Examiner"}
+[00:11:47.668] Browser LOG     Decrypted user data: {"user_contact_number":"9339370146","user_id":4,"user_type_id":4,"user_type_name":"Pre-Interview Examiner"}
+[00:13:03.053] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:13:03.053] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:13:03.053] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:13:03.053] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:13:03.053] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:13:03.053] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:13:03.053] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:17:26.378] Browser ERROR   Failed to update status: {}
+[00:20:09.170] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:20:09.427] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:20:09.427] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:20:09.427] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:20:09.427] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:20:09.427] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:20:09.427] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:21:53.581] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:21:53.581] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:22:02.519] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:22:02.519] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:22:08.403] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:22:08.403] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:23:02.117] Server  LOG      ✓ Compiled in 382ms
+[00:23:02.617] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:23:17.199] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:23:17.199] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:27:35.615] Server  LOG      ✓ Compiled in 401ms
+[00:27:36.301] Server  LOG      ✓ Compiled in 214ms
+[00:29:20.007] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:29:20.007] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:31:24.183] Server  LOG      ✓ Compiled in 537ms
+[00:31:24.616] Browser ERROR   ./app/document-verification/page.tsx:373:168
 Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+  371 |             <div className="flex justify-end gap-2">
+  372 |               <button onClick={() => setRemarksOpen(false)} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">Cancel</button>
+> 373 |               <button disabled={submittingRemarks || !remarks.trim()} onClick={async () => { setSubmittingRemarks(true); await updateCandidateVerifyStatus(25, remarks.()); setSubmittingRemarks(false); setRemarksOpen(false); setRemarks(""); }} className="px-4 py-2 rounded-md bg-rose-600 text-white disabled:opacity-50">Submit</button>
+      |                                                                                                                                                                        ^
+  374 |             </div>
+  375 |           </div>
+  376 |         </DialogContent>
+
+Expected '</', got '('
+
+Import traces:
+  Client Component Browser:
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:31:25.696] Server  LOG      ✓ Compiled in 307ms
+[00:31:29.006] Server  LOG      ✓ Compiled in 506ms
+[00:31:30.650] Server  LOG      ✓ Compiled in 749ms
+[00:31:32.110] Server  LOG      ✓ Compiled in 588ms
+[00:31:33.631] Server  LOG      ✓ Compiled in 394ms
+[00:31:40.584] Server  LOG      ✓ Compiled in 246ms
+[00:31:42.622] Browser ERROR   ./app/document-verification/page.tsx:373:168
+Parsing ecmascript source code failed
+  371 |             <div className="flex justify-end gap-2">
+  372 |               <button onClick={() => setRemarksOpen(false)} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">Cancel</button>
+> 373 |               <button disabled={submittingRemarks || !remarks.trim()} onClick={async () => { setSubmittingRemarks(true); await updateCandidateVerifyStatus(25, remarks.()); setSubmittingRemarks(false); setRemarksOpen(false); setRemarks(""); }} className="px-4 py-2 rounded-md bg-rose-600 text-white disabled:opacity-50">Submit</button>
+      |                                                                                                                                                                        ^
+  374 |             </div>
+  375 |           </div>
+  376 |         </DialogContent>
+
+Expected '</', got '('
+
+Import traces:
+  Client Component Browser:
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:32:08.411] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:32:08.411] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:33:49.856] Server  LOG      ✓ Compiled in 285ms
+[00:33:50.615] Browser ERROR   ./app/document-verification/page.tsx:267:65
+Parsing ecmascript source code failed
+  265 |                         <div className="font-medium text-gray-900 mb-1 text-sm">Current Status</div>
+  266 |                         <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(selectedCandidate.biometricStatus)}`}>
+> 267 |                           {selectedCandidate.biometricStatus == && <CheckCircle2 className="h-3 w-3" />}
+      |                                                                 ^^
+  268 |                           {selectedCandidate.biometricStatus === "Pending" && <AlertCircle className="h-3 w-3" />}
+  269 |                           {selectedCandidate.biometricStatus}
+  270 |                         </div>
 
 Expression expected
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:22:55.433] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:34:23.148] Server  LOG      ✓ Compiled in 350ms
+[00:34:39.282] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:34:39.584] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:34:39.584] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:34:39.584] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:35:06.800] Server  LOG      ✓ Compiled in 286ms
+[00:35:08.043] Server  LOG      ✓ Compiled in 195ms
+[00:35:10.456] Server  LOG      ✓ Compiled in 166ms
+[00:35:17.815] Server  LOG      ✓ Compiled in 197ms
+[00:35:20.871] Server  LOG      ✓ Compiled in 227ms
+[00:35:25.261] Server  LOG      ✓ Compiled in 206ms
+[00:35:29.582] Server  LOG      ✓ Compiled in 242ms
+[00:35:30.676] Browser ERROR   ./app/document-verification/page.tsx:116:14
 Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+  114 |       case "10":
+  115 |         return "bg-green-50 text-green-700 border-green-200"
+> 116 |       case 15":
+      |              ^^
+  117 |         return "bg-yellow-50 text-yellow-700 border-yellow-200"
+  118 |     }
+  119 |   }
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:35:33.647] Server  LOG      ✓ Compiled in 213ms
+[00:35:34.612] Browser ERROR   ./app/document-verification/page.tsx:114:12
+Parsing ecmascript source code failed
+  112 |   const getStatusColor = (status: string) => {
+  113 |     switch (status) {
+> 114 |       case "10:
+      |            ^^^^
+  115 |         return "bg-green-50 text-green-700 border-green-200"
+  116 |       case 15:
+  117 |         return "bg-yellow-50 text-yellow-700 border-yellow-200"
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:35:38.584] Server  LOG      ✓ Compiled in 349ms
+[00:35:39.629] Browser ERROR   ./app/document-verification/page.tsx:112:42
+Parsing ecmascript source code failed
+  110 |     }
+  111 |   }
+> 112 |   const getStatusColor = (status: string|) => {
+      |                                          ^
+  113 |     switch (status) {
+  114 |       case 10:
+  115 |         return "bg-green-50 text-green-700 border-green-200"
+
+Unexpected token `)`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+
+Import traces:
+  Client Component Browser:
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:35:50.082] Server  LOG      ✓ Compiled in 146ms
+[00:36:18.916] Server  LOG      ✓ Compiled in 129ms
+[00:36:26.499] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:36:26.788] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:36:26.788] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:36:26.927] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:38:34.409] Server  LOG      ✓ Compiled in 173ms
+[00:40:07.626] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:40:07.626] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:40:19.934] Server  LOG      ✓ Compiled in 195ms
+[00:40:20.042] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:42:59.759] Server  LOG      ✓ Compiled in 366ms
+[00:43:03.895] Server  LOG      ✓ Compiled in 556ms
+[00:44:35.574] Server  LOG      ✓ Compiled in 206ms
+[00:44:37.211] Server  LOG      ✓ Compiled in 442ms
+[00:44:37.968] Server  LOG      ✓ Compiled in 444ms
+[00:44:39.304] Server  LOG      ✓ Compiled in 608ms
+[00:44:39.594] Server  LOG      ✓ Compiled in 285ms
+[00:44:40.614] Browser ERROR   ./app/document-verification/page.tsx:129:12
+Parsing ecmascript source code failed
+  127 |   const getStatusColor = (status: string) => {
+  128 |     switch (status) {
+> 129 |       case ":
+      |            ^^
+  130 |         return "bg-green-50 text-green-700 border-green-200"
+  131 |       case "15":
+  132 |         return "bg-yellow-50 text-yellow-700 border-yellow-200"
+
+Unterminated string constant
+
+Import traces:
+  Client Component Browser:
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:44:40.614] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:44:41.884] Server  LOG      ✓ Compiled in 223ms
+[00:44:42.618] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:45:16.371] Server  LOG      ✓ Compiled in 333ms
+[00:45:21.655] Server  LOG      ✓ Compiled in 350ms
+[00:45:36.121] Server  LOG      ✓ Compiled in 161ms
+[00:45:36.615] Browser ERROR   ./app/document-verification/page.tsx:278:66
+Parsing ecmascript source code failed
+  276 |                         <div className="font-medium text-gray-900 mb-1 text-sm">Current Status</div>
+  277 |                         <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(selectedCandidate.biometricStatus)}`}>
+> 278 |                           {selectedCandidate.biometricStatus ==  && <CheckCircle2 className="h-3 w-3" />}
+      |                                                                  ^^
+  279 |                           {selectedCandidate.biometricStatus == 15 && <AlertCircle className="h-3 w-3" />}
+  280 |                           {selectedCandidate.biometricStatus == 10 ? "Verified" : "Pending"}
+  281 |                         </div>
 
 Expression expected
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:22:55.742] Browser ERROR   ./components/layout/sidebar.tsx:197:7
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:45:41.296] Server  LOG      ✓ Compiled in 779ms
+[00:45:42.963] Server  LOG      ✓ Compiled in 471ms
+[00:45:43.619] Browser ERROR   ./app/document-verification/page.tsx:279:66
 Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+  277 |                         <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(selectedCandidate.biometricStatus)}`}>
+  278 |                           {selectedCandidate.biometricStatus == Verified && <CheckCircle2 className="h-3 w-3" />}
+> 279 |                           {selectedCandidate.biometricStatus ==  && <AlertCircle className="h-3 w-3" />}
+      |                                                                  ^^
+  280 |                           {selectedCandidate.biometricStatus == 10 ? "Verified" : "Pending"}
+  281 |                         </div>
+  282 |                       </div>
 
 Expression expected
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/document-verification/page.tsx [Client Component Browser]
+    ./app/document-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:22:57.799] Browser ERROR   ./components/layout/sidebar.tsx:197:7
-Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+    ./app/document-verification/page.tsx [Client Component SSR]
+    ./app/document-verification/page.tsx [Server Component]
+[00:46:02.766] Server  LOG      ✓ Compiled in 268ms
+[00:46:03.266] Server  LOG      ✓ Compiled in 275ms
+[00:46:04.775] Server  LOG      ✓ Compiled in 320ms
+[00:46:29.461] Browser ERROR   uncaughtError: ReferenceError: Verified is not defined
+[00:46:42.268] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:46:42.281] Server  LOG      ✓ Compiled in 158ms
+[00:46:42.700] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:46:42.700] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:46:42.700] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:46:43.667] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:44.631] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:46:44.631] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:46:45.259] Server  LOG      ✓ Compiled in 448ms
+[00:46:45.617] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[00:49:01.748] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:49:01.748] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:49:32.553] Server  LOG      ✓ Compiled in 256ms
+[00:57:12.267] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:57:12.267] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:57:37.859] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:57:38.112] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:57:38.113] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:57:38.113] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:57:38.113] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:57:38.113] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[00:57:38.113] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:00:53.717] Server  LOG      ✓ Compiled in 1410ms
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
 
-Expression expected
+the name `ToastProvider` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:22:58.028] Browser ERROR   ./components/layout/sidebar.tsx:197:7
-Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
 
-Expression expected
+the name `ToastViewport` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:22:59.697] Browser ERROR   ./components/layout/sidebar.tsx:197:7
-Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
 
-Expression expected
+the name `Toast` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:23:27.447] Browser ERROR   ./components/layout/sidebar.tsx:197:7
-Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
 
-Expression expected
+the name `toast` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:23:29.442] Browser ERROR   ./components/layout/sidebar.tsx:197:7
-Parsing ecmascript source code failed
-  195 |         </div>
-  196 |       </div>
-> 197 |     </>
-      |       ^
-  198 |   )
-  199 | }
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
 
-Expression expected
+the name `toasts` is defined multiple times
 
 Import traces:
   Client Component Browser:
-    ./components/layout/sidebar.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Client Component Browser]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
 
   Client Component SSR:
-    ./components/layout/sidebar.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Client Component SSR]
-    ./components/layout/main-layout.tsx [Server Component]
-    ./app/layout.tsx [Server Component]
-[00:23:49.257] Server  LOG      ✓ Compiled in 289ms
-[00:23:51.263] Browser LOG     Dashboard rendered
-[00:23:51.263] Browser LOG     {}
-[00:23:51.263] Browser LOG     Dashboard rendered
-[00:23:51.263] Browser LOG     {}
-[00:24:24.415] Server  LOG     Dashboard rendered
-[00:24:24.428] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.434] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.442] Server  LOG     {}
-[00:24:24.525] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.526] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.526] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:24:24.527] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.528] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.529] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:24:24.530] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\[root-of-the-server]__9559d1c1._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.530] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_d6907e86._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:24:24.531] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:24:25.550] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:24:26.020] Browser LOG     Dashboard rendered
-[00:24:26.020] Browser LOG     {}
-[00:24:26.020] Browser LOG     Dashboard rendered
-[00:24:26.020] Browser LOG     {}
-[00:26:16.032] Server  LOG      ✓ Compiled in 680ms
-[00:26:16.488] Server  LOG     Dashboard rendered
-[00:26:16.510] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:26:16.535] Server  LOG     {}
-[00:26:16.622] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:26:16.623] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:26:16.625] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:26:16.626] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:26:16.627] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:26:16.630] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:26:17.992] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:26:19.450] Browser LOG     Dashboard rendered
-[00:26:19.450] Browser LOG     {}
-[00:26:19.450] Browser LOG     Dashboard rendered
-[00:26:19.450] Browser LOG     {}
-[00:26:47.595] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:26:52.440] Browser LOG     Dashboard rendered
-[00:26:52.440] Browser LOG     {}
-[00:26:52.440] Browser LOG     Dashboard rendered
-[00:26:52.440] Browser LOG     {}
-[00:28:28.124] Browser LOG     Dashboard rendered
-[00:28:28.124] Browser LOG     {}
-[00:28:28.124] Browser LOG     Dashboard rendered
-[00:28:28.124] Browser LOG     {}
-[00:29:24.521] Server  LOG      ✓ Compiled in 414ms
-[00:29:37.951] Browser LOG     Dashboard rendered
-[00:29:37.951] Browser LOG     {}
-[00:29:37.952] Browser LOG     Dashboard rendered
-[00:29:37.952] Browser LOG     {}
-[00:34:20.802] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:34:27.987] Browser LOG     Dashboard rendered
-[00:34:27.987] Browser LOG     {}
-[00:34:27.987] Browser LOG     Dashboard rendered
-[00:34:27.987] Browser LOG     {}
-[00:34:33.892] Server  LOG      ✓ Compiled in 257ms
-[00:34:34.174] Browser LOG     Dashboard rendered
-[00:34:34.174] Browser LOG     {}
-[00:34:34.174] Browser LOG     Dashboard rendered
-[00:34:34.174] Browser LOG     {}
-[00:35:14.346] Server  LOG     Dashboard rendered
-[00:35:14.351] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:35:14.359] Server  LOG     {}
-[00:35:14.429] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:35:14.430] Server  ERROR   Error: GCM Decrypt Error: Invalid Base64
-[00:35:14.431] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:35:14.431] Server  ERROR    ⨯ "unhandledRejection:" Error: GCM Decrypt Error: Invalid Base64
-[00:35:14.434] Server  ERROR   D:\git\Digitally-Secure-Personal-Interview-Process\.next\dev\server\chunks\ssr\_45117aa7._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
-[00:35:14.435] Server  ERROR    ⨯ "unhandledRejection: " Error: GCM Decrypt Error: Invalid Base64
-[00:35:15.195] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:35:15.477] Browser LOG     Dashboard rendered
-[00:35:15.477] Browser LOG     {}
-[00:35:15.477] Browser LOG     Dashboard rendered
-[00:35:15.477] Browser LOG     {}
-[00:36:11.046] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:38:30.222] Browser LOG     Dashboard rendered
-[00:38:30.223] Browser LOG     {}
-[00:38:30.223] Browser LOG     Dashboard rendered
-[00:38:30.223] Browser LOG     {}
-[00:38:52.707] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:39:03.267] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:39:56.158] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:39:57.755] Server  LOG      ✓ Compiled in 89ms
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:01:00.576] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:06.567] Server  ERROR    ⨯ ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+
+
+./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+
+
+./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+
+
+./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+
+
+./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+
+
+./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+
+[01:02:06.730] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:06.730] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:06.730] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:06.730] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:06.730] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:06.730] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:07.883] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:07.883] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:07.883] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:07.883] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:07.883] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:07.883] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:08.070] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:08.070] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:08.070] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:08.070] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:08.070] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:08.070] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:09.039] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:09.039] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:09.039] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:09.039] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:09.039] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:09.039] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.053] Browser ERROR   uncaughtError: Error: ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+
+[01:02:10.218] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.218] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.218] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.218] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.218] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.218] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.393] Browser ERROR   ./app/biometric-verification/page.tsx:11:10
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |          ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastProvider` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.393] Browser ERROR   ./app/biometric-verification/page.tsx:11:25
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                         ^^^^^^^^^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `ToastViewport` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.394] Browser ERROR   ./app/biometric-verification/page.tsx:11:40
+Ecmascript file had an error
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+  10 | import { useToast } from "@/components/ui/use-toast"
+> 11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+     |                                        ^^^^^
+  12 |
+  13 |
+  14 | export default function VerificationPage() {
+
+the name `Toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.394] Browser ERROR   ./app/biometric-verification/page.tsx:23:19
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |                   ^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.394] Browser ERROR   ./app/biometric-verification/page.tsx:23:11
+Ecmascript file had an error
+  21 |   const [remarks, setRemarks] = useState("")
+  22 |   const [submittingRemarks, setSubmittingRemarks] = useState(false)
+> 23 |   const { toasts, toast } = useToast()
+     |           ^^^^^^
+  24 |
+  25 |   useEffect(() => {
+  26 |     (async () => {
+
+the name `toasts` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:10.394] Browser ERROR   ./app/biometric-verification/page.tsx:10:10
+Ecmascript file had an error
+   8 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+   9 | import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+> 10 | import { useToast } from "@/components/ui/use-toast"
+     |          ^^^^^^^^
+  11 | import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+  12 |
+  13 |
+
+the name `useToast` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/biometric-verification/page.tsx [Client Component Browser]
+    ./app/biometric-verification/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/biometric-verification/page.tsx [Client Component SSR]
+    ./app/biometric-verification/page.tsx [Server Component]
+[01:02:39.919] Server  LOG      ✓ Compiled in 1092ms
+[01:02:41.796] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:02:42.147] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:02:42.147] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:02:42.147] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:02:50.626] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:02:50.626] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:03:22.676] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:03:22.677] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:03:29.776] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:03:29.776] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:03:52.846] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:03:53.028] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:03:53.028] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:03:53.028] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:12.080] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:12.236] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:12.236] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:12.236] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:12.236] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:12.236] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:12.236] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:11:44.086] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:11:44.086] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:12:22.992] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:12:23.203] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:12:23.203] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:12:23.203] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:12:23.203] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:12:23.203] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:12:23.203] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:12:27.293] Server  LOG      ✓ Compiled in 271ms
+[01:14:02.725] Server  LOG      ✓ Compiled in 150ms
+[01:14:11.667] Server  LOG      ✓ Compiled in 184ms
+[01:14:14.750] Server  LOG      ✓ Compiled in 242ms
+[01:14:42.420] Server  LOG      ✓ Compiled in 241ms
+[01:15:08.401] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:15:08.573] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:15:08.573] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:15:08.573] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:15:08.573] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:15:08.573] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:15:08.573] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:15:36.679] Server  LOG      ✓ Compiled in 211ms
+[01:15:42.594] Server  LOG      ✓ Compiled in 163ms
+[01:15:44.805] Server  LOG      ✓ Compiled in 186ms
+[01:15:58.783] Server  LOG      ✓ Compiled in 232ms
+[01:16:08.659] Server  LOG      ✓ Compiled in 194ms
+[01:16:17.029] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:16:17.029] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:17:23.189] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:17:24.372] Browser LOG     Dashboard rendered
+[01:17:24.372] Browser LOG     {}
+[01:17:24.372] Browser LOG     Dashboard rendered
+[01:17:24.372] Browser LOG     {}
+[01:17:24.372] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:17:24.372] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:17:24.372] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:17:24.372] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:18:07.203] Server  LOG      ✓ Compiled in 106ms
+[01:18:13.808] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:18:14.045] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:18:14.045] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:18:35.609] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:18:35.737] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:18:35.737] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:18:37.190] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:18:37.312] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:18:37.312] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:19:36.224] Server  LOG      ✓ Compiled in 124ms
+[01:19:41.387] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:19:41.525] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:19:41.525] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:19:51.331] Server  LOG      ✓ Compiled in 117ms
+[01:19:55.636] Server  LOG      ✓ Compiled in 236ms
+[01:20:23.313] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:20:23.467] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:23.467] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:25.122] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:20:25.243] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:25.243] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:56.472] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:56.715] Browser LOG     Dashboard rendered
+[01:20:56.715] Browser LOG     {}
+[01:20:56.715] Browser LOG     Dashboard rendered
+[01:20:56.715] Browser LOG     {}
+[01:20:56.715] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:56.715] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:56.715] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:20:56.715] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:21:44.954] Server  LOG      ✓ Compiled in 106ms
+[01:21:49.829] Server  LOG      ✓ Compiled in 126ms
+[01:21:53.302] Server  LOG      ✓ Compiled in 123ms
+[01:21:56.394] Server  LOG      ✓ Compiled in 134ms
+[01:23:26.036] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:23:26.185] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:23:26.185] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:23:31.335] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:24:04.044] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:04.260] Browser LOG     Dashboard rendered
+[01:24:04.260] Browser LOG     {}
+[01:24:04.260] Browser LOG     Dashboard rendered
+[01:24:04.260] Browser LOG     {}
+[01:24:04.260] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:04.260] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:04.260] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:04.260] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:07.421] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:07.421] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:09.503] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:09.503] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:11.630] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:24:11.782] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:11.782] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:14.733] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:24:14.878] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:14.878] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:17.099] Browser LOG     Dashboard rendered
+[01:24:17.099] Browser LOG     {}
+[01:24:17.099] Browser LOG     Dashboard rendered
+[01:24:17.099] Browser LOG     {}
+[01:24:20.082] Browser LOG     Dashboard rendered
+[01:24:20.082] Browser LOG     {}
+[01:24:20.082] Browser LOG     Dashboard rendered
+[01:24:20.082] Browser LOG     {}
+[01:24:24.320] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:24.320] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:25.571] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:25.571] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:27.434] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:24:27.434] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:25:55.228] Browser LOG     Dashboard rendered
+[01:25:55.228] Browser LOG     {}
+[01:25:55.228] Browser LOG     Dashboard rendered
+[01:25:55.228] Browser LOG     {}
+[01:30:00.638] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:30:00.638] Browser LOG     Decrypted user data: {"user_contact_number":"8001104376","user_id":2,"user_type_id":2,"user_type_name":"Webel Administrator"}
+[01:30:25.809] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:30:25.809] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:33:13.389] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:33:13.594] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:33:13.594] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:33:13.595] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:33:13.595] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:33:13.595] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:33:13.595] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:33:33.249] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:33:33.249] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:37:26.021] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:37:26.021] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:37:26.300] Browser ERROR   Failed to update status: {}
+[01:37:26.553] Browser ERROR   Failed to update status: {}
+[01:37:39.910] Browser ERROR   Failed to update status: {}
+[01:45:24.700] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:45:24.700] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:45:24.700] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:45:24.700] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:45:24.700] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:45:24.700] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:45:24.700] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:45:53.865] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:45:53.865] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:46:33.030] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:46:33.030] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:46:33.030] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:46:33.030] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:46:33.030] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:46:33.030] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:46:33.030] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[01:47:00.490] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:47:17.452] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:47:17.627] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:47:17.627] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:47:17.627] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:47:17.627] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:47:17.627] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:47:17.627] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:47:23.430] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:47:23.430] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[01:48:25.145] Browser ERROR   Failed to update status: {}
+[01:48:25.397] Browser ERROR   Failed to update status: {}
+[01:48:25.631] Browser ERROR   Failed to update status: {}
+[01:48:27.164] Browser ERROR   Failed to update status: {}
+[01:48:30.114] Browser ERROR   Failed to update status: {}
+[01:48:31.409] Browser ERROR   Failed to update status: {}
+[01:48:46.173] Browser ERROR   Failed to update status: {}
+[01:48:46.426] Browser ERROR   Failed to update status: {}
+[01:49:59.571] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:49:59.793] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:49:59.794] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:49:59.794] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:50:01.551] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:50:01.769] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:50:01.769] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:50:01.769] Browser LOG     Decrypted user data: {"user_contact_number":"9875413392","user_id":5,"user_type_id":5,"user_type_name":"Biometric Verifier"}
+[01:52:50.511] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:40:11.741] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:40:11.742] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:40:11.742] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:40:11.742] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:40:11.742] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:40:11.742] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:40:11.742] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:46:57.461] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:46:57.670] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:46:57.670] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
+[02:46:57.670] Browser LOG     Decrypted user data: {"user_contact_number":"9836700020","user_id":6,"user_type_id":6,"user_type_name":"Physical Document Verifier"}
