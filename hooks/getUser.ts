@@ -1,5 +1,3 @@
-
-
 import Cookies from "js-cookie";
 import { decryptAESGCM } from "@/lib/utils";
 
@@ -9,10 +7,9 @@ export async function getUser() {
     if (!encData) return null;
 
     const decrypted = await decryptAESGCM(encData);
-
-    return typeof decrypted === "string"
-      ? JSON.parse(decrypted)
-      : decrypted;
+    console.log("Decrypted user data:", decrypted);
+    return decrypted;
+    // return JSON.parse(encData);
   } catch (error) {
     console.error("Failed to load user:", error);
     return null;

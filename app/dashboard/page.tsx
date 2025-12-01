@@ -2,6 +2,7 @@
 import { decryptAESGCM } from "@/lib/utils"
 import { Users, ShieldCheck, ClipboardList, Activity, TrendingUp, Clock, CheckCircle2, AlertCircle } from "lucide-react"
 
+
 const stats = {
   totalCandidates: 2847,
   biometricVerified: 2234,

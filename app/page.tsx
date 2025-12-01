@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { decryptAESGCM, encryptAESGCM } from "@/lib/utils"
 import { generateOtpApi, validateOtpApi } from "./api"
+import { getUser } from "@/hooks/getUser"
 
 const DEMO_OTP = "123456"
 
@@ -179,16 +180,16 @@ export default function LoginPage() {
       if (result.status === 0) {
         setStatus({ tone: "success", message: "OTP verified successfully" });
 
-        if (
-          selectedRole === "biometricVerifierExaminer" ||
-          selectedRole === "documentVerifierExaminer"
-        ) {
+        const profile = await getUser()
+        const code = profile?.user_type_id
+        if (code === 5) {
           router.push("/verification")
-        } else if (
-          selectedRole === "preInterviewExaminer" ||
-          selectedRole === "panelMember"
-        ) {
-          router.push("/candidates")
+        } else if (code === 6) {
+          router.push("/verification")
+        } else if (code === 4) {
+          router.push("/pre-interview")
+        } else if (code === 3) {
+          router.push("/interviews")
         } else {
           router.push("/dashboard")
         }
@@ -336,39 +337,40 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* OTP input */}
-              <div className="space-y-3">
-                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">One-Time Passcode</label>
-                <div className="flex justify-center gap-2 sm:gap-3">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <input
-                      key={i}
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={1}
-                      value={otp[i] || ""}
-                      onChange={(e) => {
-                        const newOtp = otp.split("")
-                        newOtp[i] = e.target.value
-                        setOtp(newOtp.join(""))
-                        if (e.target.value && i < 5) {
-                          const next = (e.target.parentElement?.children[i + 1] as HTMLInputElement)
-                          next?.focus()
-                        }
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Backspace' && !otp[i] && i > 0) {
-                          const prev = ((e.target as HTMLInputElement).parentElement?.children[i - 1] as HTMLInputElement)
-                          prev?.focus()
-                        }
-                      }}
-                      disabled={!otpSent}
-                      className="w-10 h-10 sm:w-12 sm:h-12 text-center text-base sm:text-lg font-bold rounded-lg sm:rounded-xl border-2 border-slate-200 hover:border-sky-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 focus:outline-none bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:border-slate-200 shadow-sm transition-all duration-200 placeholder:text-slate-300"
-                    />
-                  ))}
+              {/* OTP input shown only after sending OTP */}
+              {otpSent && (
+                <div className="space-y-3">
+                  <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">One-Time Passcode</label>
+                  <div className="flex justify-center gap-2 sm:gap-3">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <input
+                        key={i}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={otp[i] || ""}
+                        onChange={(e) => {
+                          const newOtp = otp.split("")
+                          newOtp[i] = e.target.value
+                          setOtp(newOtp.join(""))
+                          if (e.target.value && i < 5) {
+                            const next = (e.target.parentElement?.children[i + 1] as HTMLInputElement)
+                            next?.focus()
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Backspace' && !otp[i] && i > 0) {
+                            const prev = ((e.target as HTMLInputElement).parentElement?.children[i - 1] as HTMLInputElement)
+                            prev?.focus()
+                          }
+                        }}
+                        className="w-10 h-10 sm:w-12 sm:h-12 text-center text-base sm:text-lg font-bold rounded-lg sm:rounded-xl border-2 border-slate-200 hover:border-sky-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 focus:outline-none bg-white shadow-sm transition-all duration-200 placeholder:text-slate-300"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-500 text-center mt-2">Demo OTP: <span className="font-mono font-bold text-sky-600">{DEMO_OTP}</span></p>
                 </div>
-                <p className="text-xs text-slate-500 text-center mt-2">Demo OTP: <span className="font-mono font-bold text-sky-600">{DEMO_OTP}</span></p>
-              </div>
+              )}
 
               {/* Status message */}
               {status && (
@@ -390,18 +392,20 @@ export default function LoginPage() {
                   {otpSent && secondsLeft > 0 ? `Resend in ${secondsLeft}s` : "Send OTP"}
                 </button>
 
-                <button
-                  onClick={handleLogin}
-                  disabled={verifying || otp.length !== 6}
-                  className="w-full py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 flex items-center justify-center gap-2 group"
-                >
-                  {verifying ? "Verifying..." : (
-                    <>
-                      Sign In Securely
-                      <ArrowRight className="h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
-                </button>
+                {otpSent && (
+                  <button
+                    onClick={handleLogin}
+                    disabled={verifying || otp.length !== 6}
+                    className="w-full py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 flex items-center justify-center gap-2 group"
+                  >
+                    {verifying ? "Verifying..." : (
+                      <>
+                        Sign In Securely
+                        <ArrowRight className="h-4 sm:h-5 w-4 sm:w-5 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
 
               <p className="text-xs text-center text-slate-500">

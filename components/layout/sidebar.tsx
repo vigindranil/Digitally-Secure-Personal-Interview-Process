@@ -1,49 +1,50 @@
 "use client"
 
-import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck } from "lucide-react"
+import { useEffect, useState } from "react"
+import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck, X } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
-import { useEffect } from "react"
 import { getUser } from "@/hooks/getUser"
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["systemAdministrator", "biometricVerifierExaminer", "documentVerifierExaminer", "preInterviewExaminer", "panelMember"], color: "blue" },
-  { name: "Candidates", href: "/candidates", icon: Users, roles: ["systemAdministrator", "preInterviewExaminer", "panelMember"], color: "emerald" },
-  { name: "Interviewers", href: "/interviewers", icon: UserCheck, roles: ["systemAdministrator", "panelMember"], color: "cyan" },
-  { name: "Biometric Verification", href: "/verification", icon: ShieldCheck, roles: ["systemAdministrator", "biometricVerifierExaminer"], color: "amber" },
-  { name: "Document Verification", href: "/verification", icon: FileCheck, roles: ["systemAdministrator", "documentVerifierExaminer"], color: "violet" },
-  { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, roles: ["systemAdministrator", "preInterviewExaminer"], color: "indigo" },
-  { name: "Interviews", href: "/interviews", icon: ClipboardList, roles: ["systemAdministrator", "panelMember"], color: "violet" },
-  { name: "Reports", href: "/reports", icon: FileCheck, roles: ["systemAdministrator"], color: "indigo" },
-  { name: "Settings", href: "/settings", icon: Settings, roles: ["systemAdministrator"], color: "slate" },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1,2,3,4,5,6], color: "blue" },
+  { name: "Candidates", href: "/candidates", icon: Users, allowed: [2,3,4], color: "emerald" },
+  { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1,3], color: "cyan" },
+  { name: "Biometric Verification", href: "/verification", icon: ShieldCheck, allowed: [5], color: "amber" },
+  { name: "Document Verification", href: "/verification", icon: FileCheck, allowed: [6], color: "violet" },
+  { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, allowed: [4], color: "indigo" },
+  { name: "Interviews", href: "/interviews", icon: ClipboardList, allowed: [3], color: "violet" },
+  { name: "Reports", href: "/reports", icon: FileCheck, allowed: [1,2], color: "indigo" },
+  { name: "Settings", href: "/settings", icon: Settings, allowed: [1,2], color: "slate" },
 ]
 
 // role display helpers removed
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: boolean; onClose?: () => void }) {
+  const [user, setUser] = useState<any>(null)
   const pathname = usePathname()
   const router = useRouter()
   const logout = () => {
     Cookies.remove("access_token")
-    router.push("/login")
+    Cookies.remove("user_info")
+    router.push("/")
   }
 
-
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userDetails = await getUser()
-      console.log("user name: ", userDetails?.user_full_name)
-    }
-    fetchUserDetails()
+    ;(async () => {
+      const u = await getUser()
+      setUser(u)
+    })()
   }, [])
 
-  // console.log(getUser())
 
+  
 
-
-
-  // Show all navigation items (auth context removed)
-  const filteredNavigation = navigation
+  const filteredNavigation = navigation.filter((item) => {
+    const code = user?.user_type_id
+    if (!code) return false
+    return item.allowed.includes(code)
+  })
 
   const getColorClasses = (color: string, isActive: boolean) => {
     const colors = {
@@ -87,10 +88,16 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="flex h-screen w-72 flex-col bg-white border-r border-slate-200 shadow-lg">
+    <>
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={onClose} />
+      )}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-200 md:static md:translate-x-0 md:h-screen flex flex-col bg-white border-r border-slate-200 shadow-lg ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
       {/* Header */}
       <div className="flex h-20 items-center border-b border-slate-200 px-6 bg-gradient-to-r from-slate-50 to-white">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-1">
           <div className="relative">
             <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg">I</span>
@@ -102,6 +109,13 @@ export default function Sidebar() {
             <p className="text-xs text-slate-500">Interview Management</p>
           </div>
         </div>
+        <button
+          onClick={onClose}
+          className="md:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600"
+          aria-label="Close sidebar"
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
       {/* Navigation */}
@@ -115,7 +129,10 @@ export default function Sidebar() {
             return (
               <button
                 key={item.name}
-                onClick={() => router.push(item.href)}
+                onClick={() => {
+                  router.push(item.href)
+                  onClose?.()
+                }}
                 className={`group relative w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${isActive
                   ? `${colors.bg} text-white shadow-lg`
                   : `text-slate-700 ${colors.hover}`
@@ -164,12 +181,18 @@ export default function Sidebar() {
               <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-emerald-500 border-2 border-white rounded-full"></div>
             </div>
             <div className="flex-1 overflow-hidden">
-              <p className="font-semibold text-sm text-slate-900 truncate">User</p>
-              <p className="text-xs text-slate-500 truncate">Active session</p>
+              <p className="font-semibold text-sm text-slate-900 truncate">{user?.user_full_name || "User"}</p>
+              <p className="text-xs text-slate-500 truncate">{user?.department_name || "Active session"}</p>
             </div>
           </div>
 
-          {/* Role Badge removed */}
+          {/* Role Badge */}
+          {user?.user_type_id && (
+            <div className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-blue-50 border border-blue-100">
+              <ShieldCheck className="h-3.5 w-3.5 text-blue-600" />
+              <span className="text-xs font-semibold text-blue-700 uppercase">{(user.user_type_id===1&&"superadmin")||(user.user_type_id===2&&"admin")||(user.user_type_id===3&&"interviewer")||(user.user_type_id===4&&"preinterview examiner")||(user.user_type_id===5&&"biometric")||(user.user_type_id===6&&"physical document")||"user"}</span>
+            </div>
+          )}
 
           {/* Sign Out Button */}
           <button
@@ -181,6 +204,7 @@ export default function Sidebar() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
