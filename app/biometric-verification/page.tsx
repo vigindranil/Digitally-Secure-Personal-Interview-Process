@@ -1,61 +1,110 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CheckCircle2, XCircle, Search, Fingerprint, FileText, User, Calendar, MapPin, AlertCircle, Scan } from "lucide-react"
+import { callAPIWithEnc } from "@/lib/commonApi"
+import { getUser } from "@/hooks/getUser"
+import { useToast } from "@/components/ui/use-toast"
+import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
-const mockCandidates = [
-  {
-    id: "1",
-    name: "Rajesh Kumar",
-    rollNo: "2025-001",
-    category: "General",
-    dob: "15/03/1998",
-    email: "rajesh.k@email.com",
-    phone: "+91 98765 43210",
-    photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rajesh",
-    biometricStatus: "Pending",
-    documentStatus: "Verified",
-    appliedFor: "Assistant Manager"
-  },
-  {
-    id: "2",
-    name: "Priya Sharma",
-    rollNo: "2025-002",
-    category: "OBC",
-    dob: "22/07/1999",
-    email: "priya.s@email.com",
-    phone: "+91 98765 43211",
-    photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
-    biometricStatus: "Verified",
-    documentStatus: "Pending",
-    appliedFor: "Senior Clerk"
-  }
-]
 
 export default function VerificationPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCandidate, setSelectedCandidate] = useState<typeof mockCandidates[0] | null>(null)
+  const [selectedCandidate, setSelectedCandidate] = useState<any>(null)
   const [isSearching, setIsSearching] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const { toasts, toast } = useToast()
+  const [remarksOpen, setRemarksOpen] = useState(false)
+  const [remarks, setRemarks] = useState("")
+  const [submittingRemarks, setSubmittingRemarks] = useState(false)
 
-  const handleSearch = () => {
-    setIsSearching(true)
-    setTimeout(() => {
-      const found = mockCandidates.find(
-        (c) => c.rollNo === searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-      setSelectedCandidate(found || null)
-      setIsSearching(false)
-    }, 500)
+  useEffect(() => {
+    (async () => {
+      const u = await getUser()
+      setUser(u)
+    })()
+  }, [])
+
+
+
+  const mapStatus = (id?: number) => {
+    if (id == 10) return "Verified"
+    if (id == 15) return "Rejected"
+    return "Pending"
   }
 
+  const handleSearch = async () => {
+    setIsSearching(true)
+    try {
+      const response = await callAPIWithEnc(
+        "/admin/getVerifiyCandidateProfileDetails",
+        "POST",
+        {
+          rollNumber: searchQuery,
+          userId: user?.user_id || 0,
+          userTypeId: user?.user_type_id || 0
+        }
+      )
+      if (response?.status == 0) {
+        const d = response?.data || {}
+        setSelectedCandidate({
+          id: Number(d.candidate_id ?? 0),
+          name: d.candidate_name ?? "Unknown",
+          rollNo: d.roll_number ?? "",
+          category: d.category ?? "",
+          dob: d.date_of_birth ?? "",
+          appliedFor: d.applied_for ?? "",
+          email: d.email ?? "",
+          phone: d.phone ?? "",
+          biometricStatus: mapStatus(d.biometricVerifyStatusId),
+          // documentStatus: mapStatus(d.documentVerifyStatusId),
+          photo: "/placeholder-user.jpg",
+        } as any)
+      } else {
+        setSelectedCandidate(null)
+      }
+    } catch (e) {
+      setSelectedCandidate(null)
+    } finally {
+      setIsSearching(false)
+    }
+  }
+
+  const updateCandidateVerifyStatus = async (statusId: number, r?: string) => {
+    if (!selectedCandidate) return
+    try {
+      const response = await callAPIWithEnc(
+        "/admin/updateCandidateVerifyStatus",
+        "POST",
+        {
+          candidate_id: Number(selectedCandidate.id),
+          status_id: statusId,
+          user_id: user?.user_id || 0,
+          user_type_id: user?.user_type_id || 0,
+          remarks: r || ""
+        }
+      )
+      if (response?.status === 0) {
+        setSelectedCandidate((prev: any) =>
+          prev ? { ...prev, biometricStatus: mapStatus(statusId) } : prev
+        )
+        if (statusId === 10) {
+          toast({ title: "Biometric Verified", description: "Candidate biometric marked as verified." })
+        }
+      }
+    } catch (e) {
+      console.error("Failed to update status:", e)
+    }
+  }
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Verified":
         return "bg-green-50 text-green-700 border-green-200"
       case "Pending":
-        return "bg-yellow-50 text-yellow-700 border-yellow-200"
+        return "bg-amber-50 text-amber-700 border-amber-200"
       case "Rejected":
-        return "bg-red-50 text-red-700 border-red-200"
+        return "bg-rose-50 text-rose-700 border-rose-200"
       default:
         return "bg-gray-50 text-gray-700 border-gray-200"
     }
@@ -63,6 +112,26 @@ export default function VerificationPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <ToastProvider>
+        {toasts.map(({ id, title, description, action, ...props }) => (
+          <Toast
+            key={id}
+            {...props}
+            className={`${props?.variant === "destructive" ? "border-rose-200" : "border-emerald-200"} bg-white shadow-xl rounded-xl`}
+          >
+            <div className={`flex items-start gap-3 p-4 rounded-lg ${props?.variant === "destructive" ? "bg-rose-50" : "bg-emerald-50"}`}>
+              <div className={`w-8 h-8 rounded-md flex items-center justify-center ${props?.variant === "destructive" ? "bg-rose-200 text-rose-700" : "bg-emerald-200 text-emerald-700"}`}>
+                {props?.variant === "destructive" ? <AlertCircle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
+              </div>
+              <div className="flex-1 min-w-0">
+                {title && <div className="text-sm font-semibold text-slate-900 truncate">{title}</div>}
+                {description && <div className="text-xs text-slate-700 mt-0.5">{description}</div>}
+              </div>
+            </div>
+          </Toast>
+        ))}
+        <ToastViewport className="sm:right-4 sm:bottom-4" />
+      </ToastProvider>
       <div className="mx-auto max-w-7xl px-8 py-6 space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -198,76 +267,15 @@ export default function VerificationPage() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <button className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors">
+                      <button onClick={() => setRemarksOpen(true)} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors">
                         <XCircle className="h-4 w-4" />
                         Reject
                       </button>
-                      <button className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
+                      <button onClick={() => updateCandidateVerifyStatus(10)} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
                         <CheckCircle2 className="h-4 w-4" />
                         Verify
                       </button>
                     </div>
-                  </div>
-
-                  <div className="mt-4 p-3 rounded-md bg-blue-50 border border-blue-200">
-                    <div className="flex items-start gap-2 text-sm text-blue-800">
-                      <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                      <p>Ensure the biometric device is connected and candidate's fingers are clean and dry before scanning.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Document Verification */}
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <div className="border-b border-gray-200 bg-orange-50 px-5 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-md bg-orange-600 flex items-center justify-center">
-                      <FileText className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-semibold text-gray-900">Document Verification</h3>
-                      <p className="text-xs text-gray-600">Check and verify all required original documents</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center justify-between p-4 rounded-md border border-gray-200 bg-gray-50">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-md bg-orange-100 flex items-center justify-center">
-                        <FileText className="h-5 w-5 text-orange-600" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900 mb-1 text-sm">Current Status</div>
-                        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(selectedCandidate.documentStatus)}`}>
-                          {selectedCandidate.documentStatus === "Verified" && <CheckCircle2 className="h-3 w-3" />}
-                          {selectedCandidate.documentStatus === "Pending" && <AlertCircle className="h-3 w-3" />}
-                          {selectedCandidate.documentStatus}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <button className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors">
-                        <XCircle className="h-4 w-4" />
-                        Reject
-                      </button>
-                      <button className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 transition-colors">
-                        <CheckCircle2 className="h-4 w-4" />
-                        Verify
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 space-y-2">
-                    {["ID Proof (Aadhaar/PAN)", "Educational Certificates", "Category Certificate", "Photograph"].map((doc, i) => (
-                      <div key={i} className="flex items-center justify-between p-3 rounded-md border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center gap-3">
-                          <CheckCircle2 className="h-4 w-4 text-green-600" />
-                          <span className="text-sm font-medium text-gray-700">{doc}</span>
-                        </div>
-                        <span className="text-xs text-green-600 font-medium">Checked</span>
-                      </div>
-                    ))}
                   </div>
                 </div>
               </div>
@@ -280,15 +288,29 @@ export default function VerificationPage() {
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No Candidate Selected</h3>
             <p className="text-gray-600 max-w-md text-sm">
-              Search for a candidate by roll number or name to begin the verification process. You can also scan their barcode for quick access.
+              Search for a candidate by roll number or name to begin the verification process.
             </p>
             <div className="mt-6 flex items-center gap-2 px-4 py-2 rounded-md bg-blue-50 border border-blue-200">
               <AlertCircle className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium text-blue-700">Try searching: "2025-001" or "Rajesh"</span>
+              <span className="text-sm font-medium text-blue-700">Try searching: "2025-001"</span>
             </div>
           </div>
         )}
       </div>
+      <Dialog open={remarksOpen} onOpenChange={setRemarksOpen}>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <DialogTitle>Remarks</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <textarea value={remarks} onChange={(e) => setRemarks(e.target.value)} className="w-full h-28 rounded-md border border-slate-200 p-3 text-sm bg-white" placeholder="Type remarks" />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setRemarksOpen(false)} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">Cancel</button>
+              <button disabled={submittingRemarks || !remarks.trim()} onClick={async () => { setSubmittingRemarks(true); await updateCandidateVerifyStatus(15, remarks.trim()); setSubmittingRemarks(false); setRemarksOpen(false); setRemarks(""); }} className="px-4 py-2 rounded-md bg-rose-600 text-white disabled:opacity-50">Submit</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
