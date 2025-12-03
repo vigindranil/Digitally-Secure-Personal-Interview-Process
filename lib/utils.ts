@@ -79,7 +79,7 @@ export const decryptAESGCM = async (base64CipherText) => {
     // Extract the IV from the first 12 bytes (matching Java's 12-byte IV)
     const iv = bytes.slice(0, 12);
     const encryptedData = bytes.slice(12);
-    
+     
     const cryptoKey = await window.crypto.subtle.importKey(
       "raw", keyBytes, { name: "AES-GCM" }, false, ["decrypt"]
     );
