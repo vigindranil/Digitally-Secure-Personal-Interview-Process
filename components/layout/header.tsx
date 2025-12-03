@@ -65,25 +65,11 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar?: () => vo
       <div className="flex flex-1 items-center gap-4">
         <button
           onClick={() => onToggleSidebar?.()}
-          className="md:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          aria-label="Toggle menu"
         >
           <Menu className="h-5 w-5 text-slate-600" />
         </button>
-        
-        <div className={`relative w-full max-w-md transition-all duration-200 ${searchFocused ? 'max-w-lg' : ''}`}>
-          <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${searchFocused ? 'text-blue-500' : 'text-slate-400'}`} />
-          <input
-            type="search"
-            placeholder="Search candidates, roll numbers, panels..."
-            onFocus={() => setSearchFocused(true)}
-            onBlur={() => setSearchFocused(false)}
-            className={`w-full h-10 pl-10 pr-4 rounded-xl border-2 transition-all duration-200 text-sm bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:outline-none ${
-              searchFocused 
-                ? 'border-blue-500 bg-white shadow-lg shadow-blue-100' 
-                : 'border-slate-200 hover:border-slate-300'
-            }`}
-          />
-        </div>
       </div>
 
       {/* Right section */}

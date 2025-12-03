@@ -1,17 +1,59 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
-import { candidates } from "@/lib/mock-data"
-import { Clock } from "lucide-react"
+import { Clock, User, Hash, CalendarDays, ClipboardList, GraduationCap } from "lucide-react"
+import { callAPIWithEnc } from "@/lib/commonApi"
+
+type CurrentCandidate = {
+  candidate_id: number
+  candidate_roll_no: string
+  exam_name: string
+  post_name: string
+  candidate_full_name: string
+  candidate_gender: string
+  candidate_dob: string
+}
 
 export default function InterviewPage() {
-  // Mocking an active interview session
-  const currentCandidate = candidates[3] // Diana Evans
+  const [currentCandidate, setCurrentCandidate] = useState<CurrentCandidate | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const response = await callAPIWithEnc("/admin/getCandidateByInterviewer", "POST", {
+          schedule_id: 3,
+          status_id: 40,
+          user_id: 3,
+        })
+        const raw = response?.status === 0 ? response?.data : response
+        const d = Array.isArray(raw) ? raw[0] : raw
+        if (d && d.candidate_id) {
+          setCurrentCandidate({
+            candidate_id: Number(d.candidate_id ?? 0),
+            candidate_roll_no: String(d.candidate_roll_no ?? ""),
+            exam_name: String(d.exam_name ?? ""),
+            post_name: String(d.post_name ?? ""),
+            candidate_full_name: String(d.candidate_full_name ?? ""),
+            candidate_gender: String(d.candidate_gender ?? ""),
+            candidate_dob: String(d.candidate_dob ?? ""),
+          })
+        } else {
+          setCurrentCandidate(null)
+        }
+      } catch (e) {
+        setCurrentCandidate(null)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">
@@ -83,42 +125,73 @@ export default function InterviewPage() {
 
       <div className="space-y-6">
         <Card>
-          <CardHeader>
-            <CardTitle>Current Candidate</CardTitle>
+          <CardHeader className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-t-xl">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-white">Current Candidate</CardTitle>
+              {currentCandidate && (
+                <div className="flex items-center gap-2">
+                  <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.exam_name}</Badge>
+                  <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.post_name}</Badge>
+                </div>
+              )}
+            </div>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="flex flex-col items-center space-y-3">
-              <div className="h-24 w-24 rounded-full bg-muted overflow-hidden">
-                <img
-                  src={currentCandidate.photoUrl || "/placeholder.svg"}
-                  alt={currentCandidate.name}
-                  className="h-full w-full object-cover"
-                />
+          <CardContent className="space-y-6 pt-6">
+            {loading ? (
+              <div className="flex flex-col items-center gap-4">
+                <div className="h-24 w-24 rounded-full bg-slate-200 animate-pulse" />
+                <div className="h-5 w-40 rounded bg-slate-200 animate-pulse" />
+                <div className="h-4 w-24 rounded bg-slate-200 animate-pulse" />
               </div>
-              <div className="text-center">
-                <h3 className="font-semibold">{currentCandidate.name}</h3>
-                <p className="font-mono text-sm text-muted-foreground">{currentCandidate.rollNo}</p>
-              </div>
-            </div>
+            ) : currentCandidate ? (
+              <>
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="relative h-28 w-28 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg">
+                    {(currentCandidate.candidate_full_name || "").charAt(0).toUpperCase()}
+                  </div>
+                  <div className="text-center space-y-1">
+                    <h3 className="text-xl font-bold text-slate-900">{currentCandidate.candidate_full_name}</h3>
+                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                      <Hash className="h-4 w-4" />
+                      {currentCandidate.candidate_roll_no}
+                    </div>
+                  </div>
+                </div>
 
-            <div className="space-y-4 rounded-lg border p-4 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Category</span>
-                <span className="font-medium">{currentCandidate.category}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Biometric</span>
-                <Badge variant="outline" className="border-green-500/50 text-green-500">
-                  Verified
-                </Badge>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Documents</span>
-                <Badge variant="outline" className="border-green-500/50 text-green-500">
-                  Verified
-                </Badge>
-              </div>
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-xl border p-4">
+                  <div className="flex items-center gap-3">
+                    <User className="h-5 w-5 text-slate-500" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">Gender</p>
+                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.candidate_gender}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CalendarDays className="h-5 w-5 text-slate-500" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">DOB</p>
+                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.candidate_dob}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <GraduationCap className="h-5 w-5 text-slate-500" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">Exam</p>
+                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.exam_name}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <ClipboardList className="h-5 w-5 text-slate-500" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">Post</p>
+                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.post_name}</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center text-sm text-muted-foreground">No candidate assigned</div>
+            )}
           </CardContent>
         </Card>
 
