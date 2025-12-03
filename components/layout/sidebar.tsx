@@ -1,19 +1,20 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck, X } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 import { getUser } from "@/hooks/getUser"
+import { callAPIWithEnc } from "@/lib/commonApi"
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1,2, 3, 4], color: "blue" },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1, 2, 3, 4], color: "blue" },
   { name: "Candidates", href: "/candidates", icon: Users, allowed: [1, 2, 3, 4], color: "emerald" },
-  { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1,2, 3], color: "cyan" },
-  { name: "Biometric Verification", href: "/biometric-verification", icon: ShieldCheck, allowed: [2,5], color: "amber" },
-  { name: "Document Verification", href: "/document-verification", icon: FileCheck, allowed: [2,6], color: "violet" },
-  { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, allowed: [2,4], color: "indigo" },
-  { name: "Interviews", href: "/interviews", icon: ClipboardList, allowed: [1,2,3], color: "violet" },
+  { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1, 2, 3], color: "cyan" },
+  { name: "Biometric Verification", href: "/biometric-verification", icon: ShieldCheck, allowed: [2, 5], color: "amber" },
+  { name: "Document Verification", href: "/document-verification", icon: FileCheck, allowed: [2, 6], color: "violet" },
+  { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, allowed: [2, 4], color: "indigo" },
+  { name: "Interviews", href: "/interviews", icon: ClipboardList, allowed: [1, 2, 3], color: "violet" },
   { name: "Reports", href: "/reports", icon: FileCheck, allowed: [1, 2], color: "indigo" },
   { name: "Settings", href: "/settings", icon: Settings, allowed: [1, 2], color: "slate" },
 ]
@@ -22,6 +23,7 @@ const navigation = [
 
 export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: boolean; onClose?: () => void }) {
   const [user, setUser] = useState<any>(null)
+  const [count, setCount] = useState<any>(null)
   const pathname = usePathname()
   const router = useRouter()
   const logout = () => {
@@ -37,6 +39,28 @@ export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: 
     })()
   }, [])
 
+  const getCount = async () => {
+    const response = await callAPIWithEnc(
+      "/admin/getVerficationCountByuserId",
+      "POST",
+      {
+        user_id: user?.user_id || 0,
+        user_type_id: user?.user_type_id || 0,
+      }
+    )
+    if (response?.status == 0) {
+      setCount(response.data)
+    } else {
+      setCount(null)
+    }
+
+  }
+
+  useEffect(() => {
+    if (user) {
+      getCount()
+    }
+  }, [user])
 
 
 
@@ -152,21 +176,21 @@ export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: 
           </nav>
 
           {/* Quick Stats */}
-          <div className="mx-4 mt-6 p-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-            <p className="text-xs font-semibold text-slate-600 mb-3">Today's Activity</p>
-            <div className="space-y-2">
-              {[
-                { label: "Active Panels", value: "12" },
-                { label: "Completed", value: "48" },
-                { label: "Pending", value: "23" },
-              ].map((stat) => (
-                <div key={stat.label} className="flex items-center justify-between">
-                  <span className="text-xs text-slate-600">{stat.label}</span>
-                  <span className="text-sm font-bold text-slate-900">{stat.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          {user && (user.user_type_id == 5 || user.user_type_id == 6) &&
+            (<div className="mx-4 mt-6 p-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+              <p className="text-xs font-semibold text-slate-600 mb-3">Today's Activity</p>
+              <div className="space-y-2">
+                {[
+                  { label: "Total verify", value: count?.total_verify_count ?? "-" },
+                  { label: "Total Not Verify", value: count?.Total_Not_Verify_Count ?? "-" },
+                ].map((stat) => (
+                  <div key={stat.label} className="flex items-center justify-between">
+                    <span className="text-xs text-slate-600">{stat.label}</span>
+                    <span className="text-sm font-bold text-slate-900">{stat.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>)}
         </div>
 
         {/* User Profile Section */}
