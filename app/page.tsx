@@ -233,8 +233,8 @@ export default function LoginPage() {
 
           {/* Left side - Hero content */}
           <div className="space-y-4 sm:space-y-8 hidden lg:block">
-            <div className="flex items-center gap-3">
-              <img src="https://placehold.co/40x40.svg?text=IS&bg=2563eb&text=ffffff" alt="Interview Suite" width={40} height={40} className="rounded-xl shadow-md" />
+            <div className="flex items-center gap-3"> 
+              <img src={"./Logo.PNG"} alt="Interview Suite" width={40} height={40} className="rounded-xl shadow-md" />
               <div>
                 <p className="text-xs font-semibold text-slate-500 tracking-wider">Interview Suite</p>
                 <p className="text-sm text-slate-600">Trusted. Secure. Seamless.</p>
