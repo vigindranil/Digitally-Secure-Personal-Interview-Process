@@ -39,6 +39,7 @@ export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: 
     })()
   }, [])
 
+  
   const getCount = async () => {
     const response = await callAPIWithEnc(
       "/admin/getVerficationCountByuserId",
