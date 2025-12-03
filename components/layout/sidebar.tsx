@@ -7,7 +7,7 @@ import Cookies from "js-cookie"
 import { getUser } from "@/hooks/getUser"
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1,2, 3, 4, 6], color: "blue" },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1,2, 3, 4], color: "blue" },
   { name: "Candidates", href: "/candidates", icon: Users, allowed: [1, 2, 3, 4], color: "emerald" },
   { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1,2, 3], color: "cyan" },
   { name: "Biometric Verification", href: "/biometric-verification", icon: ShieldCheck, allowed: [2,5], color: "amber" },
