@@ -205,6 +205,17 @@ export default function LoginPage() {
     }
   };
 
+  const handleMobileKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !otpSent && mobile.length > 0) {
+      handleSendOtp()
+    }
+  }
+
+  const handleOtpKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && otp.length === 6) {
+      handleLogin()
+    }
+  }
 
   return (
     <div className="relative min-h-screen w-screen overflow-hidden">
@@ -330,9 +341,11 @@ export default function LoginPage() {
                     type="tel"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
+                    onKeyDown={handleMobileKeyDown}
                     disabled={otpSent}
+                    maxLength={10}
                     className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-2xl border-2 border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 focus:outline-none bg-white text-sm sm:text-base text-slate-900 font-medium shadow-sm transition-colors"
-                    placeholder="98765 43210"
+                    placeholder="Enter 10-digit mobile number"
                   />
                 </div>
               </div>
@@ -362,6 +375,8 @@ export default function LoginPage() {
                           if (e.key === 'Backspace' && !otp[i] && i > 0) {
                             const prev = ((e.target as HTMLInputElement).parentElement?.children[i - 1] as HTMLInputElement)
                             prev?.focus()
+                          } else if (e.key === "Enter" && otp.length === 6) {
+                            handleOtpKeyDown(e as React.KeyboardEvent<HTMLInputElement>)
                           }
                         }}
                         className="w-10 h-10 sm:w-12 sm:h-12 text-center text-base sm:text-lg font-bold rounded-lg sm:rounded-xl border-2 border-slate-200 hover:border-sky-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 focus:outline-none bg-white shadow-sm transition-all duration-200 placeholder:text-slate-300"
