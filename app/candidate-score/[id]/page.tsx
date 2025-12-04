@@ -1,26 +1,27 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Slider } from "@/components/ui/slider"
 import { getUser } from "@/hooks/getUser";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { callAPIWithEnc } from "@/lib/commonApi";
-import { Slider } from "@radix-ui/react-slider";
-import { CloudCog } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
 type CurrentCandidate = {
     candidate_id: number
-    candidate_roll_no: string
-    interview_id: string
-    exam_name: string
-    post_name: string
     candidate_full_name: string
-    candidate_gender: string
-    candidate_dob: string
+    roll_number: string
+    category: string
+    date_of_birth: string
+    applied_for: string
+    email: string
+    phone: string
+    image_url?: string | null
+    verify_status?: number
 }
 
 
@@ -28,6 +29,7 @@ const CandidateScorePage = () => {
     const [currentCandidate, setCurrentCandidate] = useState<CurrentCandidate | null>(null)
     const [user, setUser] = useState<any>(null)
     const { toast } = useToast()
+    const [ctx, setCtx] = useState<any>(null)
     const [tech, setTech] = useState(8.5)
     const [comms, setComms] = useState(7)
     const [analytical, setAnalytical] = useState(9)
@@ -41,50 +43,56 @@ const CandidateScorePage = () => {
 
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const userData = await getUser()
-            setUser(userData)
-        }
-        fetchUser()
+        (async () => {
+            const u = await getUser()
+            setUser(u)
+            try {
+                const s = sessionStorage.getItem("candidateScoreContext")
+                if (s) setCtx(JSON.parse(s))
+            } catch {}
+            if (u) {
+                getCandidateInfo(u)
+            }
+        })()
     }, [])
 
 
 
     const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
-    const statusBadgeClass = (id?: number | null) => {
-        if (id === 42) return "bg-green-500/20 text-green-700 border-green-500/30"
-        if (id === 46) return "bg-rose-500/20 text-rose-700 border-rose-500/30"
-        return "bg-slate-100 text-slate-700 border-slate-200"
-    }
 
 
-    const updateCandidateVerifyStatus = async () => {
-        console.log("Updating candidate verify status for log in ID:", user?.user_id);
+
+    const getCandidateInfo = async (u: any) => {
         try {
             const response = await callAPIWithEnc(
-                "/admin/getCandidateInfoByID",
+                "/admin/getCandidateByInterviewer",
                 "POST",
                 {
                     candidate_id: Number(candidateId),
-                    // status_id: statusId,
-                    loginuser_id: user?.user_id || 0,
-                    // interview_id: interviewId
+                    loginuser_id: u?.user_id || 0,
                 }
             )
-
-            if (response?.status === 0) {
-                // console.log(response.data);
-
-                toast({ title: "Candidate Verified", description: "Marked as verified successfully." })
-                setCurrentCandidate(response?.data.candidate_id || null)
+            if (response?.status === 0 && response?.data) {
+                const d = response.data
+                setCurrentCandidate({
+                    candidate_id: Number(d.candidate_id ?? 0),
+                    candidate_full_name: String(d.candidate_name ?? ""),
+                    roll_number: String(d.roll_number ?? ""),
+                    category: String(d.category ?? ""),
+                    date_of_birth: String(d.date_of_birth ?? ""),
+                    applied_for: String(d.applied_for ?? ""),
+                    email: String(d.email ?? ""),
+                    phone: String(d.phone ?? ""),
+                    image_url: d.image_url ?? null,
+                    verify_status: Number(d.verify_status ?? 0),
+                })
             } else {
-                toast({ title: "Error", description: "Failed to update candidate status.", variant: "destructive" })
+                toast({ title: "Error", description: "Failed to load candidate info.", variant: "destructive" })
             }
         } catch (e: any) {
             toast({ title: "Error", description: e?.message || "Something went wrong.", variant: "destructive" })
         }
     }
-
 
     useEffect(() => {
         console.log("Current Candidate:", currentCandidate);
@@ -100,21 +108,21 @@ const CandidateScorePage = () => {
             }
 
             const payload = {
-                interview_id: Number(currentCandidate.interview_id || 0),
+                interview_id: Number(ctx?.interview_id || 0),
                 interviewer_user_id: Number(user?.user_id || 0),
-                schedule_id: Number(user?.schedule_id || 0),
+                schedule_id: Number(ctx?.schedule_id || user?.schedule_id || 0),
                 candidate_id: Number(currentCandidate.candidate_id || 0),
-                approval_id: 50,
+                approval_id: Number(ctx?.approval_id || 1),
                 remarks,
                 lstScore: [
-                    { categoryid: 1, score: tech.toFixed(1) },
-                    { categoryid: 2, score: comms.toFixed(1) },
-                    { categoryid: 3, score: analytical.toFixed(1) },
-                    { categoryid: 4, score: hr.toFixed(1) },
+                    { categoryid: 1, score: Number(tech) },
+                    { categoryid: 2, score: Number(comms) },
+                    { categoryid: 3, score: Number(analytical) },
+                    { categoryid: 4, score: Number(hr) },
                 ],
             }
 
-            const response = await callAPIWithEnc("/admin/updateInterviewerApproval", "POST", payload)
+            const response = await callAPIWithEnc("/admin/UpdateInterviewerApproval", "POST", payload)
             if (response?.status === 0) {
                 toast({ title: "Evaluation Submitted", description: "Interviewer approval saved successfully." })
             } else {
@@ -126,22 +134,44 @@ const CandidateScorePage = () => {
             setSubmitting(false)
         }
     }
-
-
-
-
-    useEffect(() => {
-        updateCandidateVerifyStatus()
-    }, [])
-
-
-
-
-    return (<div className="lg:col-span-3">
+    const mapStatusText = (id?: number | null) => {
+        if (id === 42) return "Verified"
+        if (id === 46) return "Not Approved"
+        return "Pending"
+    }
+    const getStatusColor = (id?: number | null) => {
+        if (id === 42) return "bg-green-50 text-green-700 border-green-200"
+        if (id === 46) return "bg-rose-50 text-rose-700 border-rose-200"
+        return "bg-amber-50 text-amber-700 border-amber-200"
+    }
+    return (<div className="mx-auto max-w-4xl w-full px-4">
         <Card className="border border-slate-200 shadow-xl rounded-xl overflow-hidden">
-            <CardHeader>
-                <CardTitle>Evaluation Form</CardTitle>
-                <CardDescription>Rate the candidate on the following criteria (1-10).</CardDescription>
+            <CardHeader className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-t-xl">
+                <div className="flex items-center justify-between">
+                    <CardTitle className="text-white">Candidate Score</CardTitle>
+                    {currentCandidate && (
+                        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border ${getStatusColor(currentCandidate.verify_status)}`}>
+                            {mapStatusText(currentCandidate.verify_status)}
+                        </div>
+                    )}
+                </div>
+                {currentCandidate && (
+                    <CardDescription className="text-indigo-50">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                            <div className="text-xs">
+                                <div className="font-semibold">{currentCandidate.candidate_full_name}</div>
+                                <div className="font-mono">{currentCandidate.roll_number}</div>
+                                <div className="text-indigo-100">{currentCandidate.category}</div>
+                            </div>
+                            <div className="text-xs">
+                                <div>DOB: {currentCandidate.date_of_birth}</div>
+                                <div>Applied For: {currentCandidate.applied_for}</div>
+                                <div>Email: {currentCandidate.email}</div>
+                                <div>Phone: {currentCandidate.phone}</div>
+                            </div>
+                        </div>
+                    </CardDescription>
+                )}
             </CardHeader>
             <CardContent className="space-y-8">
                 <div className="space-y-4">
@@ -199,5 +229,4 @@ const CandidateScorePage = () => {
     </div>)
         ;
 }
-
 export default CandidateScorePage
