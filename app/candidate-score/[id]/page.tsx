@@ -49,6 +49,11 @@ const CandidateScorePage = () => {
     }, [])
 
 
+    useEffect(() => {
+        console.log("get user:", user);
+    }, [user])
+
+
 
     const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
     const statusBadgeClass = (id?: number | null) => {
@@ -59,6 +64,7 @@ const CandidateScorePage = () => {
 
 
     const updateCandidateVerifyStatus = async () => {
+        console.log("user user", user);
         console.log("Updating candidate verify status for log in ID:", user?.user_id);
         try {
             const response = await callAPIWithEnc(
@@ -132,7 +138,7 @@ const CandidateScorePage = () => {
 
     useEffect(() => {
         updateCandidateVerifyStatus()
-    }, [])
+    }, [user])
 
 
 
