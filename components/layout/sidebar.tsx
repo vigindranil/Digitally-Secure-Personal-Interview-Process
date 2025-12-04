@@ -8,9 +8,9 @@ import { getUser } from "@/hooks/getUser"
 import { callAPIWithEnc } from "@/lib/commonApi"
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1, 2, 3, 4], color: "blue" },
-  { name: "Candidates", href: "/candidates", icon: Users, allowed: [1, 2, 3, 4], color: "emerald" },
-  { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1, 2, 3], color: "cyan" },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1, 2], color: "blue" },
+  { name: "Candidates", href: "/candidates", icon: Users, allowed: [1, 2], color: "emerald" },
+  { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1, 2], color: "cyan" },
   { name: "Biometric Verification", href: "/biometric-verification", icon: ShieldCheck, allowed: [2, 5], color: "amber" },
   { name: "Document Verification", href: "/document-verification", icon: FileCheck, allowed: [2, 6], color: "violet" },
   { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, allowed: [2, 4], color: "indigo" },
@@ -39,6 +39,7 @@ export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: 
     })()
   }, [])
 
+  
   const getCount = async () => {
     const response = await callAPIWithEnc(
       "/admin/getVerficationCountByuserId",
@@ -114,10 +115,10 @@ export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: 
   return (
     <>
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={onClose} />
+        <div className="fixed inset-0 z-[60] bg-slate-900/40 backdrop-blur-sm" onClick={onClose} />
       )}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-200 md:static md:translate-x-0 md:h-screen flex flex-col bg-white border-r border-slate-200 shadow-lg ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed inset-y-0 left-0 z-[70] w-80 transform transition-transform duration-200 flex flex-col bg-white border-r border-slate-200 shadow-2xl ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {/* Header */}
         <div className="flex h-20 items-center border-b border-slate-200 px-6 bg-gradient-to-r from-slate-50 to-white">
@@ -135,7 +136,7 @@ export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: 
           </div>
           <button
             onClick={onClose}
-            className="md:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600"
+            className="p-2 rounded-lg hover:bg-slate-100 text-slate-600"
             aria-label="Close sidebar"
           >
             <X className="h-5 w-5" />
