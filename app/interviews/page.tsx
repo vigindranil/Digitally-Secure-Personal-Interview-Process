@@ -139,14 +139,14 @@ export default function InterviewPage() {
         approval_id: verificationStatusId === 20 ? 1 : verificationStatusId === 46 ? 2 : 0,
         remarks,
         lstScore: [
-          { categoryid: 1, score: Number(tech) },
-          { categoryid: 2, score: Number(comms) },
-          { categoryid: 3, score: Number(analytical) },
-          { categoryid: 4, score: Number(hr) },
+          { categoryid: 1, score: tech.toFixed(1) },
+          { categoryid: 2, score: comms.toFixed(1) },
+          { categoryid: 3, score: analytical.toFixed(1) },
+          { categoryid: 4, score: hr.toFixed(1) },
         ],
       }
 
-      const response = await callAPIWithEnc("/admin/UpdateInterviewerApproval", "POST", payload)
+      const response = await callAPIWithEnc("/admin/updateInterviewerApproval", "POST", payload)
       if (response?.status === 0) {
         toast({ title: "Evaluation Submitted", description: "Interviewer approval saved successfully." })
       } else {
@@ -231,14 +231,14 @@ export default function InterviewPage() {
 
                 <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
                   <Button
-                    onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 20,currentCandidate.interview_id)}
+                    onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 20, currentCandidate.interview_id)}
                     className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-emerald-200"
                     aria-label="Verify candidate"
                   >
                     Verify Candidate
                   </Button>
                   <Button
-                    onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 46,currentCandidate.interview_id)}
+                    onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id)}
                     className="w-full sm:w-auto bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-rose-200"
                     aria-label="Mark not approved"
                   >
