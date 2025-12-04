@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { ShieldCheck, UserCheck, Users, Phone, Lock, Sparkles, ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -96,6 +96,14 @@ export default function LoginPage() {
     () => roleOptions.find((role) => role.id === selectedRole) ?? roleOptions[0],
     [selectedRole]
   )
+
+  const firstOtpInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (otpSent && firstOtpInputRef.current) {
+      firstOtpInputRef.current.focus()
+    }
+  }, [otpSent])
 
   // console.log("decryptAESGCM test:", decryptAESGCM("qrvM3e7/ABEiM0RVKhN6ZqhTFRSh5VqRPGq4Sw3vtmYnLYiaO11cTuhRDOzEYDci1fEEht5ohO8ghw=="))
   // console.log("decryptAESGCM test2:", decryptAESGCM("Ba4a6uMVGD743fHhdKAxipnTbq3lj3ZKOo7/zXG7sm8BAiDMfi3N3ExoYgO6RgpO+7I7+XpsaLvS8uO92i/ZB2KMucroExbMTTjWfF0nY5U1CVag3VnTxUEHvQSIFKznCQuHQO1A3JYqZpCc6HbnDK1k9Cf3E8S+H2gEehne6OcDGYoX//eABpHk8An1/Aorz7VRsUUo94H1fgCQij6d5Oco6UNCLFE5wE6fihli8xPJELNCsvsEOstXav4="))
@@ -233,7 +241,7 @@ export default function LoginPage() {
 
           {/* Left side - Hero content */}
           <div className="space-y-4 sm:space-y-8 hidden lg:block">
-            <div className="flex items-center gap-3"> 
+            <div className="flex items-center gap-3">
               <img src={"./Logo.PNG"} alt="Interview Suite" width={40} height={40} className="rounded-xl shadow-md" />
               <div>
                 <p className="text-xs font-semibold text-slate-500 tracking-wider">Interview Suite</p>
@@ -362,6 +370,7 @@ export default function LoginPage() {
                         inputMode="numeric"
                         maxLength={1}
                         value={otp[i] || ""}
+                        ref={i === 0 ? firstOtpInputRef : null}
                         onChange={(e) => {
                           const newOtp = otp.split("")
                           newOtp[i] = e.target.value
