@@ -254,7 +254,7 @@ export default function InterviewPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="lg:col-span-3">
+      {/* <div className="lg:col-span-3">
         <Card className="border border-slate-200 shadow-xl rounded-xl overflow-hidden">
           <CardHeader>
             <CardTitle>Evaluation Form</CardTitle>
@@ -313,7 +313,7 @@ export default function InterviewPage() {
             </div>
           </CardFooter>
         </Card>
-      </div>
+      </div> */}
     </div>
   )
 }
