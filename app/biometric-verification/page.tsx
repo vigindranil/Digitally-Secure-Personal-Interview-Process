@@ -5,7 +5,6 @@ import { CheckCircle2, XCircle, Search, Fingerprint, FileText, User, Calendar, M
 import { callAPIWithEnc } from "@/lib/commonApi"
 import { getUser } from "@/hooks/getUser"
 import { useToast } from "@/components/ui/use-toast"
-import { ToastProvider, ToastViewport, Toast } from "@/components/ui/toast"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import DataTable, { ColumnDef } from "@/components/DataTable"
 
@@ -128,26 +127,7 @@ export default function VerificationPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <ToastProvider>
-        {toasts.map(({ id, title, description, action, ...props }) => (
-          <Toast
-            key={id}
-            {...props}
-            className={`${props?.variant === "destructive" ? "border-rose-200" : "border-emerald-200"} bg-white shadow-xl rounded-xl`}
-          >
-            <div className={`flex items-start gap-3 p-4 rounded-lg ${props?.variant === "destructive" ? "bg-rose-50" : "bg-emerald-50"}`}>
-              <div className={`w-8 h-8 rounded-md flex items-center justify-center ${props?.variant === "destructive" ? "bg-rose-200 text-rose-700" : "bg-emerald-200 text-emerald-700"}`}>
-                {props?.variant === "destructive" ? <AlertCircle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
-              </div>
-              <div className="flex-1 min-w-0">
-                {title && <div className="text-sm font-semibold text-slate-900 truncate">{title}</div>}
-                {description && <div className="text-xs text-slate-700 mt-0.5">{description}</div>}
-              </div>
-            </div>
-          </Toast>
-        ))}
-        <ToastViewport className="sm:right-4 sm:bottom-4" />
-      </ToastProvider>
+      {/* Toasts are rendered globally via the app-wide Toaster */}
       <div className="mx-auto max-w-7xl px-8 py-6 space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">

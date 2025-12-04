@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import Sidebar from "@/components/layout/sidebar"
 import Header from "@/components/layout/header"
+import { Toaster } from "@/components/ui/toaster"
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -25,6 +26,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         <Header onToggleSidebar={() => setSidebarOpen((v) => !v)} />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
+      <Toaster />
     </div>
   )
 }

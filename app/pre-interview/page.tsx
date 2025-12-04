@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Calendar, CheckCircle2, AlertCircle, Users, Building2, User } from "lucide-react"
 import DataTable, { ColumnDef } from "@/components/DataTable"
 import { getUser } from "@/hooks/getUser"
@@ -45,7 +45,7 @@ export default function PreInterviewPage() {
                 if (!pollRef.current) {
                     pollRef.current = setInterval(async () => {
                         await fetchPreInterviewData(u, true)
-                    }, 30000)
+                    }, 10000)
                 }
             }
         })()
