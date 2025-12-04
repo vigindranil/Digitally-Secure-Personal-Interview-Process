@@ -40,7 +40,7 @@ const CandidateScorePage = () => {
     const [loading, setLoading] = useState(true)
     const [verificationStatusId, setVerificationStatusId] = useState<number | null>(null)
     const [tech, setTech] = useState(8.5)
-    const [comms, setComms] = useState(7)
+    const [comms, setComms] = useState(7) 
     const [analytical, setAnalytical] = useState(9)
     const [hr, setHr] = useState(8)
     const [remarks, setRemarks] = useState("")
