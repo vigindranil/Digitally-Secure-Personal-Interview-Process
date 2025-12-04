@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Calendar, CheckCircle2, AlertCircle, Users, Building2, User } from "lucide-react"
 import DataTable, { ColumnDef } from "@/components/DataTable"
 import { getUser } from "@/hooks/getUser"
@@ -32,20 +32,38 @@ export default function PreInterviewPage() {
     const [loading, setLoading] = useState(false)
     const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
     const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
+    const [refreshing, setRefreshing] = useState(false)
+    const [lastUpdated, setLastUpdated] = useState<number | null>(null)
+    const pollRef = useRef<any>(null)
 
     useEffect(() => {
         ; (async () => {
             const u = await getUser()
             setUser(u)
             if (u) {
-                await fetchPreInterviewData(u)
+                await fetchPreInterviewData(u, false)
+                if (!pollRef.current) {
+                    pollRef.current = setInterval(async () => {
+                        await fetchPreInterviewData(u, true)
+                    }, 30000)
+                }
             }
         })()
+        return () => {
+            if (pollRef.current) {
+                clearInterval(pollRef.current)
+                pollRef.current = null
+            }
+        }
     }, [])
 
-    const fetchPreInterviewData = async (u: any) => {
+    const fetchPreInterviewData = async (u: any, background: boolean) => {
         try {
-            setLoading(true)
+            if (background) {
+                setRefreshing(true)
+            } else {
+                setLoading(true)
+            }
             const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
                 user_id: u?.user_id || 0,
                 user_type_id: u?.user_type_id || 0,
@@ -53,12 +71,17 @@ export default function PreInterviewPage() {
             if (res?.status === 0 && res?.data) {
                 setAssignPanelCandidates(res.data.assignPanelCandidateList || [])
                 setQueueCandidates(res.data.queueCandidateList || [])
+                setLastUpdated(Date.now())
             } else {
                 setAssignPanelCandidates([])
                 setQueueCandidates([])
             }
         } finally {
-            setLoading(false)
+            if (background) {
+                setRefreshing(false)
+            } else {
+                setLoading(false)
+            }
         }
     }
 
@@ -105,7 +128,20 @@ export default function PreInterviewPage() {
                 <div className="space-y-3">
                     <h2 className="text-lg font-semibold text-gray-900">Assigned Panels</h2>
                     {loading ? (
-                        <div className="text-center py-12 text-blue-700 font-semibold">Loading...</div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {Array.from({ length: 3 }).map((_, i) => (
+                                <div key={i} className="bg-white rounded-2xl border border-gray-200 shadow-xl p-6">
+                                    <div className="h-6 w-24 rounded-full bg-slate-200 animate-pulse mb-4" />
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="h-6 w-40 rounded bg-slate-200 animate-pulse" />
+                                        <div className="h-6 w-28 rounded bg-slate-200 animate-pulse" />
+                                    </div>
+                                    <div className="h-4 w-48 rounded bg-slate-200 animate-pulse mb-4" />
+                                    <div className="h-4 w-36 rounded bg-slate-200 animate-pulse mb-4" />
+                                    <div className="h-4 w-44 rounded bg-slate-200 animate-pulse" />
+                                </div>
+                            ))}
+                        </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             {assignPanelCandidates.map((c, idx) => (
@@ -130,6 +166,9 @@ export default function PreInterviewPage() {
                                         <User className="h-4 w-4 text-gray-500" />
                                         <span>Interviewer: <span className="font-medium">{c.inter_viewer_name || "—"}</span></span>
                                     </div>
+                                    {refreshing && (
+                                        <div className="mt-4 text-xs text-slate-500">Updating…</div>
+                                    )}
                                 </div>
                             ))}
                             {assignPanelCandidates.length === 0 && (
@@ -143,6 +182,10 @@ export default function PreInterviewPage() {
                     <h2 className="text-2xl font-bold text-gray-900">Queue Candidates</h2>
                     <div className="bg-white rounded-2xl border border-gray-200 shadow-xl">
                         <div className="p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-sm text-slate-500">{lastUpdated ? `Updated ${Math.max(0, Math.floor((Date.now()-lastUpdated)/1000))}s ago` : "Not updated yet"}</div>
+                                {refreshing && <div className="text-xs px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">Refreshing…</div>}
+                            </div>
                             <DataTable<QueueCandidate> data={queueCandidates} columns={queueColumns} isLoading={loading} />
                         </div>
                     </div>
