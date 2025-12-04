@@ -40,7 +40,7 @@ export default function InterviewPage() {
 
   const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
   const statusBadgeClass = (id?: number | null) => {
-    if (id === 20) return "bg-green-500/20 text-green-700 border-green-500/30"
+    if (id === 42) return "bg-green-500/20 text-green-700 border-green-500/30"
     if (id === 46) return "bg-rose-500/20 text-rose-700 border-rose-500/30"
     return "bg-slate-100 text-slate-700 border-slate-200"
   }
@@ -54,6 +54,7 @@ export default function InterviewPage() {
       }
     })()
   }, [])
+
   const fetchCurrentCandidate = (u: any) => {
     (async () => {
       try {
@@ -107,14 +108,7 @@ export default function InterviewPage() {
       )
 
       if (response?.status === 0) {
-        setVerificationStatusId(statusId)
-        if (statusId === 42) {
-          toast({ title: "Candidate Verified", description: "Marked as verified successfully." })
-        } else if (statusId === 46) {
-          toast({ title: "Not Approved", description: "Candidate marked as not approved.", variant: "destructive" })
-        } else {
-          toast({ title: "Status Updated", description: "Candidate status updated." })
-        }
+        toast({ title: "Candidate Verified", description: "Marked as verified successfully." })
       } else {
         toast({ title: "Error", description: "Failed to update candidate status.", variant: "destructive" })
       }
@@ -136,7 +130,7 @@ export default function InterviewPage() {
         interviewer_user_id: Number(user?.user_id || 0),
         schedule_id: Number(user?.schedule_id || 0),
         candidate_id: Number(currentCandidate.candidate_id || 0),
-        approval_id: verificationStatusId === 20 ? 1 : verificationStatusId === 46 ? 2 : 0,
+        approval_id: 50,
         remarks,
         lstScore: [
           { categoryid: 1, score: tech.toFixed(1) },
@@ -230,20 +224,28 @@ export default function InterviewPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
-                  <Button
-                    onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 20, currentCandidate.interview_id)}
-                    className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-emerald-200"
-                    aria-label="Verify candidate"
-                  >
-                    Verify Candidate
-                  </Button>
-                  <Button
-                    onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id)}
-                    className="w-full sm:w-auto bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-rose-200"
-                    aria-label="Mark not approved"
-                  >
-                    Not Approved
-                  </Button>
+                  {verificationStatusId === 42 ? (
+                    <div className="w-full text-center px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
+                      Verification complete
+                    </div>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id)}
+                        className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-emerald-200"
+                        aria-label="Verify candidate"
+                      >
+                        Verify Candidate
+                      </Button>
+                      <Button
+                        onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id)}
+                        className="w-full sm:w-auto bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-rose-200"
+                        aria-label="Mark not approved"
+                      >
+                        Not Approved
+                      </Button>
+                    </>
+                  )}
                 </div>
               </>
             ) : (
