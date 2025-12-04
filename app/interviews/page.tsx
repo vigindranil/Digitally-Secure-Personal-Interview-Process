@@ -28,10 +28,6 @@ export default function InterviewPage() {
   const [user, setUser] = useState<any>(null)
   const [verificationStatusId, setVerificationStatusId] = useState<number | null>(null)
   const { toast } = useToast()
-
-
-
-
   const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
   const statusBadgeClass = (id?: number | null) => {
     if (id === 42) return "bg-green-500/20 text-green-700 border-green-500/30"
@@ -121,7 +117,6 @@ export default function InterviewPage() {
 
   return (
     <div className="mx-auto max-w-6xl w-full px-4 grid gap-6 lg:grid-cols-3">
-
       <div className="lg:col-span-3">
         <Card className="border border-slate-200 shadow-xl rounded-xl overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-t-xl">
@@ -191,9 +186,20 @@ export default function InterviewPage() {
 
                 <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
                   {verificationStatusId === 42 ? (
-                    <div className="w-full text-center px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
-                      Verification complete
-                    </div>
+                    <>
+                      <div className="w-full text-center px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
+                        Verification complete
+                      </div>
+                      <Button
+                        onClick={() => {
+                          router.push(`/candidate-score/${currentCandidate?.candidate_id}`)
+                        }}
+                        className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-violet-200"
+                        aria-label="Proceed to next"
+                      >
+                        Proceed to Next
+                      </Button>
+                    </>
                   ) : (
                     <>
                       <Button
