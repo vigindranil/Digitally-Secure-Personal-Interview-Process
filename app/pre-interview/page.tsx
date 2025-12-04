@@ -128,7 +128,7 @@ export default function PreInterviewPage() {
                 <div className="space-y-3">
                     <h2 className="text-lg font-semibold text-gray-900">Assigned Panels</h2>
                     {loading ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                             {Array.from({ length: 3 }).map((_, i) => (
                                 <div key={i} className="bg-white rounded-2xl border border-gray-200 shadow-xl p-6">
                                     <div className="h-6 w-24 rounded-full bg-slate-200 animate-pulse mb-4" />
@@ -143,7 +143,7 @@ export default function PreInterviewPage() {
                             ))}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                             {assignPanelCandidates.map((c, idx) => (
                                 <div key={idx} className="bg-white rounded-2xl border border-gray-200 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all p-6">
                                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 font-bold mb-4 border border-blue-200">
@@ -181,7 +181,7 @@ export default function PreInterviewPage() {
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-gray-900">Queue Candidates</h2>
                     <div className="bg-white rounded-2xl border border-gray-200 shadow-xl">
-                        <div className="p-6">
+                        <div className="p-6 overflow-x-auto">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="text-sm text-slate-500">{lastUpdated ? `Updated ${Math.max(0, Math.floor((Date.now()-lastUpdated)/1000))}s ago` : "Not updated yet"}</div>
                                 {refreshing && <div className="text-xs px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">Refreshing…</div>}

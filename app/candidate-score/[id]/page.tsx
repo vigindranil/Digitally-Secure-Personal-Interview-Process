@@ -267,7 +267,7 @@ const CandidateScorePage = () => {
                     <Textarea value={remarks} onChange={(e) => setRemarks(e.target.value)} placeholder="Enter detailed observations..." className="min-h-[100px]" />
                 </div>
             </CardContent>
-            <CardFooter className="flex justify-between border-t px-6 py-4">
+            <CardFooter className="flex justify-between border-t px-6 py-4 flex-wrap gap-3">
                 <div className="text-sm text-muted-foreground">
                     Total Score: <span className="font-bold text-foreground">{totalScore.toFixed(1)} / 40</span>
                 </div>
