@@ -60,18 +60,25 @@ export default function InterviewPage() {
     })()
   }, [])
 
-  const fetchCurrentCandidate = async (u: any) => {
-    try {
+  const fetchCurrentCandidate = (u: any) => {
+    const callAPI = async (statusId: number) => {
       const response = await callAPIWithEnc("/admin/getCandidateByInterviewer", "POST", {
         schedule_id: u?.schedule_id || 0,
-        status_id: 40,
+        status_id: statusId,
         user_id: u?.user_id || 0,
-      })
+      });
 
-      // Check if API responded successfully with status 0
-      if (response?.status === 0) {
-        const raw = response?.data
-        const d = Array.isArray(raw) ? raw[0] : raw
+      const raw = response?.status === 0 ? response?.data : response;
+      const d = Array.isArray(raw) ? raw[0] : raw;
+      return d;
+    };
+
+    (async () => {
+      try {
+        let d = await callAPI(40);
+        if (!d || !d.candidate_id) {
+          d = await callAPI(42);
+        }
 
         if (d && d.candidate_id) {
           setCurrentCandidate({
@@ -83,59 +90,22 @@ export default function InterviewPage() {
             candidate_full_name: String(d.candidate_full_name ?? ""),
             candidate_gender: String(d.candidate_gender ?? ""),
             candidate_dob: String(d.date_of_birth ?? d.candidate_dob ?? ""),
-          })
-          setVerificationStatusId(Number(d.verify_status ?? 0) || null)
-          setLoading(false)
-          return
-        }
-      }
+          });
 
-      // First API didn't return status 0 or no candidate found, try ongoing interviews
-      await fetchOngoingInterviews(u)
-    } catch (e) {
-      // Error in first API, try ongoing interviews
-      await fetchOngoingInterviews(u)
-    }
-  }
-
-  const fetchOngoingInterviews = async (u: any) => {
-    try {
-      const response = await callAPIWithEnc(
-        "/admin/getOnGoingInterviewCandidatedetailsByInterViewer",
-        "POST",
-        {
-          user_id: u?.user_id || 0,
-          status_id: "42",
-          user_type_id: u?.user_type_id || 3,
-        }
-      )
-
-      // Check if API responded successfully with status 0
-      if (response?.status === 0) {
-        const raw = response?.data
-        const candidates = Array.isArray(raw) ? raw : (raw ? [raw] : [])
-
-        if (candidates.length > 0) {
-          setOngoingCandidates(candidates)
-          setCurrentCandidate(null)
+          setVerificationStatusId(Number(d.verify_status ?? 0) || null);
         } else {
-          // Status is 0 but no candidates in data
-          setOngoingCandidates([])
-          setCurrentCandidate(null)
+          setCurrentCandidate(null);
         }
-      } else {
-        // API didn't return status 0
-        setOngoingCandidates([])
-        setCurrentCandidate(null)
+
+      } catch (e) {
+        console.log("Candidate fetch error: ", e);
+        setCurrentCandidate(null);
+      } finally {
+        setLoading(false);
       }
-    } catch (e) {
-      // Error in second API
-      setOngoingCandidates([])
-      setCurrentCandidate(null)
-    } finally {
-      setLoading(false)
-    }
-  }
+    })();
+  };
+
 
   const mapStatusText = (id?: number | null) => {
     if (id === 42) return "Verified"
