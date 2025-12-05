@@ -34,6 +34,7 @@ export default function PreInterviewPage() {
     const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
 
     const pollRef = useRef<any>(null)
+    console.log("PreInterviewPage render")
 
     useEffect(() => {
         ; (async () => {
