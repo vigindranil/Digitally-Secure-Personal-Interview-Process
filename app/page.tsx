@@ -8,21 +8,13 @@ import { decryptAESGCM, encryptAESGCM } from "@/lib/utils"
 import { generateOtpApi, validateOtpApi } from "./api"
 import { getUser } from "@/hooks/getUser"
 
-const DEMO_OTP = "123456"
 
-type RoleId =
-  | "systemAdministrator"
-  | "biometricVerifierExaminer"
-  | "documentVerifierExaminer"
-  | "preInterviewExaminer"
-  | "panelMember"
+type RoleId = number
 
 type RoleOption = {
   id: RoleId
   label: string
   description: string
-  phone: string
-  email: string
   accent: string
   icon: any
   meta: string
@@ -30,60 +22,59 @@ type RoleOption = {
 
 const roleOptions: RoleOption[] = [
   {
-    id: "systemAdministrator",
-    label: "System Admin",
+    id: 1,
+    label: "Super Admin",
     description: "Full control & workflow",
-    phone: "+91 98765 43210",
-    email: "systemadmin@system.com",
-    accent: "from-sky-500 to-cyan-500",
+    accent: "from-rose-600 to-red-400",
     icon: ShieldCheck,
     meta: "Full control",
   },
   {
-    id: "biometricVerifierExaminer",
-    label: "Biometric Verifier",
-    description: "Device status updates",
-    phone: "+91 91234 56780",
-    email: "biometric.verifier@system.com",
-    accent: "from-emerald-500 to-teal-500",
-    icon: UserCheck,
-    meta: "External",
+    id: 2,
+    label: "Webel Admin",
+    description: "Full control & workflow",
+    accent: "from-blue-700 to-indigo-400",
+    icon: ShieldCheck,
+    meta: "Full control",
   },
   {
-    id: "documentVerifierExaminer",
-    label: "Document Verifier",
-    description: "Manual scrutiny",
-    phone: "+91 92345 67810",
-    email: "document.verifier@system.com",
-    accent: "from-amber-500 to-orange-500",
-    icon: UserCheck,
-    meta: "Manual",
+    id: 3,
+    label: "Panel Member",
+    description: "Scoring & interviews",
+    accent: "from-fuchsia-600 to-violet-500",
+    icon: Users,
+    meta: "Interviews",
   },
   {
-    id: "preInterviewExaminer",
+    id: 4,
     label: "Pre-Interview",
     description: "Readiness checks",
-    phone: "+91 93456 78100",
-    email: "pre.interview@system.com",
-    accent: "from-indigo-500 to-purple-500",
+    accent: "from-green-600 to-lime-400",
     icon: ShieldCheck,
     meta: "Operations",
   },
   {
-    id: "panelMember",
-    label: "Panel Member",
-    description: "Scoring & interviews",
-    phone: "+91 99887 66550",
-    email: "panel.member@system.com",
-    accent: "from-purple-500 to-pink-500",
-    icon: Users,
-    meta: "Interviews",
+    id: 5,
+    label: "Biometric Verifier",
+    description: "Device status updates",
+    accent: "from-cyan-600 to-teal-400",
+    icon: UserCheck,
+    meta: "External",
   },
-]
+  {
+    id: 6,
+    label: "Document Verifier",
+    description: "Manual scrutiny",
+    accent: "from-amber-600 to-yellow-400",
+    icon: UserCheck,
+    meta: "Manual",
+  },
+];
+
 
 export default function LoginPage() {
   const router = useRouter()
-  const [selectedRole, setSelectedRole] = useState<RoleId>("systemAdministrator")
+  const [selectedRole, setSelectedRole] = useState<RoleId>(roleOptions[0].id as RoleId)
   const [mobile, setMobile] = useState("")
   const [otp, setOtp] = useState("")
   const [loading, setLoading] = useState(false)
@@ -93,7 +84,7 @@ export default function LoginPage() {
   const [verifying, setVerifying] = useState(false)
 
   const currentRole = useMemo(
-    () => roleOptions.find((role) => role.id === selectedRole) ?? roleOptions[0],
+    () => roleOptions.find((role) => role.id == selectedRole) ?? roleOptions[0],
     [selectedRole]
   )
 
@@ -104,16 +95,22 @@ export default function LoginPage() {
       firstOtpInputRef.current.focus()
     }
   }, [otpSent])
-
-  // console.log("decryptAESGCM test:", decryptAESGCM("qrvM3e7/ABEiM0RVKhN6ZqhTFRSh5VqRPGq4Sw3vtmYnLYiaO11cTuhRDOzEYDci1fEEht5ohO8ghw=="))
-  // console.log("decryptAESGCM test2:", decryptAESGCM("Ba4a6uMVGD743fHhdKAxipnTbq3lj3ZKOo7/zXG7sm8BAiDMfi3N3ExoYgO6RgpO+7I7+XpsaLvS8uO92i/ZB2KMucroExbMTTjWfF0nY5U1CVag3VnTxUEHvQSIFKznCQuHQO1A3JYqZpCc6HbnDK1k9Cf3E8S+H2gEehne6OcDGYoX//eABpHk8An1/Aorz7VRsUUo94H1fgCQij6d5Oco6UNCLFE5wE6fihli8xPJELNCsvsEOstXav4="))
-
   useEffect(() => {
     setMobile("")
     setOtp("")
     setOtpSent(false)
     setSecondsLeft(0)
     setStatus(null)
+  }, [])
+
+  useEffect(() => {
+    (async () => {
+      const profile = await getUser()
+      const code = Number(profile?.user_type_id || 0)
+      if (code && roleOptions.some((r) => r.id === code)) {
+        setSelectedRole(code as RoleId)
+      }
+    })()
   }, [])
 
   useEffect(() => {
@@ -124,25 +121,14 @@ export default function LoginPage() {
     return () => clearInterval(timer)
   }, [otpSent, secondsLeft])
 
-  const normalizeNumber = (value: string) => value.replace(/\D/g, "")
-
   const handleSendOtp = async () => {
 
-    // if (mobile.length != 10) {
-    //   setStatus({ tone: "error", message: "Enter a valid 10-digit mobile number" });
-    //   return;
-    // }
     try {
       setLoading(true);
 
-      //  Call backend API
       const response = await generateOtpApi(mobile);
 
       if (response.status === 0) {
-
-        // backend DOES NOT RETURN OTP ANYMORE
-        // so DON'T read response.data.user_otp
-
         setOtp("");
         setOtpSent(true);
         setSecondsLeft(45);
@@ -183,7 +169,7 @@ export default function LoginPage() {
       setVerifying(true)
 
       // 🔹 Validate OTP
-      const result = await validateOtpApi(mobile, otp);
+      const result = await validateOtpApi(mobile, otp, currentRole.id);
 
       if (result.status === 0) {
         setStatus({ tone: "success", message: "OTP verified successfully" });
@@ -392,7 +378,7 @@ export default function LoginPage() {
                       />
                     ))}
                   </div>
-                  <p className="text-xs text-slate-500 text-center mt-2">Demo OTP: <span className="font-mono font-bold text-sky-600">{DEMO_OTP}</span></p>
+                  {/* <p className="text-xs text-slate-500 text-center mt-2">Demo OTP: <span className="font-mono font-bold text-sky-600">{DEMO_OTP}</span></p> */}
                 </div>
               )}
 

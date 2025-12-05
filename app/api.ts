@@ -51,7 +51,7 @@ export const generateToken = async (mobile: string, otp: string) => {
   }
 };
 
-export const validateOtpApi = async (mobileNumber: string, otp: string) => {
+export const validateOtpApi = async (mobileNumber: string, otp: string,userTypeId:number) => {
   try {
     // Step 1 — Generate temporary token
     const tempTokenResponse = await generateToken(mobileNumber, otp);
@@ -62,7 +62,7 @@ export const validateOtpApi = async (mobileNumber: string, otp: string) => {
     }
 
     // Step 2 — Encrypt the payload
-    const encData = await encryptAESGCM({ mobile_number: mobileNumber, otp });
+    const encData = await encryptAESGCM({ mobile_number: mobileNumber, otp,user_type_id:userTypeId });
 
     const payload = JSON.stringify({ enc_data: encData });
 
