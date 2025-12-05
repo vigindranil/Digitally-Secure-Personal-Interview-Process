@@ -25,7 +25,7 @@ const roleOptions: RoleOption[] = [
     id: 1,
     label: "Super Admin",
     description: "Full control & workflow",
-    accent: "from-rose-600 to-red-400",
+    accent: "from-fuchsia-600 to-violet-500",
     icon: ShieldCheck,
     meta: "Full control",
   },
