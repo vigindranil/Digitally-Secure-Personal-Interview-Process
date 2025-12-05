@@ -22,7 +22,7 @@ export default function VerificationPage() {
   const [rejectTarget, setRejectTarget] = useState<any>(null)
   const [searchMode, setSearchMode] = useState<"roll" | "name">("roll")
 
-  
+
 
   useEffect(() => {
     (async () => {
@@ -54,15 +54,15 @@ export default function VerificationPage() {
         "POST",
         isName
           ? {
-              name: searchQuery,
-              user_id: user?.user_id || 0,
-              user_type_id: user?.user_type_id || 0,
-            }
+            name: searchQuery,
+            user_id: user?.user_id || 0,
+            user_type_id: user?.user_type_id || 0,
+          }
           : {
-              roll_number: searchQuery,
-              user_id: user?.user_id || 0,
-              user_type_id: user?.user_type_id || 0,
-            }
+            roll_number: searchQuery,
+            user_id: user?.user_id || 0,
+            user_type_id: user?.user_type_id || 0,
+          }
       )
       if (response?.status == 0) {
         const raw = response?.data
@@ -192,9 +192,9 @@ export default function VerificationPage() {
         {(
           <div className="space-y-6">
             <div className="bg-white rounded-lg border border-gray-200 p-4 overflow-x-auto">
-                <DataTable
-                  data={results}
-                  columns={[
+              <DataTable
+                data={results}
+                columns={[
                   { header: "Roll No", accessorKey: "rollNo" },
                   { header: "Name", accessorKey: "name" },
                   { header: "Category", accessorKey: "category" },
@@ -349,7 +349,7 @@ export default function VerificationPage() {
                                     <XCircle className="h-4 w-4" />
                                     Reject
                                   </button>
-                                  <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-orange-700 transition-colors">
+                                  <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 transition-colors">
                                     <CheckCircle2 className="h-4 w-4" />
                                     Verify
                                   </button>

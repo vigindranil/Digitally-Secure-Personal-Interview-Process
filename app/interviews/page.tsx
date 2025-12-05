@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
 import { getUser } from "@/hooks/getUser"
-import { User, Hash, CalendarDays, ClipboardList, GraduationCap, Clock } from "lucide-react"
+import { User, Hash, CalendarDays, ClipboardList, GraduationCap } from "lucide-react"
 import { callAPIWithEnc } from "@/lib/commonApi"
 
 type CurrentCandidate = {
@@ -21,29 +21,14 @@ type CurrentCandidate = {
   candidate_dob: string
 }
 
-type OngoingCandidate = {
-  candidate_id: number
-  candidate_roll: string
-  candidaten_name: string
-  candidate_verify_status: number
-  exam_date: string
-  exam_name: string
-  post: string
-  score: number | null
-  category: string | null
-}
-
 export default function InterviewPage() {
   const router = useRouter()
   const [currentCandidate, setCurrentCandidate] = useState<CurrentCandidate | null>(null)
-  const [ongoingCandidates, setOngoingCandidates] = useState<OngoingCandidate[]>([])
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<any>(null)
   const [verificationStatusId, setVerificationStatusId] = useState<number | null>(null)
   const { toast } = useToast()
-
   const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
-
   const statusBadgeClass = (id?: number | null) => {
     if (id === 42) return "bg-green-500/20 text-green-700 border-green-500/30"
     if (id === 46) return "bg-rose-500/20 text-rose-700 border-rose-500/30"
@@ -55,31 +40,21 @@ export default function InterviewPage() {
       const u = await getUser()
       setUser(u)
       if (u) {
-        await fetchCurrentCandidate(u)
+        fetchCurrentCandidate(u)
       }
     })()
   }, [])
 
   const fetchCurrentCandidate = (u: any) => {
-    const callAPI = async (statusId: number) => {
-      const response = await callAPIWithEnc("/admin/getCandidateByInterviewer", "POST", {
-        schedule_id: u?.schedule_id || 0,
-        status_id: statusId,
-        user_id: u?.user_id || 0,
-      });
-
-      const raw = response?.status === 0 ? response?.data : response;
-      const d = Array.isArray(raw) ? raw[0] : raw;
-      return d;
-    };
-
     (async () => {
       try {
-        let d = await callAPI(40);
-        if (!d || !d.candidate_id) {
-          d = await callAPI(42);
-        }
-
+        const response = await callAPIWithEnc("/admin/getCandidateByInterviewer", "POST", {
+          schedule_id: u?.schedule_id || 0,
+          status_id: 40,
+          user_id: u?.user_id || 0,
+        })
+        const raw = response?.status === 0 ? response?.data : response
+        const d = Array.isArray(raw) ? raw[0] : raw
         if (d && d.candidate_id) {
           setCurrentCandidate({
             candidate_id: Number(d.candidate_id ?? 0),
@@ -90,22 +65,18 @@ export default function InterviewPage() {
             candidate_full_name: String(d.candidate_full_name ?? ""),
             candidate_gender: String(d.candidate_gender ?? ""),
             candidate_dob: String(d.date_of_birth ?? d.candidate_dob ?? ""),
-          });
-
-          setVerificationStatusId(Number(d.verify_status ?? 0) || null);
+          })
+          setVerificationStatusId(Number(d.verify_status ?? 0) || null)
         } else {
-          setCurrentCandidate(null);
+          setCurrentCandidate(null)
         }
-
       } catch (e) {
-        console.log("Candidate fetch error: ", e);
-        setCurrentCandidate(null);
+        setCurrentCandidate(null)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    })();
-  };
-
+    })()
+  }
 
   const mapStatusText = (id?: number | null) => {
     if (id === 42) return "Verified"
@@ -143,27 +114,13 @@ export default function InterviewPage() {
     }
   }
 
-  const handleOngoingCandidateClick = (candidate: OngoingCandidate) => {
-    if (candidate.candidate_verify_status === 42) {
-      router.push(`/candidate-score/${candidate.candidate_id}`)
-    } else {
-      toast({
-        title: "Not Verified",
-        description: "This candidate needs to be verified first.",
-        variant: "destructive"
-      })
-    }
-  }
-
   return (
     <div className="mx-auto max-w-6xl w-full px-4 grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-3">
         <Card className="border border-slate-200 shadow-xl rounded-xl overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-t-xl">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-white">
-                {currentCandidate ? "Current Candidate" : "Ongoing Interviews"}
-              </CardTitle>
+              <CardTitle className="text-white">Current Candidate</CardTitle>
               {currentCandidate && (
                 <div className="flex items-center gap-2">
                   <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.exam_name}</Badge>
@@ -262,87 +219,8 @@ export default function InterviewPage() {
                   )}
                 </div>
               </>
-            ) : ongoingCandidates.length > 0 ? (
-              <div className="space-y-4">
-                {ongoingCandidates.map((candidate) => (
-                  <div key={candidate.candidate_id} className="space-y-6">
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="relative h-28 w-28 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg">
-                        {(candidate.candidaten_name || "U").charAt(0).toUpperCase()}
-                      </div>
-                      <div className="text-center space-y-1">
-                        <h3 className="text-xl font-bold text-slate-900">{candidate.candidaten_name || 'Unknown Candidate'}</h3>
-                        <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                          <Hash className="h-4 w-4" />
-                          {candidate.candidate_roll || 'N/A'}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                      <div className="flex items-center gap-3">
-                        <CalendarDays className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Exam Date</p>
-                          <p className="text-sm font-semibold text-slate-900">{candidate.exam_date || 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Clock className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Status</p>
-                          <Badge className={statusBadgeClass(candidate.candidate_verify_status)}>
-                            {mapStatusText(candidate.candidate_verify_status)}
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <GraduationCap className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Exam</p>
-                          <p className="text-sm font-semibold text-slate-900">{candidate.exam_name || 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <ClipboardList className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Post</p>
-                          <p className="text-sm font-semibold text-slate-900">{candidate.post || 'N/A'}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
-                      {candidate.candidate_verify_status === 42 ? (
-                        <>
-                          <div className="w-full text-center px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
-                            Verification complete
-                          </div>
-                          <Button
-                            onClick={() => router.push(`/candidate-score/${candidate.candidate_id}`)}
-                            className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-violet-200"
-                            aria-label="Proceed to next"
-                          >
-                            Proceed to Next
-                          </Button>
-                        </>
-                      ) : (
-                        <div className="w-full text-center px-4 py-2 rounded-md bg-amber-50 border border-amber-200 text-amber-700 font-semibold">
-                          Verification pending
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
             ) : (
-              <div className="text-center py-8">
-                <div className="mx-auto h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                  <ClipboardList className="h-8 w-8 text-slate-400" />
-                </div>
-                <p className="text-lg font-semibold text-slate-900 mb-2">No Candidate Found</p>
-                <p className="text-sm text-muted-foreground">There are no candidates assigned or ongoing interviews at the moment</p>
-              </div>
+              <div className="text-center text-sm text-muted-foreground">No candidate assigned</div>
             )}
           </CardContent>
         </Card>

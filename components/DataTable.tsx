@@ -88,7 +88,7 @@ const DataTable = <T extends Record<string, any>>({
 
     return (
         <>
-            <div className="overflow-hidden">
+            <div className="overflow-x-auto">
                 <table className="min-w-[1200px] w-full divide-y divide-blue-200">
                     <thead className="bg-gradient-to-r from-blue-50 to-green-50">
                         <tr>
