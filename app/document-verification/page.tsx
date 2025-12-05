@@ -236,7 +236,7 @@ export default function VerificationPage() {
                           <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
                             Reject
                           </button>
-                          <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20); }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-orange-600 hover:bg-orange-700">
+                          <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20); }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
                             Verify
                           </button>
                         </div>
@@ -349,7 +349,7 @@ export default function VerificationPage() {
                                     <XCircle className="h-4 w-4" />
                                     Reject
                                   </button>
-                                  <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 transition-colors">
+                                  <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
                                     <CheckCircle2 className="h-4 w-4" />
                                     Verify
                                   </button>

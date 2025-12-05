@@ -45,38 +45,52 @@ export default function InterviewPage() {
     })()
   }, [])
 
-  const fetchCurrentCandidate = (u: any) => {
-    (async () => {
-      try {
-        const response = await callAPIWithEnc("/admin/getCandidateByInterviewer", "POST", {
-          schedule_id: u?.schedule_id || 0,
-          status_id: 40,
-          user_id: u?.user_id || 0,
-        })
-        const raw = response?.status === 0 ? response?.data : response
-        const d = Array.isArray(raw) ? raw[0] : raw
-        if (d && d.candidate_id) {
-          setCurrentCandidate({
-            candidate_id: Number(d.candidate_id ?? 0),
-            candidate_roll_no: String(d.candidate_roll_no ?? d.roll_number ?? ""),
-            interview_id: String(d.interview_id ?? ""),
-            exam_name: String(d.exam_name ?? d.applied_for ?? ""),
-            post_name: String(d.post_name ?? d.applied_for ?? ""),
-            candidate_full_name: String(d.candidate_full_name ?? ""),
-            candidate_gender: String(d.candidate_gender ?? ""),
-            candidate_dob: String(d.date_of_birth ?? d.candidate_dob ?? ""),
-          })
-          setVerificationStatusId(Number(d.verify_status ?? 0) || null)
-        } else {
-          setCurrentCandidate(null)
-        }
-      } catch (e) {
-        setCurrentCandidate(null)
-      } finally {
-        setLoading(false)
+const fetchCurrentCandidate = (u: any) => {
+  const callAPI = async (statusId: number) => {
+    const response = await callAPIWithEnc("/admin/getCandidateByInterviewer", "POST", {
+      schedule_id: u?.schedule_id || 0,
+      status_id: statusId,
+      user_id: u?.user_id || 0,
+    });
+
+    const raw = response?.status === 0 ? response?.data : response;
+    const d = Array.isArray(raw) ? raw[0] : raw;
+    return d;
+  };
+
+  (async () => {
+    try {
+      let d = await callAPI(40); 
+      if (!d || !d.candidate_id) {
+        d = await callAPI(42);
       }
-    })()
-  }
+
+      if (d && d.candidate_id) {
+        setCurrentCandidate({
+          candidate_id: Number(d.candidate_id ?? 0),
+          candidate_roll_no: String(d.candidate_roll_no ?? d.roll_number ?? ""),
+          interview_id: String(d.interview_id ?? ""),
+          exam_name: String(d.exam_name ?? d.applied_for ?? ""),
+          post_name: String(d.post_name ?? d.applied_for ?? ""),
+          candidate_full_name: String(d.candidate_full_name ?? ""),
+          candidate_gender: String(d.candidate_gender ?? ""),
+          candidate_dob: String(d.date_of_birth ?? d.candidate_dob ?? ""),
+        });
+
+        setVerificationStatusId(Number(d.verify_status ?? 0) || null);
+      } else {
+        setCurrentCandidate(null);
+      }
+
+    } catch (e) {
+      console.log("Candidate fetch error: ", e);
+      setCurrentCandidate(null);
+    } finally {
+      setLoading(false);
+    }
+  })();
+};
+
 
   const mapStatusText = (id?: number | null) => {
     if (id === 42) return "Verified"
