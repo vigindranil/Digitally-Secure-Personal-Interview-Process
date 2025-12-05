@@ -32,7 +32,7 @@ export default function PreInterviewPage() {
     const [loading, setLoading] = useState(false)
     const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
     const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
-    
+
     const pollRef = useRef<any>(null)
 
     useEffect(() => {
@@ -145,7 +145,7 @@ export default function PreInterviewPage() {
                                         {c.room_number || "Room"}
                                     </div>
                                     <div className="flex items-center justify-between mb-3">
-                                        <h3 className="text-xl sm:text-2xl font-semibold text-gray-900">{c.candidaten_name || c.candidate_name || "Candidate"}</h3>
+                                        <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 px-1.5">{c.candidaten_name || c.candidate_name || "Candidate"}</h3>
                                         <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold border ${statusColor(c.interview_status)}`}>
                                             {c.interview_status === "Interview Complete" ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
                                             {c.interview_status}
