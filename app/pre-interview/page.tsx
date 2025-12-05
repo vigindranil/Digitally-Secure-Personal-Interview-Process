@@ -32,8 +32,7 @@ export default function PreInterviewPage() {
     const [loading, setLoading] = useState(false)
     const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
     const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
-    const [refreshing, setRefreshing] = useState(false)
-    const [lastUpdated, setLastUpdated] = useState<number | null>(null)
+    
     const pollRef = useRef<any>(null)
 
     useEffect(() => {
@@ -59,9 +58,7 @@ export default function PreInterviewPage() {
 
     const fetchPreInterviewData = async (u: any, background: boolean) => {
         try {
-            if (background) {
-                setRefreshing(true)
-            } else {
+            if (!background) {
                 setLoading(true)
             }
             const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
@@ -71,15 +68,12 @@ export default function PreInterviewPage() {
             if (res?.status === 0 && res?.data) {
                 setAssignPanelCandidates(res.data.assignPanelCandidateList || [])
                 setQueueCandidates(res.data.queueCandidateList || [])
-                setLastUpdated(Date.now())
             } else {
                 setAssignPanelCandidates([])
                 setQueueCandidates([])
             }
         } finally {
-            if (background) {
-                setRefreshing(false)
-            } else {
+            if (!background) {
                 setLoading(false)
             }
         }
@@ -166,9 +160,9 @@ export default function PreInterviewPage() {
                                         <User className="h-4 w-4 text-gray-500" />
                                         <span>Interviewer: <span className="font-medium">{c.inter_viewer_name || "—"}</span></span>
                                     </div>
-                                    {refreshing && (
+                                    {/* {refreshing && (
                                         <div className="mt-4 text-xs text-slate-500">Updating…</div>
-                                    )}
+                                    )} */}
                                 </div>
                             ))}
                             {assignPanelCandidates.length === 0 && (
@@ -182,10 +176,10 @@ export default function PreInterviewPage() {
                     <h2 className="text-2xl font-bold text-gray-900">Queue Candidates</h2>
                     <div className="bg-white rounded-2xl border border-gray-200 shadow-xl">
                         <div className="p-6 overflow-x-auto">
-                            <div className="flex items-center justify-between mb-4">
+                            {/* <div className="flex items-center justify-between mb-4">
                                 <div className="text-sm text-slate-500">{lastUpdated ? `Updated ${Math.max(0, Math.floor((Date.now()-lastUpdated)/1000))}s ago` : "Not updated yet"}</div>
                                 {refreshing && <div className="text-xs px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">Refreshing…</div>}
-                            </div>
+                            </div> */}
                             <DataTable<QueueCandidate> data={queueCandidates} columns={queueColumns} isLoading={loading} />
                         </div>
                     </div>
