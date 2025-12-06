@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
 import { getUser } from "@/hooks/getUser"
-import { User, Hash, CalendarDays, ClipboardList, GraduationCap } from "lucide-react"
+import { User, Hash, CalendarDays, ClipboardList, GraduationCap, Mail, Phone as PhoneIcon } from "lucide-react"
 import { callAPIWithEnc } from "@/lib/commonApi"
 
 type CurrentCandidate = {
@@ -19,6 +19,11 @@ type CurrentCandidate = {
   candidate_full_name: string
   candidate_gender: string
   candidate_dob: string
+  image_url?: string | null
+  email?: string
+  phone?: string
+  category?: string
+  roll_number?: string
 }
 
 export default function InterviewPage() {
@@ -30,8 +35,8 @@ export default function InterviewPage() {
   const { toast } = useToast()
   const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
   const statusBadgeClass = (id?: number | null) => {
-    if (id === 42) return "bg-green-500/20 text-green-700 border-green-500/30"
-    if (id === 46) return "bg-rose-500/20 text-rose-700 border-rose-500/30"
+    if (id === 42) return "bg-green-50 text-green-700 border-green-200"
+    if (id === 46) return "bg-rose-50 text-rose-700 border-rose-200"
     return "bg-slate-100 text-slate-700 border-slate-200"
   }
 
@@ -75,6 +80,11 @@ const fetchCurrentCandidate = (u: any) => {
           candidate_full_name: String(d.candidate_full_name ?? ""),
           candidate_gender: String(d.candidate_gender ?? ""),
           candidate_dob: String(d.date_of_birth ?? d.candidate_dob ?? ""),
+          image_url: d.image_url ?? null,
+          email: String(d.email ?? ""),
+          phone: String(d.phone ?? ""),
+          category: String(d.category ?? ""),
+          roll_number: String(d.roll_number ?? ""),
         });
 
         setVerificationStatusId(Number(d.verify_status ?? 0) || null);
@@ -130,14 +140,14 @@ const fetchCurrentCandidate = (u: any) => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl w-full px-4 grid gap-6 lg:grid-cols-3">
+    <div className="mx-auto max-w-4xl w-full px-4 grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-3">
         <Card className="border border-slate-200 shadow-xl rounded-xl overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-t-xl">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle className="text-white">Current Candidate</CardTitle>
               {currentCandidate && (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.exam_name}</Badge>
                   <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.post_name}</Badge>
                   <Badge className={statusBadgeClass(verificationStatusId)}>{mapStatusText(verificationStatusId)}</Badge>
@@ -154,54 +164,110 @@ const fetchCurrentCandidate = (u: any) => {
               </div>
             ) : currentCandidate ? (
               <>
-                <div className="flex flex-col items-center space-y-4">
-                  <div className="relative h-28 w-28 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg">
-                    {(currentCandidate.candidate_full_name || "").charAt(0).toUpperCase()}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col items-center md:items-start">
+                    <div className="relative group">
+                      <div className="w-40 h-40 rounded-2xl overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-slate-200 to-slate-300 ring-4 ring-blue-100">
+                        {currentCandidate.image_url ? (
+                          <img src={currentCandidate.image_url} alt={currentCandidate.candidate_full_name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-5xl font-bold text-white bg-gradient-to-br from-indigo-500 to-violet-600">
+                            {(currentCandidate.candidate_full_name || "").charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-center md:text-left mt-6 space-y-1">
+                      <h3 className="text-2xl font-bold text-slate-900">{currentCandidate.candidate_full_name}</h3>
+                      <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                        <Hash className="h-4 w-4" />
+                        {currentCandidate.candidate_roll_no}
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-center space-y-1">
-                    <h3 className="text-xl font-bold text-slate-900">{currentCandidate.candidate_full_name}</h3>
-                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                      <Hash className="h-4 w-4" />
-                      {currentCandidate.candidate_roll_no}
+
+                  <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <User className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Gender</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.candidate_gender}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <CalendarDays className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">DOB</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.candidate_dob}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <User className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Category</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.category}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <GraduationCap className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Exam</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.exam_name}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <ClipboardList className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Post</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.post_name}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <Mail className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Email</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <PhoneIcon className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Phone</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.phone}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
+                          <Hash className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Roll Number</p>
+                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.roll_number}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <div className="flex items-center gap-3">
-                    <User className="h-5 w-5 text-slate-500" />
-                    <div>
-                      <p className="text-xs text-muted-foreground">Gender</p>
-                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.candidate_gender}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CalendarDays className="h-5 w-5 text-slate-500" />
-                    <div>
-                      <p className="text-xs text-muted-foreground">DOB</p>
-                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.candidate_dob}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <GraduationCap className="h-5 w-5 text-slate-500" />
-                    <div>
-                      <p className="text-xs text-muted-foreground">Exam</p>
-                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.exam_name}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <ClipboardList className="h-5 w-5 text-slate-500" />
-                    <div>
-                      <p className="text-xs text-muted-foreground">Post</p>
-                      <p className="text-sm font-semibold text-slate-900">{currentCandidate.post_name}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 w-full">
                   {verificationStatusId === 42 ? (
                     <>
-                      <div className="w-full text-center px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
+                      <div className="px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
                         Verification complete
                       </div>
                       <Button
