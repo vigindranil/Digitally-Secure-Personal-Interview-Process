@@ -51,6 +51,12 @@ export const encryptAESGCM = async (data, ivHex = "aabbccddeeff001122334455") =>
 
 
 export const decryptAESGCM = async (base64CipherText) => {
+  // Guard against server-side execution during build
+  if (typeof window === 'undefined') {
+    console.warn("decryptAESGCM called during server-side rendering/build");
+    return null;
+  }
+
   try {
     if (!base64CipherText) return "";
     
@@ -76,7 +82,6 @@ export const decryptAESGCM = async (base64CipherText) => {
     
     if (bytes.length < 13) throw new Error("Ciphertext too short");
     
-    // Extract the IV from the first 12 bytes (matching Java's 12-byte IV)
     const iv = bytes.slice(0, 12);
     const encryptedData = bytes.slice(12);
      
@@ -99,6 +104,5 @@ export const decryptAESGCM = async (base64CipherText) => {
     throw new Error("GCM Decrypt Error: " + error.message);
   }
 };
-
 
 

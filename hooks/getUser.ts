@@ -2,6 +2,11 @@ import Cookies from "js-cookie";
 import { decryptAESGCM } from "@/lib/utils";
 
 export async function getUser() {
+  // Guard against server-side calls during build
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   try {
     const encData = Cookies.get("user_info");
     if (!encData) return null;
