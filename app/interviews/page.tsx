@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { getUser } from "@/hooks/getUser"
-import { User, Hash, CalendarDays, ClipboardList, GraduationCap, Clock } from "lucide-react"
+import { User, Hash, CalendarDays, ClipboardList, GraduationCap, Mail, Phone, CheckCircle2, XCircle, Clock, Sparkles } from "lucide-react"
 import { callAPIWithEnc } from "@/lib/commonApi"
 
 type CurrentCandidate = {
@@ -43,12 +43,10 @@ export default function InterviewPage() {
   const [verificationStatusId, setVerificationStatusId] = useState<number | null>(null)
   const { toast } = useToast()
 
-  const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
-
   const statusBadgeClass = (id?: number | null) => {
-    if (id === 42) return "bg-green-50 text-green-700 border-green-200"
-    if (id === 46) return "bg-rose-50 text-rose-700 border-rose-200"
-    return "bg-slate-100 text-slate-700 border-slate-200"
+    if (id === 42) return "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-0"
+    if (id === 46) return "bg-gradient-to-r from-rose-500 to-red-500 text-white border-0"
+    return "bg-gradient-to-r from-amber-400 to-orange-400 text-white border-0"
   }
 
   useEffect(() => {
@@ -76,7 +74,7 @@ export default function InterviewPage() {
 
     (async () => {
       try {
-        let d = await callAPI(40);
+        let d = await callAPI(40); 
         if (!d || !d.candidate_id) {
           d = await callAPI(42);
         }
@@ -91,6 +89,11 @@ export default function InterviewPage() {
             candidate_full_name: String(d.candidate_full_name ?? ""),
             candidate_gender: String(d.candidate_gender ?? ""),
             candidate_dob: String(d.date_of_birth ?? d.candidate_dob ?? ""),
+            image_url: d.image_url ?? null,
+            email: String(d.email ?? ""),
+            phone: String(d.phone ?? ""),
+            category: String(d.category ?? ""),
+            roll_number: String(d.roll_number ?? ""),
           });
 
           setVerificationStatusId(Number(d.verify_status ?? 0) || null);
@@ -107,11 +110,16 @@ export default function InterviewPage() {
     })();
   };
 
-
   const mapStatusText = (id?: number | null) => {
     if (id === 42) return "Verified"
     if (id === 46) return "Not Approved"
     return "Pending"
+  }
+
+  const StatusIcon = (id?: number | null) => {
+    if (id === 42) return <CheckCircle2 className="h-3 w-3" />
+    if (id === 46) return <XCircle className="h-3 w-3" />
+    return <Clock className="h-3 w-3" />
   }
 
   const updateCandidateVerifyStatus = async (candidateId: number, statusId: number, interviewId?: string) => {
@@ -157,248 +165,171 @@ export default function InterviewPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl w-full px-4 grid gap-6 lg:grid-cols-3">
-      <div className="lg:col-span-3">
-        <Card className="border border-slate-200 shadow-xl rounded-xl overflow-hidden">
-          <CardHeader className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-t-xl">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-white">
-                {currentCandidate ? "Current Candidate" : "Ongoing Interviews"}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-6 px-3 sm:px-4 md:px-6">
+      <div className="mx-auto max-w-7xl w-full">
+        {/* Compact Header */}
+        <div className="mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-2 sm:p-2.5 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg">
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                Candidate Verification
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-500">Review and verify candidate</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Compact Main Card */}
+        <Card className="border-0 shadow-xl rounded-2xl overflow-hidden bg-white/90 backdrop-blur-sm">
+          <CardHeader className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white py-5 px-4 sm:px-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <CardTitle className="text-white text-base sm:text-lg font-bold flex items-center gap-2">
+                <User className="h-4 w-4 sm:h-5 sm:w-5" />
+                Current Candidate
               </CardTitle>
               {currentCandidate && (
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.exam_name}</Badge>
-                  <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.post_name}</Badge>
-                  <Badge className={statusBadgeClass(verificationStatusId)}>{mapStatusText(verificationStatusId)}</Badge>
+                  <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 px-2 py-1 text-[10px] sm:text-xs">
+                    {currentCandidate.exam_name}
+                  </Badge>
+                  <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 px-2 py-1 text-[10px] sm:text-xs">
+                    {currentCandidate.post_name}
+                  </Badge>
+                  <Badge className={`${statusBadgeClass(verificationStatusId)} px-2 py-1 text-[10px] sm:text-xs flex items-center gap-1`}>
+                    {StatusIcon(verificationStatusId)}
+                    {mapStatusText(verificationStatusId)}
+                  </Badge>
                 </div>
               )}
             </div>
           </CardHeader>
-          <CardContent className="space-y-6 pt-6">
+
+          <CardContent className="p-4 sm:p-6 md:p-8">
             {loading ? (
-              <div className="flex flex-col items-center gap-4">
-                <div className="h-24 w-24 rounded-full bg-slate-200 animate-pulse" />
-                <div className="h-5 w-40 rounded bg-slate-200 animate-pulse" />
-                <div className="h-4 w-24 rounded bg-slate-200 animate-pulse" />
+              <div className="flex items-center gap-4 py-10 sm:py-12">
+                <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl bg-gradient-to-br from-indigo-200 to-purple-200 animate-pulse" />
+                <div className="space-y-2 flex-1">
+                  <div className="h-4 w-32 sm:w-40 rounded bg-slate-200 animate-pulse" />
+                  <div className="h-3 w-24 sm:w-32 rounded bg-slate-200 animate-pulse" />
+                </div>
               </div>
             ) : currentCandidate ? (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col items-center md:items-start">
+              <div className="space-y-5 sm:space-y-6">
+                {/* Compact Profile Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 sm:gap-6">
+                  {/* Photo and Name - Compact */}
+                  <div className="lg:col-span-1 flex flex-col items-center text-center space-y-3">
                     <div className="relative group">
-                      <div className="w-40 h-40 rounded-2xl overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-br from-slate-200 to-slate-300 ring-4 ring-blue-100">
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-30 transition"></div>
+                      <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden border-2 border-white shadow-lg bg-slate-100">
                         {currentCandidate.image_url ? (
-                          <img src={currentCandidate.image_url} alt={currentCandidate.candidate_full_name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                          <img 
+                            src={currentCandidate.image_url} 
+                            alt={currentCandidate.candidate_full_name} 
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" 
+                          />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-5xl font-bold text-white bg-gradient-to-br from-indigo-500 to-violet-600">
-                            {(currentCandidate.candidate_full_name || "").charAt(0).toUpperCase()}
+                          <div className="w-full h-full flex items-center justify-center bg-slate-100">
+                            <User className="h-14 w-14 sm:h-16 sm:w-16 text-slate-400" />
                           </div>
                         )}
                       </div>
                     </div>
-                    <div className="text-center md:text-left mt-6 space-y-1">
-                      <h3 className="text-2xl font-bold text-slate-900">{currentCandidate.candidate_full_name}</h3>
-                      <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                        <Hash className="h-4 w-4" />
-                        {currentCandidate.candidate_roll_no}
+                    
+                    <div className="space-y-1.5">
+                      <h3 className="text-base sm:text-lg font-bold text-slate-800 leading-tight">
+                        {currentCandidate.candidate_full_name}
+                      </h3>
+                      <div className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 border border-indigo-200">
+                        <Hash className="h-3 w-3 text-indigo-600" />
+                        <span className="text-xs font-semibold text-indigo-900">{currentCandidate.candidate_roll_no}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <User className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Gender</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.candidate_gender}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <CalendarDays className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">DOB</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.candidate_dob}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <User className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Category</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.category}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <GraduationCap className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Exam</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.exam_name}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <ClipboardList className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Post</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.post_name}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <Mail className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Email</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.email}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <PhoneIcon className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Phone</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.phone}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50">
-                          <Hash className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Roll Number</p>
-                          <p className="text-sm font-medium text-slate-800 break-words">{currentCandidate.roll_number}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 w-full">
-                  {verificationStatusId === 42 ? (
-                    <>
-                      <div className="px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
-                        Verification complete
-                      </div>
-                      <Button
-                        onClick={() => {
-                          router.push(`/candidate-score/${currentCandidate?.candidate_id}`)
-                        }}
-                        className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-violet-200"
-                        aria-label="Proceed to next"
-                      >
-                        Proceed to Next
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        onClick={() => { setConfirmAction('verify'); setConfirmOpen(true) }}
-                        className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-emerald-200"
-                        aria-label="Verify candidate"
-                      >
-                        Verify Candidate
-                      </Button>
-                      <Button
-                        onClick={() => { setConfirmAction('reject'); setConfirmOpen(true) }}
-                        className="w-full sm:w-auto bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-rose-200"
-                        aria-label="Mark not approved"
-                      >
-                        Not Approved
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </>
-            ) : ongoingCandidates.length > 0 ? (
-              <div className="space-y-4">
-                {ongoingCandidates.map((candidate) => (
-                  <div key={candidate.candidate_id} className="space-y-6">
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="relative h-28 w-28 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg">
-                        {(candidate.candidaten_name || "U").charAt(0).toUpperCase()}
-                      </div>
-                      <div className="text-center space-y-1">
-                        <h3 className="text-xl font-bold text-slate-900">{candidate.candidaten_name || 'Unknown Candidate'}</h3>
-                        <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                          <Hash className="h-4 w-4" />
-                          {candidate.candidate_roll || 'N/A'}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                      <div className="flex items-center gap-3">
-                        <CalendarDays className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Exam Date</p>
-                          <p className="text-sm font-semibold text-slate-900">{candidate.exam_date || 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Clock className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Status</p>
-                          <Badge className={statusBadgeClass(candidate.candidate_verify_status)}>
-                            {mapStatusText(candidate.candidate_verify_status)}
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <GraduationCap className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Exam</p>
-                          <p className="text-sm font-semibold text-slate-900">{candidate.exam_name || 'N/A'}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <ClipboardList className="h-5 w-5 text-slate-500" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">Post</p>
-                          <p className="text-sm font-semibold text-slate-900">{candidate.post || 'N/A'}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row sm:justify-end items-center gap-3">
-                      {candidate.candidate_verify_status === 42 ? (
-                        <>
-                          <div className="w-full text-center px-4 py-2 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
-                            Verification complete
+                  {/* Information Grid - Compact */}
+                  <div className="lg:col-span-3">
+                    <div className="bg-gradient-to-br from-slate-50 to-indigo-50 rounded-xl p-4 sm:p-5 border border-indigo-100">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                        {[
+                          { icon: User, label: "Gender", value: currentCandidate.candidate_gender, color: "blue" },
+                          { icon: CalendarDays, label: "DOB", value: currentCandidate.candidate_dob, color: "purple" },
+                          { icon: User, label: "Category", value: currentCandidate.category, color: "orange" },
+                          { icon: GraduationCap, label: "Exam", value: currentCandidate.exam_name, color: "green" },
+                          { icon: ClipboardList, label: "Post", value: currentCandidate.post_name, color: "indigo" },
+                          { icon: Mail, label: "Email", value: currentCandidate.email, color: "pink" },
+                          { icon: Phone, label: "Phone", value: currentCandidate.phone, color: "cyan" },
+                          { icon: Hash, label: "Roll No", value: currentCandidate.roll_number, color: "violet" },
+                        ].map((item, idx) => (
+                          <div key={idx} className="group bg-white rounded-lg p-2.5 sm:p-3 shadow-sm hover:shadow-md transition-all border border-slate-100 hover:border-indigo-200">
+                            <div className="flex items-start gap-2">
+                              <div className={`mt-0.5 p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-${item.color}-500 to-${item.color}-600 shadow-sm`}>
+                                <item.icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-white" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">{item.label}</p>
+                                <p className="text-xs sm:text-sm font-semibold text-slate-800 break-words leading-tight">
+                                  {item.value || "N/A"}
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                          <Button
-                            onClick={() => router.push(`/candidate-score/${candidate.candidate_id}`)}
-                            className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-violet-200"
-                            aria-label="Proceed to next"
-                          >
-                            Proceed to Next
-                          </Button>
-                        </>
-                      ) : (
-                        <div className="w-full text-center px-4 py-2 rounded-md bg-amber-50 border border-amber-200 text-amber-700 font-semibold">
-                          Verification pending
-                        </div>
-                      )}
+                        ))}
+                      </div>
                     </div>
                   </div>
-                ))}
+                </div>
+
+                {/* Compact Action Buttons */}
+                <div className="pt-4 sm:pt-5 border-t border-slate-200">
+                  <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2 sm:gap-3">
+                    {verificationStatusId === 42 ? (
+                      <>
+                        <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-emerald-50 border border-emerald-200">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                          <span className="font-semibold text-emerald-700 text-xs sm:text-sm">Verified</span>
+                        </div>
+                        <Button
+                          onClick={() => router.push(`/candidate-score/${currentCandidate?.candidate_id}`)}
+                          size="sm"
+                          className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg"
+                        >
+                          Proceed to Scoring →
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id)}
+                          size="sm"
+                          className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
+                        >
+                          <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                          Verify
+                        </Button>
+                        <Button
+                          onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id)}
+                          size="sm"
+                          className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
+                        >
+                          <XCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                          Not Approved
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             ) : (
-              <div className="text-center py-8">
-                <div className="mx-auto h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                  <ClipboardList className="h-8 w-8 text-slate-400" />
+              <div className="text-center py-16 sm:py-20">
+                <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-slate-100 mb-4">
+                  <User className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
                 </div>
-                <p className="text-lg font-semibold text-slate-900 mb-2">No Candidate Found</p>
-                <p className="text-sm text-muted-foreground">There are no candidates assigned or ongoing interviews at the moment</p>
+                <h3 className="text-base sm:text-lg font-bold text-slate-700 mb-2">No Candidate</h3>
+                <p className="text-xs sm:text-sm text-slate-500">Waiting for assignment...</p>
               </div>
             )}
           </CardContent>

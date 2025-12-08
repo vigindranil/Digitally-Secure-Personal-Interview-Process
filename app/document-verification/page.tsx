@@ -33,7 +33,7 @@ export default function VerificationPage() {
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [confirmTarget, setConfirmTarget] = useState<any>(null)
 
-  
+
 
   useEffect(() => {
     (async () => {
@@ -65,15 +65,15 @@ export default function VerificationPage() {
         "POST",
         isName
           ? {
-              name: searchQuery,
-              user_id: user?.user_id || 0,
-              user_type_id: user?.user_type_id || 0,
-            }
+            name: searchQuery,
+            user_id: user?.user_id || 0,
+            user_type_id: user?.user_type_id || 0,
+          }
           : {
-              roll_number: searchQuery,
-              user_id: user?.user_id || 0,
-              user_type_id: user?.user_type_id || 0,
-            }
+            roll_number: searchQuery,
+            user_id: user?.user_id || 0,
+            user_type_id: user?.user_type_id || 0,
+          }
       )
       if (response?.status == 0) {
         const raw = response?.data
@@ -206,9 +206,9 @@ export default function VerificationPage() {
         {(
           <div className="space-y-6">
             <div className="bg-white rounded-lg border border-gray-200 p-4 overflow-x-auto">
-                <DataTable
-                  data={results}
-                  columns={[
+              <DataTable
+                data={results}
+                columns={[
                   { header: "Roll No", accessorKey: "rollNo" },
                   { header: "Name", accessorKey: "name" },
                   { header: "Category", accessorKey: "category" },

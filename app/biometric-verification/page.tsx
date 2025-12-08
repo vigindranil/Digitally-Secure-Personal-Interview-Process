@@ -40,8 +40,6 @@ export default function VerificationPage() {
     })()
   }, [])
 
-
-
   const mapStatus = (id?: number) => {
     if (id == 10) return "Verified"
     if (id == 15) return "Not Verified"
@@ -121,6 +119,9 @@ export default function VerificationPage() {
         if (statusId === 10) {
           toast({ title: "Biometric Verified", description: "Candidate biometric marked as verified." })
         }
+
+        // Dispatch custom event to trigger sidebar count refresh
+        window.dispatchEvent(new CustomEvent('verification-status-updated'))
       }
       else {
         toast({ title: "Error", description: "Failed to update candidate status.", variant: "destructive" })
@@ -130,6 +131,7 @@ export default function VerificationPage() {
       toast({ title: "Error", description: "Failed to update candidate status.", variant: "destructive" })
     }
   }
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Verified":
@@ -144,14 +146,14 @@ export default function VerificationPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Toasts are rendered globally via the app-wide Toaster */}
-      <div className="mx-auto max-w-7xl px-8 py-6 space-y-8">
+      <div className="mx-auto max-w-5xl px-4 py-5 space-y-5">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-semibold text-gray-900">Biometric Verification</h1>
-            <p className="text-gray-600 mt-1 text-sm">Verify candidate identity via biometric checks</p>
+            <h1 className="text-2xl font-semibold text-gray-900">Verification Station</h1>
+            <p className="text-gray-600 mt-1 text-sm">Process biometric verification for candidates</p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-green-50 border border-green-200">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-green-50 border border-green-200">
             <div className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -161,88 +163,81 @@ export default function VerificationPage() {
         </div>
 
         {/* Search Section */}
-        <div className="bg-white rounded-lg border border-gray-200 p-5">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <div className="w-full sm:w-56">
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-3">
               <select
                 value={searchMode}
                 onChange={(e) => setSearchMode(e.target.value as any)}
-                className="w-full h-10 rounded-md border border-gray-300 bg-white text-gray-900 text-sm px-3"
+                className="w-56 h-11 rounded-md border border-gray-300 bg-white text-gray-900 text-sm px-3"
               >
                 <option value="roll">Search by Roll Number</option>
                 <option value="name">Search by Name</option>
               </select>
             </div>
-            <div className="relative flex-1 w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                placeholder="Scan barcode or enter roll number / name..."
-                className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none bg-white text-gray-900 placeholder:text-gray-500 text-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              />
+            <div className="flex gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  placeholder="Scan barcode or enter roll number / name..."
+                  className="w-full h-11 pl-11 pr-4 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white text-gray-900 placeholder:text-gray-500 text-sm"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                />
+              </div>
+              <button
+                onClick={handleSearch}
+                disabled={isSearching}
+                className="px-6 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-w-[120px]"
+              >
+                {isSearching ? "Searching..." : "Search"}
+              </button>
             </div>
-            <button
-              onClick={handleSearch}
-              disabled={isSearching}
-              className="w-full sm:w-auto px-5 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSearching ? "Searching..." : "Search"}
-            </button>
           </div>
         </div>
 
         {(
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg border border-gray-200 p-4 overflow-x-auto">
+          <div className="space-y-5">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
               <DataTable
                 data={results}
                 columns={[
-                  { header: "Roll No", accessorKey: "rollNo" },
-                  { header: "Name", accessorKey: "name" },
-                  { header: "Category", accessorKey: "category" },
-                  { header: "Applied For", accessorKey: "appliedFor" },
-                  // { header: "Email", accessorKey: "email" },
-                  { header: "Phone", accessorKey: "phone" },
                   {
-                    header: "Status",
-                    accessorFn: (row: any) => (
-                      <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.biometricStatus)}`}>
-                        {row.biometricStatus === "Verified" && <CheckCircle2 className="h-3 w-3" />}
-                        {row.biometricStatus === "Not Verified" && <AlertCircle className="h-3 w-3" />}
-                        {row.biometricStatus === "Pending" && <AlertCircle className="h-3 w-3" />}
-                        {row.biometricStatus}
-                      </div>
-                    ),
+                    header: "Roll No",
+                    accessorKey: "rollNo",
+                  },
+                  {
+                    header: "Name",
+                    accessorKey: "name",
+                  },
+                  {
+                    header: "Applied For",
+                    accessorKey: "appliedFor",
                   },
                   {
                     header: "Actions",
                     accessorFn: (row: any) => (
                       row.biometricVerifyStatusId === 10 ? (
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-green-50 border-green-200 text-green-700">
-                          <CheckCircle2 className="h-3 w-3" />
-                          Verification Completed
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium border bg-green-50 border-green-200 text-green-700">
+                          <CheckCircle2 className="h-4 w-4" />
+                          Completed
                         </div>
                       ) : (
-                        !user?.schedule_id ? (
-                          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-amber-50 border-amber-200 text-amber-700">
-                            No schedule assigned
-                          </div>
-                        ) : isToday(row.examDate) ? (
-                          <div className="flex items-center gap-2">
-                            <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
-                              Not Verify
-                            </button>
-                            <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
-                              Verify
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-amber-50 border-amber-200 text-amber-700">
-                            Exam on {row.examDate || "—"}
-                          </div>
-                        )
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => { setRejectTarget(row); setRemarksOpen(true) }}
+                            className="px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200"
+                          >
+                            Not Verify
+                          </button>
+                          <button
+                            onClick={() => updateCandidateVerifyStatus(row.id, 10)}
+                            className="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700"
+                          >
+                            Verify
+                          </button>
+                        </div>
                       )
                     ),
                   },
@@ -250,7 +245,7 @@ export default function VerificationPage() {
                 isLoading={isSearching}
                 isExpandable
                 renderExpandedRow={(row: any) => (
-                  <div className="grid gap-6 lg:grid-cols-3">
+                  <div className="grid gap-5 lg:grid-cols-3 p-4 bg-gray-50">
                     <div className="lg:col-span-1">
                       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div className="h-20 bg-blue-600"></div>
@@ -302,7 +297,7 @@ export default function VerificationPage() {
                         </div>
                       </div>
                     </div>
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-2 space-y-5">
                       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div className="border-b border-gray-200 bg-green-50 px-5 py-4">
                           <div className="flex items-center gap-3">
@@ -323,31 +318,36 @@ export default function VerificationPage() {
                               </div>
                               <div>
                                 <div className="font-medium text-gray-900 mb-1 text-sm">Current Status</div>
-                                <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.biometricStatus)}`}>
-                                  {row.biometricStatus === "Verified" && <CheckCircle2 className="h-3 w-3" />}
-                                  {row.biometricStatus === "Not Verified" && <AlertCircle className="h-3 w-3" />}
+                                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-sm font-medium border ${getStatusColor(row.biometricStatus)}`}>
+                                  {row.biometricStatus === "Verified" && <CheckCircle2 className="h-4 w-4" />}
+                                  {row.biometricStatus === "Not Verified" && <AlertCircle className="h-4 w-4" />}
                                   {row.biometricStatus}
                                 </div>
                               </div>
                             </div>
                             <div className="flex gap-2">
                               {row.biometricVerifyStatusId === 10 ? (
-                                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-green-50 border-green-200 text-green-700">
+                                <div className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium border bg-green-50 border-green-200 text-green-700">
                                   <CheckCircle2 className="h-4 w-4" />
                                   Verification Completed
                                 </div>
                               ) : (
-                                // <>
-                                //   <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors">
-                                //     <XCircle className="h-4 w-4" />
-                                //     Not Verify
-                                //   </button>
-                                //   <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
-                                //     <CheckCircle2 className="h-4 w-4" />
-                                //     Verify
-                                //   </button>
-                                // </>
-                                null
+                                <>
+                                  <button
+                                    onClick={() => { setRejectTarget(row); setRemarksOpen(true) }}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors"
+                                  >
+                                    <XCircle className="h-4 w-4" />
+                                    Not Verify
+                                  </button>
+                                  <button
+                                    onClick={() => updateCandidateVerifyStatus(row.id, 10)}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors"
+                                  >
+                                    <CheckCircle2 className="h-4 w-4" />
+                                    Verify
+                                  </button>
+                                </>
                               )}
                             </div>
                           </div>
@@ -362,29 +362,39 @@ export default function VerificationPage() {
         )}
       </div>
       <Dialog open={remarksOpen} onOpenChange={setRemarksOpen}>
-        <DialogContent className="bg-white">
+        <DialogContent className="bg-white sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Not Verify Remarks</DialogTitle>
+            <DialogTitle className="text-lg">Not Verify Remarks</DialogTitle>
           </DialogHeader>
-          <div className="space-y-3">
-            <textarea value={remarks} onChange={(e) => setRemarks(e.target.value)} className="w-full h-28 rounded-md border border-slate-200 p-3 text-sm bg-white" placeholder="Type remarks" />
-            <div className="flex justify-end gap-2">
-              <button onClick={() => { setRemarksOpen(false); setRejectTarget(null) }} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">Cancel</button>
-              <button disabled={submittingRemarks || !remarks.trim()} onClick={async () => { if (!rejectTarget) return; setSubmittingRemarks(true); await updateCandidateVerifyStatus(rejectTarget.id, 15, remarks.trim()); setSubmittingRemarks(false); setRemarksOpen(false); setRemarks(""); setRejectTarget(null) }} className="px-4 py-2 rounded-md bg-rose-600 text-white disabled:opacity-50">Submit Not Verify</button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <DialogContent className="bg-white">
-          <DialogHeader>
-            <DialogTitle>Verify Candidate</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-3">
-            <p className="text-sm text-slate-600">Do you want to verify this candidate?</p>
-            <div className="flex justify-end gap-2">
-              <button onClick={() => { setConfirmOpen(false); setRejectTarget(confirmTarget); setRemarksOpen(true) }} className="px-4 py-2 rounded-md bg-rose-50 text-rose-700 border border-rose-200">No, Not Verify</button>
-              <button onClick={async () => { if (!confirmTarget) return; await updateCandidateVerifyStatus(confirmTarget.id, 10); setConfirmOpen(false); setConfirmTarget(null) }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes, Verify</button>
+          <div className="space-y-4">
+            <textarea
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+              className="w-full h-32 rounded-md border border-slate-200 p-3 text-sm bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              placeholder="Type remarks here..."
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => { setRemarksOpen(false); setRejectTarget(null); setRemarks("") }}
+                className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700 text-sm font-medium hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={submittingRemarks || !remarks.trim()}
+                onClick={async () => {
+                  if (!rejectTarget) return;
+                  setSubmittingRemarks(true);
+                  await updateCandidateVerifyStatus(rejectTarget.id, 15, remarks.trim());
+                  setSubmittingRemarks(false);
+                  setRemarksOpen(false);
+                  setRemarks("");
+                  setRejectTarget(null)
+                }}
+                className="px-4 py-2 rounded-md bg-rose-600 text-white text-sm font-medium hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed min-w-[140px]"
+              >
+                {submittingRemarks ? "Submitting..." : "Submit Not Verify"}
+              </button>
             </div>
           </div>
         </DialogContent>
