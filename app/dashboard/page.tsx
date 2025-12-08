@@ -1,19 +1,19 @@
+// export const dynamic = 'force-dynamic';
 "use client"
-import { decryptAESGCM } from "@/lib/utils"
+
 import { Users, ShieldCheck, ClipboardList, Activity, TrendingUp, Clock, CheckCircle2, AlertCircle } from "lucide-react"
 
 
 const stats = {
-  totalCandidates: 2847,
-  biometricVerified: 2234,
-  documentVerified: 2156,
-  interviewsCompleted: 1893,
-  panelsActive: 12
+  totalCandidates: 0,
+  biometricVerified: 0,
+  documentVerified: 0,
+  interviewsCompleted: 0,
+  panelsActive: 0
 }
 
 export default function Dashboard() {
   console.log("Dashboard rendered")
-  console.log(decryptAESGCM("P4JfYm8neG13vxXeU7tmTgKobAXjTmqgl3zMJDm6yigIuG8/UQjnkfwKw6HGS5k9EYGRofE7pYIbB2JGheyu1+fVo+AXBlkCSMvUaddUPFrA3l7u2vKrPFykqsh4ojmXySbqdNbkGUf48Y9ibmuw0ePM1pmOR/9fupnRGmLePehb0JcWiSJU6mVGvjlRdRrW7/v2IsDyyt8irlrv8xnA/rqt8gaL5UK0JV+fSkLeVuhwK5kJ9yNl+LS4Lrc="))
   return (
     <div className="min-h-screen p-6 relative">
       <div className="absolute inset-0 -z-10">
