@@ -217,4 +217,4 @@ export default function CandidateCard({ candidate }: { candidate: Candidate }) {
       </div>
     </div>
   )
-}
+} 

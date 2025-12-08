@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { getUser } from "@/hooks/getUser"
 import { User, Hash, CalendarDays, ClipboardList, GraduationCap, Mail, Phone as PhoneIcon } from "lucide-react"
 import { callAPIWithEnc } from "@/lib/commonApi"
@@ -33,6 +34,8 @@ export default function InterviewPage() {
   const [user, setUser] = useState<any>(null)
   const [verificationStatusId, setVerificationStatusId] = useState<number | null>(null)
   const { toast } = useToast()
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [confirmAction, setConfirmAction] = useState<'verify' | 'reject' | null>(null)
   const scoreBadge = (s: number) => (s >= 7 ? "bg-emerald-100 text-emerald-700" : s >= 4 ? "bg-amber-100 text-amber-700" : "bg-rose-100 text-rose-700")
   const statusBadgeClass = (id?: number | null) => {
     if (id === 42) return "bg-green-50 text-green-700 border-green-200"
@@ -283,14 +286,14 @@ const fetchCurrentCandidate = (u: any) => {
                   ) : (
                     <>
                       <Button
-                        onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id)}
+                        onClick={() => { setConfirmAction('verify'); setConfirmOpen(true) }}
                         className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-emerald-200"
                         aria-label="Verify candidate"
                       >
                         Verify Candidate
                       </Button>
                       <Button
-                        onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id)}
+                        onClick={() => { setConfirmAction('reject'); setConfirmOpen(true) }}
                         className="w-full sm:w-auto bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-rose-200"
                         aria-label="Mark not approved"
                       >
@@ -306,6 +309,20 @@ const fetchCurrentCandidate = (u: any) => {
           </CardContent>
         </Card>
       </div>
+    <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+      <DialogContent className="bg-white">
+        <DialogHeader>
+          <DialogTitle>{confirmAction === 'verify' ? 'Approve Candidate' : 'Not Approve Candidate'}</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-3">
+          <p className="text-sm text-slate-600">{confirmAction === 'verify' ? 'Do you want to approve this candidate?' : 'Do you want to mark this candidate as not approved?'}</p>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => { setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">No</button>
+            <button onClick={async () => { if (!currentCandidate || !confirmAction) return; if (confirmAction === 'verify') { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id) } else { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id) } setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes</button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
     </div>
   )
 }

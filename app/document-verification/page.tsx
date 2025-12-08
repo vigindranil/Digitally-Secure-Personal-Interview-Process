@@ -21,6 +21,8 @@ export default function VerificationPage() {
   const [submittingRemarks, setSubmittingRemarks] = useState(false)
   const [rejectTarget, setRejectTarget] = useState<any>(null)
   const [searchMode, setSearchMode] = useState<"roll" | "name">("roll")
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [confirmTarget, setConfirmTarget] = useState<any>(null)
 
   
 
@@ -142,8 +144,8 @@ export default function VerificationPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-semibold text-gray-900">Verification Station</h1>
-            <p className="text-gray-600 mt-1 text-sm">Process biometric and document verification for candidates</p>
+            <h1 className="text-3xl font-semibold text-gray-900">Document Verification</h1>
+            <p className="text-gray-600 mt-1 text-sm">Check and verify original documents for eligibility</p>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-green-50 border border-green-200">
             <div className="relative flex h-2 w-2">
@@ -234,7 +236,7 @@ export default function VerificationPage() {
                           <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
                             Not Verify
                           </button>
-                          <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20); }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
+                          <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
                             Verify
                           </button>
                         </div>
@@ -342,16 +344,17 @@ export default function VerificationPage() {
                                   Verification Done
                                 </div>
                               ) : row.biometricVerifyStatusId === 10 ? (
-                                <>
-                                  <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors">
-                                    <XCircle className="h-4 w-4" />
-                                    Not Verify
-                                  </button>
-                                  <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
-                                    <CheckCircle2 className="h-4 w-4" />
-                                    Verify
-                                  </button>
-                                </>
+                                // <>
+                                //   <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors">
+                                //     <XCircle className="h-4 w-4" />
+                                //     Not Verify
+                                //   </button>
+                                //   <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
+                                //     <CheckCircle2 className="h-4 w-4" />
+                                //     Verify
+                                //   </button>
+                                // </>
+                                null
                               ) : row.biometricVerifyStatusId === 15 ? (
                                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-amber-50 border-amber-200 text-amber-700">
                                   <AlertCircle className="h-4 w-4" />
@@ -385,6 +388,20 @@ export default function VerificationPage() {
             <div className="flex justify-end gap-2">
               <button onClick={() => { setRemarksOpen(false); setRejectTarget(null) }} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">Cancel</button>
               <button disabled={submittingRemarks || !remarks.trim()} onClick={async () => { if (!rejectTarget) return; setSubmittingRemarks(true); await updateCandidateVerifyStatus(rejectTarget.id, 25, remarks.trim()); setSubmittingRemarks(false); setRemarksOpen(false); setRemarks(""); setRejectTarget(null) }} className="px-4 py-2 rounded-md bg-rose-600 text-white disabled:opacity-50">Submit Not Verify</button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <DialogTitle>Verify Candidate</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-slate-600">Do you want to verify this candidate?</p>
+            <div className="flex justify-end gap-2">
+              <button onClick={() => { setConfirmOpen(false); setRejectTarget(confirmTarget); setRemarksOpen(true) }} className="px-4 py-2 rounded-md bg-rose-50 text-rose-700 border border-rose-200">No, Not Verify</button>
+              <button onClick={async () => { if (!confirmTarget) return; await updateCandidateVerifyStatus(confirmTarget.id, 20); setConfirmOpen(false); setConfirmTarget(null) }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes, Verify</button>
             </div>
           </div>
         </DialogContent>
