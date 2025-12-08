@@ -45,7 +45,6 @@ const DataTable = <T extends Record<string, any>>({
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);
             setExpanded(null);
-            // window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -66,7 +65,7 @@ const DataTable = <T extends Record<string, any>>({
 
     if (isLoading) {
         return (
-            <div className="text-center py-16 text-lg font-semibold text-blue-700">
+            <div className="text-center py-12 text-base font-semibold text-blue-700">
                 Loading Data...
             </div>
         );
@@ -75,10 +74,10 @@ const DataTable = <T extends Record<string, any>>({
     if (data.length === 0) {
         return (
             noDataComponent || (
-                <div className="text-center py-16">
-                    <Inbox className="mx-auto h-12 w-12 text-gray-400" />
-                    <h3 className="mt-2 text-lg font-medium text-gray-900">No Records Found</h3>
-                    <p className="mt-1 text-sm text-gray-500">
+                <div className="text-center py-12">
+                    <Inbox className="mx-auto h-10 w-10 text-gray-400" />
+                    <h3 className="mt-2 text-base font-medium text-gray-900">No Records Found</h3>
+                    <p className="mt-1 text-xs text-gray-500">
                         There is no data available for this query.
                     </p>
                 </div>
@@ -88,38 +87,38 @@ const DataTable = <T extends Record<string, any>>({
 
     return (
         <>
-            <div className="overflow-x-auto">
-                <table className="min-w-[700px] sm:min-w-[900px] md:min-w-[1100px] lg:min-w-[1200px] w-full divide-y divide-blue-200">
+            <div className="w-full">
+                <table className="w-full divide-y divide-blue-200">
                     <thead className="bg-gradient-to-r from-blue-50 to-green-50">
                         <tr>
-                            {isExpandable && <th className="w-8"></th>}
+                            {isExpandable && <th className="w-10 px-2 py-2"></th>}
                             {columns.map((col) => (
                                 <th
                                     key={col.header}
-                                    className="px-4 py-3 text-left text-xs font-bold text-blue-700 uppercase tracking-wider whitespace-nowrap"
+                                    className="px-3 py-2 text-left text-xs font-bold text-blue-700 uppercase tracking-wide"
                                 >
                                     {col.header}
                                 </th>
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-blue-50">
+                    <tbody className="divide-y divide-blue-50 bg-white">
                         {currentData.map((row, idx) => {
                             const absoluteIndex = startIndex + idx;
                             return (
                                 <React.Fragment key={absoluteIndex}>
                                     <tr
-                                        className={`group hover:bg-blue-50/70 transition-colors border-b border-blue-100 ${isExpandable ? 'cursor-pointer' : ''}`}
+                                        className={`group hover:bg-blue-50/70 transition-colors ${isExpandable ? 'cursor-pointer' : ''}`}
                                         onClick={isExpandable ? () => handleToggleExpand(absoluteIndex) : undefined}
                                     >
                                         {isExpandable && (
-                                            <td className="px-4 py-2 text-center align-top">
+                                            <td className="px-2 py-2 text-center align-middle">
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         handleToggleExpand(absoluteIndex);
                                                     }}
-                                                    className="p-1.5 focus:outline-none"
+                                                    className="p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                                                     aria-label="Expand row"
                                                 >
                                                     {expanded === absoluteIndex ? (
@@ -133,15 +132,15 @@ const DataTable = <T extends Record<string, any>>({
                                         {columns.map((col) => {
                                             const cellValue = getCellValue(row, col);
                                             return (
-                                                <td key={col.header} className="px-4 py-2 text-sm text-gray-800 whitespace-nowrap align-top group-hover:text-blue-900">
-                                                    {cellValue || <span className="text-gray-400 italic">N/A</span>}
+                                                <td key={col.header} className="px-3 py-2 text-sm text-gray-800 align-middle group-hover:text-blue-900">
+                                                    {cellValue || <span className="text-gray-400 italic text-xs">N/A</span>}
                                                 </td>
                                             );
                                         })}
                                     </tr>
                                     {isExpandable && expanded === absoluteIndex && renderExpandedRow && (
                                         <tr>
-                                            <td colSpan={columns.length + 1} className="bg-gradient-to-r from-blue-50 to-green-50 px-8 py-6 text-gray-700">
+                                            <td colSpan={columns.length + 1} className="bg-gradient-to-r from-blue-50 to-green-50 px-4 py-4 text-gray-700">
                                                 {renderExpandedRow(row)}
                                             </td>
                                         </tr>
@@ -154,35 +153,35 @@ const DataTable = <T extends Record<string, any>>({
             </div>
 
             {totalPages > 1 && (
-                <div className="flex items-center justify-between mt-6 px-1 pt-4 border-t border-blue-100">
-                    <span className="text-sm font-medium text-gray-700">
+                <div className="flex items-center justify-between mt-4 px-1 pt-3 border-t border-blue-100">
+                    <span className="text-xs font-medium text-gray-700">
                         Showing <span className="font-bold text-blue-800">{startIndex + 1}</span>
                         {' to '}
                         <span className="font-bold text-blue-800">{Math.min(endIndex, data.length)}</span>
                         {' of '}
-                        <span className="font-bold text-blue-800">{data.length}</span> results
+                        <span className="font-bold text-blue-800">{data.length}</span>
                     </span>
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
-                            className="inline-flex items-center justify-center rounded-lg border border-blue-600 bg-white px-3 py-2 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-50 disabled:pointer-events-none disabled:opacity-50"
+                            className="inline-flex items-center justify-center rounded-md border border-blue-600 bg-white px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-50 disabled:pointer-events-none disabled:opacity-50"
                             aria-label="Go to previous page"
                         >
-                            <ChevronLeft className="w-4 h-4 mr-1" />
+                            <ChevronLeft className="w-3.5 h-3.5 mr-1" />
                             Previous
                         </button>
-                        <span className="text-sm font-medium text-gray-700">
+                        <span className="text-xs font-medium text-gray-700">
                             Page <span className="font-bold">{currentPage}</span> of <span className="font-bold">{totalPages}</span>
                         </span>
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
-                            className="inline-flex items-center justify-center rounded-lg border border-blue-600 bg-white px-3 py-2 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-50 disabled:pointer-events-none disabled:opacity-50"
+                            className="inline-flex items-center justify-center rounded-md border border-blue-600 bg-white px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-50 disabled:pointer-events-none disabled:opacity-50"
                             aria-label="Go to next page"
                         >
                             Next
-                            <ChevronRight className="w-4 h-4 ml-1" />
+                            <ChevronRight className="w-3.5 h-3.5 ml-1" />
                         </button>
                     </div>
                 </div>
