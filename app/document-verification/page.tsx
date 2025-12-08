@@ -252,10 +252,10 @@ export default function VerificationPage() {
                           </div>
                         ) : isToday(row.examDate) ? (
                           <div className="flex items-center gap-2">
-                            <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
+                            <button onClick={(e) => { e.stopPropagation(); setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
                               Not Verify
                             </button>
-                            <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
+                            <button onClick={(e) => { e.stopPropagation(); setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
                               Verify
                             </button>
                           </div>
@@ -424,8 +424,22 @@ export default function VerificationPage() {
           <div className="space-y-3">
             <p className="text-sm text-slate-600">Do you want to verify this candidate?</p>
             <div className="flex justify-end gap-2">
-              <button onClick={() => { setConfirmOpen(false); setRejectTarget(confirmTarget); setRemarksOpen(true) }} className="px-4 py-2 rounded-md bg-rose-50 text-rose-700 border border-rose-200">No, Not Verify</button>
-              <button onClick={async () => { if (!confirmTarget) return; await updateCandidateVerifyStatus(confirmTarget.id, 20); setConfirmOpen(false); setConfirmTarget(null) }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes, Verify</button>
+              <button onClick={() => { setConfirmOpen(false); setRejectTarget(confirmTarget); setRemarksOpen(true) }} className="px-4 py-2 rounded-md bg-rose-50 text-rose-700 border border-rose-200">No</button>
+              <button onClick={async () => {
+                if (!confirmTarget) return;
+                if (!user?.schedule_id) return;
+                if (confirmTarget.biometricVerifyStatusId !== 10) return;
+                const d = String(confirmTarget.examDate || "").slice(0,10);
+                const now = new Date();
+                const yyyy = now.getFullYear();
+                const mm = String(now.getMonth()+1).padStart(2,"0");
+                const dd = String(now.getDate()).padStart(2,"0");
+                const today = `${yyyy}-${mm}-${dd}`;
+                if (d !== today) return;
+                await updateCandidateVerifyStatus(confirmTarget.id, 20);
+                setConfirmOpen(false);
+                setConfirmTarget(null);
+              }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes</button>
             </div>
           </div>
         </DialogContent>

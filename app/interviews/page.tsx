@@ -20,6 +20,11 @@ type CurrentCandidate = {
   candidate_full_name: string
   candidate_gender: string
   candidate_dob: string
+  image_url?: string | null
+  email?: string
+  phone?: string
+  category?: string | null
+  roll_number?: string | null
 }
 
 type OngoingCandidate = {
@@ -42,6 +47,8 @@ export default function InterviewPage() {
   const [user, setUser] = useState<any>(null)
   const [verificationStatusId, setVerificationStatusId] = useState<number | null>(null)
   const { toast } = useToast()
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [confirmAction, setConfirmAction] = useState<'verify' | 'reject' | null>(null)
 
   const statusBadgeClass = (id?: number | null) => {
     if (id === 42) return "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-0"
@@ -74,7 +81,7 @@ export default function InterviewPage() {
 
     (async () => {
       try {
-        let d = await callAPI(40); 
+        let d = await callAPI(40);
         if (!d || !d.candidate_id) {
           d = await callAPI(42);
         }
@@ -152,6 +159,12 @@ export default function InterviewPage() {
     }
   }
 
+  const safeImageUrl = (url?: string | null) => {
+    const raw = String(url ?? "").replace(/[`'\"]/g, "").trim()
+    if (!raw || /\/null$/i.test(raw)) return "/placeholder-user.jpg"
+    return raw
+  }
+
   const handleOngoingCandidateClick = (candidate: OngoingCandidate) => {
     if (candidate.candidate_verify_status === 42) {
       router.push(`/candidate-score/${candidate.candidate_id}`)
@@ -226,10 +239,10 @@ export default function InterviewPage() {
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-30 transition"></div>
                       <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden border-2 border-white shadow-lg bg-slate-100">
                         {currentCandidate.image_url ? (
-                          <img 
-                            src={currentCandidate.image_url} 
-                            alt={currentCandidate.candidate_full_name} 
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" 
+                          <img
+                            src={safeImageUrl(currentCandidate.image_url)}
+                            alt={currentCandidate.candidate_full_name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-slate-100">
@@ -238,7 +251,7 @@ export default function InterviewPage() {
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="space-y-1.5">
                       <h3 className="text-base sm:text-lg font-bold text-slate-800 leading-tight">
                         {currentCandidate.candidate_full_name}
@@ -303,7 +316,7 @@ export default function InterviewPage() {
                     ) : (
                       <>
                         <Button
-                          onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id)}
+                          onClick={() => { setConfirmAction('verify'); setConfirmOpen(true) }}
                           size="sm"
                           className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
                         >
@@ -311,7 +324,7 @@ export default function InterviewPage() {
                           Verify
                         </Button>
                         <Button
-                          onClick={() => updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id)}
+                          onClick={() => { setConfirmAction('reject'); setConfirmOpen(true) }}
                           size="sm"
                           className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
                         >
@@ -335,20 +348,20 @@ export default function InterviewPage() {
           </CardContent>
         </Card>
       </div>
-    <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-      <DialogContent className="bg-white">
-        <DialogHeader>
-          <DialogTitle>{confirmAction === 'verify' ? 'Approve Candidate' : 'Not Approve Candidate'}</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-3">
-          <p className="text-sm text-slate-600">{confirmAction === 'verify' ? 'Do you want to approve this candidate?' : 'Do you want to mark this candidate as not approved?'}</p>
-          <div className="flex justify-end gap-2">
-            <button onClick={() => { setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">No</button>
-            <button onClick={async () => { if (!currentCandidate || !confirmAction) return; if (confirmAction === 'verify') { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id) } else { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id) } setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes</button>
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <DialogTitle>{confirmAction === 'verify' ? 'Approve Candidate' : 'Not Approve Candidate'}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-slate-600">{confirmAction === 'verify' ? 'Do you want to approve this candidate?' : 'Do you want to mark this candidate as not approved?'}</p>
+            <div className="flex justify-end gap-2">
+              <button onClick={() => { setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">No</button>
+              <button onClick={async () => { if (!currentCandidate || !confirmAction) return; if (confirmAction === 'verify') { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id) } else { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id) } setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes</button>
+            </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
