@@ -156,36 +156,34 @@ export default function VerificationPage() {
 
         {/* Search Section */}
         <div className="bg-white rounded-lg border border-gray-200 p-5">
-          <div className="flex items-center gap-4">
-            <div className="flex-1 flex gap-3">
-              <div className="w-48">
-                <select
-                  value={searchMode}
-                  onChange={(e) => setSearchMode(e.target.value as any)}
-                  className="w-full h-10 rounded-md border border-gray-300 bg-white text-gray-900 text-sm px-3"
-                >
-                  <option value="roll">Search by Roll Number</option>
-                  <option value="name">Search by Name</option>
-                </select>
-              </div>
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  placeholder="Scan barcode or enter roll number / name..."
-                  className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none bg-white text-gray-900 placeholder:text-gray-500 text-sm"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                />
-              </div>
-              <button
-                onClick={handleSearch}
-                disabled={isSearching}
-                className="px-5 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="w-full sm:w-56">
+              <select
+                value={searchMode}
+                onChange={(e) => setSearchMode(e.target.value as any)}
+                className="w-full h-10 rounded-md border border-gray-300 bg-white text-gray-900 text-sm px-3"
               >
-                {isSearching ? "Searching..." : "Search"}
-              </button>
+                <option value="roll">Search by Roll Number</option>
+                <option value="name">Search by Name</option>
+              </select>
             </div>
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                placeholder="Scan barcode or enter roll number / name..."
+                className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none bg-white text-gray-900 placeholder:text-gray-500 text-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              />
+            </div>
+            <button
+              onClick={handleSearch}
+              disabled={isSearching}
+              className="w-full sm:w-auto px-5 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSearching ? "Searching..." : "Search"}
+            </button>
           </div>
         </div>
 
@@ -234,7 +232,7 @@ export default function VerificationPage() {
                       ) : row.biometricVerifyStatusId === 10 ? (
                         <div className="flex items-center gap-2">
                           <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
-                            Reject
+                            Not Verify
                           </button>
                           <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20); }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
                             Verify
@@ -347,7 +345,7 @@ export default function VerificationPage() {
                                 <>
                                   <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors">
                                     <XCircle className="h-4 w-4" />
-                                    Reject
+                                    Not Verify
                                   </button>
                                   <button onClick={async () => { await updateCandidateVerifyStatus(row.id, 20) }} className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors">
                                     <CheckCircle2 className="h-4 w-4" />
@@ -380,13 +378,13 @@ export default function VerificationPage() {
       <Dialog open={remarksOpen} onOpenChange={setRemarksOpen}>
         <DialogContent className="bg-white">
           <DialogHeader>
-            <DialogTitle>Remarks</DialogTitle>
+            <DialogTitle>Not Verify Remarks</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <textarea value={remarks} onChange={(e) => setRemarks(e.target.value)} className="w-full h-28 rounded-md border border-slate-200 p-3 text-sm bg-white" placeholder="Type remarks" />
             <div className="flex justify-end gap-2">
               <button onClick={() => { setRemarksOpen(false); setRejectTarget(null) }} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">Cancel</button>
-              <button disabled={submittingRemarks || !remarks.trim()} onClick={async () => { if (!rejectTarget) return; setSubmittingRemarks(true); await updateCandidateVerifyStatus(rejectTarget.id, 25, remarks.trim()); setSubmittingRemarks(false); setRemarksOpen(false); setRemarks(""); setRejectTarget(null) }} className="px-4 py-2 rounded-md bg-rose-600 text-white disabled:opacity-50">Submit</button>
+              <button disabled={submittingRemarks || !remarks.trim()} onClick={async () => { if (!rejectTarget) return; setSubmittingRemarks(true); await updateCandidateVerifyStatus(rejectTarget.id, 25, remarks.trim()); setSubmittingRemarks(false); setRemarksOpen(false); setRemarks(""); setRejectTarget(null) }} className="px-4 py-2 rounded-md bg-rose-600 text-white disabled:opacity-50">Submit Not Verify</button>
             </div>
           </div>
         </DialogContent>

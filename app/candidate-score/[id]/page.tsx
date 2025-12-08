@@ -162,13 +162,13 @@ const CandidateScorePage = () => {
         if (id === 46) return "bg-rose-50 text-rose-700 border-rose-200"
         return "bg-amber-50 text-amber-700 border-amber-200"
     }
-    return (<div className="mx-auto max-w-4xl w-full px-4">
+    return (<div className="mx-auto max-w-3xl w-full px-4">
         <Card className="border border-slate-200 shadow-xl rounded-xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-t-xl">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <CardTitle className="text-white">Candidate Score</CardTitle>
                     {currentCandidate && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                             <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.exam_name}</Badge>
                             <Badge className="bg-white/20 text-white border-white/30">{currentCandidate.post_name}</Badge>
                             <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border ${getStatusColor(currentCandidate.verify_status)}`}>
@@ -267,12 +267,12 @@ const CandidateScorePage = () => {
                     <Textarea value={remarks} onChange={(e) => setRemarks(e.target.value)} placeholder="Enter detailed observations..." className="min-h-[100px]" />
                 </div>
             </CardContent>
-            <CardFooter className="flex justify-between border-t px-6 py-4 flex-wrap gap-3">
-                <div className="text-sm text-muted-foreground">
+            <CardFooter className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center border-t px-6 py-4 gap-3">
+                <div className="text-sm text-muted-foreground order-2 sm:order-1">
                     Total Score: <span className="font-bold text-foreground">{totalScore.toFixed(1)} / 40</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Button size="lg" className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-violet-200" onClick={submitInterviewerApproval} disabled={submitting || !currentCandidate} aria-label="Submit evaluation">
+                <div className="flex items-center gap-2 w-full sm:w-auto order-1 sm:order-2">
+                    <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] focus:ring-4 focus:ring-violet-200" onClick={submitInterviewerApproval} disabled={submitting || !currentCandidate} aria-label="Submit evaluation">
                         {submitting ? "Submitting..." : "Submit Evaluation"}
                     </Button>
                 </div>

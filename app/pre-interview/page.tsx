@@ -96,138 +96,99 @@ export default function PreInterviewPage() {
     return (
         <div className="min-h-screen bg-white">
             <div className="mx-auto max-w-7xl px-8 py-8 space-y-10">
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-8 sm:p-12 text-white shadow-2xl">
-                    <div className="flex items-start justify-between gap-6">
-                        <div>
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 ring-1 ring-white/20 text-xs font-semibold">
-                                <Users className="h-4 w-4" />
-                                Pre-Interview Station
-                            </div>
-                            <h1 className="mt-4 text-4xl sm:text-5xl font-bold tracking-tight">Pre-Interview</h1>
-                            <p className="mt-2 text-sm sm:text-base text-white/80">Assigned panels and candidate queue</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold">
+                            <Users className="h-4 w-4" />
+                            Pre-Interview
                         </div>
-                        <div className="hidden sm:flex items-center gap-4">
-                            <div className="rounded-xl bg-white/10 ring-1 ring-white/20 px-5 py-4 text-center">
-                                <div className="text-2xl font-bold">{assignPanelCandidates.length}</div>
-                                <div className="text-xs font-medium text-white/80">Assigned Panels</div>
-                            </div>
-                            <div className="rounded-xl bg-white/10 ring-1 ring-white/20 px-5 py-4 text-center">
-                                <div className="text-2xl font-bold">{queueCandidates.length}</div>
-                                <div className="text-xs font-medium text-white/80">In Queue</div>
-                            </div>
+                        <span className="text-xs text-gray-500">Assigned panels and candidate queue</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white border border-gray-200">
+                            <Building2 className="h-4 w-4 text-gray-600" />
+                            <span className="text-xs font-semibold text-gray-700">{assignPanelCandidates.length} Panels</span>
+                        </div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white border border-gray-200">
+                            <Users className="h-4 w-4 text-gray-600" />
+                            <span className="text-xs font-semibold text-gray-700">{queueCandidates.length} In Queue</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="space-y-3">
-                    <h2 className="text-lg font-semibold text-gray-900">Assigned Panels</h2>
-                    {loading ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                            {Array.from({ length: 3 }).map((_, i) => (
-                                <div key={i} className="bg-white rounded-2xl border border-gray-200 shadow-xl p-6">
-                                    <div className="h-6 w-24 rounded-full bg-slate-200 animate-pulse mb-4" />
-                                    <div className="flex items-center justify-between mb-3">
-                                        <div className="h-6 w-40 rounded bg-slate-200 animate-pulse" />
-                                        <div className="h-6 w-28 rounded bg-slate-200 animate-pulse" />
+                <div className="grid gap-6 lg:grid-cols-2">
+                    <div className="space-y-3">
+                        <h2 className="text-base font-bold text-gray-900">Assigned Panels</h2>
+                        {loading ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {Array.from({ length: 3 }).map((_, i) => (
+                                    <div key={i} className="bg-white rounded-xl border border-gray-200 shadow p-4">
+                                        <div className="h-5 w-24 rounded-full bg-slate-200 animate-pulse mb-3" />
+                                        <div className="h-4 w-40 rounded bg-slate-200 animate-pulse mb-3" />
+                                        <div className="h-4 w-48 rounded bg-slate-200 animate-pulse mb-3" />
+                                        <div className="h-4 w-36 rounded bg-slate-200 animate-pulse" />
                                     </div>
-                                    <div className="h-4 w-48 rounded bg-slate-200 animate-pulse mb-4" />
-                                    <div className="h-4 w-36 rounded bg-slate-200 animate-pulse mb-4" />
-                                    <div className="h-4 w-44 rounded bg-slate-200 animate-pulse" />
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {assignPanelCandidates.map((c, idx) => (
+                                    <div key={idx} className="bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition-all p-5 flex flex-col gap-3">
+                                        <div className="flex items-center justify-between">
+                                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-600 text-white text-sm font-semibold">
+                                                <Building2 className="h-4 w-4" />
+                                                <span className="truncate">{c.room_number || "Room"}</span>
+                                            </div>
+                                            <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold ${statusColor(c.interview_status)}`}>
+                                                {c.interview_status === "Interview Complete" ? <CheckCircle2 className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
+                                                <span className="truncate">{c.interview_status || "Started"}</span>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-gray-900 truncate">{c.candidaten_name || c.candidate_name || "Candidate"}</h3>
+                                            <div className="mt-1 rounded-md bg-gray-50 border border-gray-100 px-3 py-2">
+                                                <p className="text-sm font-semibold text-gray-900 truncate">{c.examname || "Exam"}</p>
+                                                <p className="text-xs text-gray-600 truncate">{c.post || "Post"}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-md bg-blue-100 flex items-center justify-center">
+                                                <Calendar className="h-4 w-4 text-blue-600" />
+                                            </div>
+                                            <span className="text-sm text-gray-900 font-semibold truncate flex-1">{c.examdate || c.exam_date || "Date not set"}</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-md bg-purple-100 flex items-center justify-center">
+                                                <User className="h-4 w-4 text-purple-600" />
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-xs text-gray-500">Interviewer</p>
+                                                <p className="text-sm text-gray-900 font-semibold truncate">{c.inter_viewer_name || "Not assigned"}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                                {assignPanelCandidates.length === 0 && (
+                                    <div className="col-span-full flex flex-col items-center justify-center py-10">
+                                        <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                                            <Building2 className="h-7 w-7 text-gray-400" />
+                                        </div>
+                                        <p className="text-gray-500 text-sm font-semibold">No assigned panels</p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                    <div className="space-y-3">
+                        <h2 className="text-base font-bold text-gray-900">Queue Candidates</h2>
+                        <div className="bg-white rounded-xl border border-gray-200 shadow-md">
+                            <div className="p-5 overflow-x-auto">
+                                <DataTable<QueueCandidate> data={queueCandidates} columns={queueColumns} isLoading={loading} />
+                            </div>
                         </div>
-                    ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                            {assignPanelCandidates.map((c, idx) => (
-                                <div
-                                    key={idx}
-                                    className="bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 p-5 w-full h-[380px] flex flex-col overflow-hidden"
-                                >
-                                    {/* Room badge - LARGER */}
-                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-600 text-white text-base font-bold mb-3 w-fit flex-shrink-0">
-                                        <Building2 className="h-5 w-5 flex-shrink-0" />
-                                        <span className="truncate">{c.room_number || "Room"}</span>
-                                    </div>
-
-                                    {/* Candidate name - LARGER */}
-                                    <div className="mb-3 flex-shrink-0">
-                                        <h3 className="text-2xl sm:text-4xl font-black text-gray-900 leading-tight break-words line-clamp-2">
-                                            {c.candidaten_name || c.candidate_name || "Candidate"}
-                                        </h3>
-                                    </div>
-
-                                    {/* Status badge - LARGER */}
-                                    <div className="mb-3 flex-shrink-0">
-                                        <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-bold ${statusColor(c.interview_status)}`}>
-                                            {c.interview_status === "Interview Complete" ? (
-                                                <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
-                                            ) : (
-                                                <Clock className="h-4 w-4 flex-shrink-0" />
-                                            )}
-                                            <span className="truncate">{c.interview_status || "Started"}</span>
-                                        </span>
-                                    </div>
-
-                                    {/* Exam and Post - LARGER */}
-                                    <div className="bg-gray-50 rounded-md p-3 mb-3 flex-shrink-0 border border-gray-100">
-                                        <p className="text-base font-bold text-gray-900 mb-1 truncate">
-                                            {c.examname || "Exam"}
-                                        </p>
-                                        <p className="text-sm text-gray-600 truncate">
-                                            {c.post || "Post"}
-                                        </p>
-                                    </div>
-
-                                    {/* Date - LARGER */}
-                                    <div className="flex items-center gap-3 mb-3 flex-shrink-0">
-                                        <div className="w-9 h-9 rounded-md bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                            <Calendar className="h-5 w-5 text-blue-600" />
-                                        </div>
-                                        <span className="text-base text-gray-900 font-semibold truncate flex-1 min-w-0">
-                                            {c.examdate || c.exam_date || "Date not set"}
-                                        </span>
-                                    </div>
-
-                                    {/* Interviewer - LARGER */}
-                                    <div className="flex items-center gap-3 flex-shrink-0 mt-auto">
-                                        <div className="w-9 h-9 rounded-md bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                            <User className="h-5 w-5 text-purple-600" />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-xs text-gray-500 font-medium">Interviewer</p>
-                                            <p className="text-base text-gray-900 font-bold truncate">
-                                                {c.inter_viewer_name || "Not assigned"}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                            {assignPanelCandidates.length === 0 && (
-                                <div className="col-span-full flex flex-col items-center justify-center py-12">
-                                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3">
-                                        <Building2 className="h-8 w-8 text-gray-400" />
-                                    </div>
-                                    <p className="text-gray-500 text-base font-semibold">No assigned panels</p>
-                                    <p className="text-gray-400 text-sm mt-1">Panels will appear here once assigned</p>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                    </div>
                 </div>
-
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-gray-900">Queue Candidates</h2>
-                    <div className="bg-white rounded-2xl border border-gray-200 shadow-xl">
-                        <div className="p-6 overflow-x-auto">
-                            {/* <div className="flex items-center justify-between mb-4">
-                                <div className="text-sm text-slate-500">{lastUpdated ? `Updated ${Math.max(0, Math.floor((Date.now()-lastUpdated)/1000))}s ago` : "Not updated yet"}</div>
-                                {refreshing && <div className="text-xs px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">Refreshing…</div>}
-                            </div> */}
-                            <DataTable<QueueCandidate> data={queueCandidates} columns={queueColumns} isLoading={loading} />
-                        </div >
-                    </div >
-                </div >
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }

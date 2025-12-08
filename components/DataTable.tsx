@@ -88,8 +88,8 @@ const DataTable = <T extends Record<string, any>>({
 
     return (
         <>
-            <div className="overflow-hidden">
-                <table className="min-w-[1200px] w-full divide-y divide-blue-200">
+            <div className="overflow-x-auto">
+                <table className="min-w-[700px] sm:min-w-[900px] md:min-w-[1100px] lg:min-w-[1200px] w-full divide-y divide-blue-200">
                     <thead className="bg-gradient-to-r from-blue-50 to-green-50">
                         <tr>
                             {isExpandable && <th className="w-8"></th>}
