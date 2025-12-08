@@ -29,8 +29,6 @@ export default function VerificationPage() {
     })()
   }, [])
 
-
-
   const mapStatus = (id?: number) => {
     if (id == 10) return "Verified"
     if (id == 15) return "Not Verified"
@@ -105,6 +103,9 @@ export default function VerificationPage() {
         if (statusId === 10) {
           toast({ title: "Biometric Verified", description: "Candidate biometric marked as verified." })
         }
+
+        // Dispatch custom event to trigger sidebar count refresh
+        window.dispatchEvent(new CustomEvent('verification-status-updated'))
       }
       else {
         toast({ title: "Error", description: "Failed to update candidate status.", variant: "destructive" })
@@ -114,6 +115,7 @@ export default function VerificationPage() {
       toast({ title: "Error", description: "Failed to update candidate status.", variant: "destructive" })
     }
   }
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Verified":

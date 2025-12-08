@@ -1,6 +1,6 @@
 "use client"
 
-import { use, useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck, X } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
@@ -19,13 +19,12 @@ const navigation = [
   { name: "Settings", href: "/settings", icon: Settings, allowed: [1, 2], color: "slate" },
 ]
 
-// role display helpers removed
-
 export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: boolean; onClose?: () => void }) {
   const [user, setUser] = useState<any>(null)
   const [count, setCount] = useState<any>(null)
   const pathname = usePathname()
   const router = useRouter()
+
   const logout = () => {
     Cookies.remove("access_token")
     Cookies.remove("user_info")
@@ -39,31 +38,53 @@ export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: 
     })()
   }, [])
 
-  
-  const getCount = async () => {
-    const response = await callAPIWithEnc(
-      "/admin/getVerficationCountByuserId",
-      "POST",
-      {
-        user_id: user?.user_id || 0,
-        user_type_id: user?.user_type_id || 0,
+  const getCount = useCallback(async () => {
+    if (!user) return
+
+    try {
+      const response = await callAPIWithEnc(
+        "/admin/getVerficationCountByuserId",
+        "POST",
+        {
+          user_id: user?.user_id || 0,
+          user_type_id: user?.user_type_id || 0,
+        }
+      )
+      if (response?.status == 0) {
+        setCount(response.data)
+      } else {
+        setCount(null)
       }
-    )
-    if (response?.status == 0) {
-      setCount(response.data)
-    } else {
-      setCount(null)
-    }
-
-  }
-
-  useEffect(() => {
-    if (user) {
-      getCount()
+    } catch (error) {
+      console.error("Error fetching count:", error)
     }
   }, [user])
 
+  useEffect(() => {
+    if (!user || (user.user_type_id !== 5 && user.user_type_id !== 6)) {
+      return
+    }
 
+    // Initial fetch
+    getCount()
+
+    // Set up polling interval (every 30 seconds)
+    const intervalId = setInterval(() => {
+      getCount()
+    }, 30000) // 30000ms = 30 seconds
+
+    // Listen for verification status updates from verification page
+    const handleVerificationUpdate = () => {
+      getCount()
+    }
+    window.addEventListener('verification-status-updated', handleVerificationUpdate)
+
+    // Cleanup
+    return () => {
+      clearInterval(intervalId)
+      window.removeEventListener('verification-status-updated', handleVerificationUpdate)
+    }
+  }, [user, getCount])
 
   const filteredNavigation = navigation.filter((item) => {
     const code = user?.user_type_id
