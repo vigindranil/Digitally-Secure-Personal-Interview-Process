@@ -252,10 +252,10 @@ export default function VerificationPage() {
                           </div>
                         ) : isToday(row.examDate) ? (
                           <div className="flex items-center gap-2">
-                            <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
+                            <button onClick={(e) => { e.stopPropagation(); setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
                               Not Verify
                             </button>
-                            <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
+                            <button onClick={(e) => { e.stopPropagation(); setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
                               Verify
                             </button>
                           </div>
