@@ -1,8 +1,9 @@
+// hooks/getUser.ts
 import Cookies from "js-cookie";
 import { decryptAESGCM } from "@/lib/utils";
 
 export async function getUser() {
-  // Guard against server-side calls during build
+  // 1. Safety check: Ensure we are in the browser
   if (typeof window === 'undefined') {
     return null;
   }
@@ -12,8 +13,6 @@ export async function getUser() {
     if (!encData) return null;
 
     const decrypted = await decryptAESGCM(encData);
-    console.log("Decrypted user data:", decrypted);
-
     return decrypted;
   } catch (error) {
     console.error("Failed to load user:", error);
