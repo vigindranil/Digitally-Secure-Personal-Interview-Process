@@ -211,10 +211,10 @@ export default function VerificationPage() {
                 columns={[
                   { header: "Roll No", accessorKey: "rollNo" },
                   { header: "Name", accessorKey: "name" },
-                  { header: "Category", accessorKey: "category" },
+                  // { header: "Category", accessorKey: "category" },
                   { header: "Applied For", accessorKey: "appliedFor" },
                   // { header: "Email", accessorKey: "email" },
-                  { header: "Phone", accessorKey: "phone" },
+                  // { header: "Phone", accessorKey: "phone" },
                   {
                     header: "Bio Status",
                     accessorFn: (row: any) => (
@@ -429,11 +429,11 @@ export default function VerificationPage() {
                 if (!confirmTarget) return;
                 if (!user?.schedule_id) return;
                 if (confirmTarget.biometricVerifyStatusId !== 10) return;
-                const d = String(confirmTarget.examDate || "").slice(0,10);
+                const d = String(confirmTarget.examDate || "").slice(0, 10);
                 const now = new Date();
                 const yyyy = now.getFullYear();
-                const mm = String(now.getMonth()+1).padStart(2,"0");
-                const dd = String(now.getDate()).padStart(2,"0");
+                const mm = String(now.getMonth() + 1).padStart(2, "0");
+                const dd = String(now.getDate()).padStart(2, "0");
                 const today = `${yyyy}-${mm}-${dd}`;
                 if (d !== today) return;
                 await updateCandidateVerifyStatus(confirmTarget.id, 20);
