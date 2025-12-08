@@ -21,6 +21,15 @@ export default function VerificationPage() {
   const [submittingRemarks, setSubmittingRemarks] = useState(false)
   const [rejectTarget, setRejectTarget] = useState<any>(null)
   const [searchMode, setSearchMode] = useState<"roll" | "name">("roll")
+  const isToday = (d?: string) => {
+    if (!d) return false
+    const s = String(d).slice(0, 10)
+    const now = new Date()
+    const yyyy = now.getFullYear()
+    const mm = String(now.getMonth() + 1).padStart(2, "0")
+    const dd = String(now.getDate()).padStart(2, "0")
+    return s === `${yyyy}-${mm}-${dd}`
+  }
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [confirmTarget, setConfirmTarget] = useState<any>(null)
 
@@ -82,7 +91,12 @@ export default function VerificationPage() {
           documentVerifyStatusId: Number(d.documentVerifyStatusId ?? 0),
           biometricStatus: bioMapStatus(d.biometricVerifyStatusId),
           documentStatus: docMapStatus(d.documentVerifyStatusId),
-          photo: "/placeholder-user.jpg",
+          examDate: d.examDate ?? "",
+          photo: (() => {
+            const raw = String(d.image_url ?? "").replace(/[`'\"]/g, "").trim()
+            if (!raw || /\/null$/i.test(raw)) return "/placeholder-user.jpg"
+            return raw
+          })(),
         }))
         setResults(mapped)
         setSelectedCandidate(null)
@@ -232,14 +246,24 @@ export default function VerificationPage() {
                           Verification Done
                         </div>
                       ) : row.biometricVerifyStatusId === 10 ? (
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
-                            Not Verify
-                          </button>
-                          <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
-                            Verify
-                          </button>
-                        </div>
+                        !user?.schedule_id ? (
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-amber-50 border-amber-200 text-amber-700">
+                            No schedule assigned
+                          </div>
+                        ) : isToday(row.examDate) ? (
+                          <div className="flex items-center gap-2">
+                            <button onClick={() => { setRejectTarget(row); setRemarksOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100 border border-red-200">
+                              Not Verify
+                            </button>
+                            <button onClick={() => { setConfirmTarget(row); setConfirmOpen(true) }} className="px-3 py-1.5 rounded-md text-xs font-medium text-white bg-green-600 hover:bg-green-700">
+                              Verify
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-amber-50 border-amber-200 text-amber-700">
+                            Exam on {row.examDate || "—"}
+                          </div>
+                        )
                       ) : row.biometricVerifyStatusId === 15 ? (
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-amber-50 border-amber-200 text-amber-700">
                           <AlertCircle className="h-3 w-3" />
