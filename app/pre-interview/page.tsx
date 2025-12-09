@@ -105,7 +105,7 @@ export default function PreInterviewPage() {
         const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
             user_id: u?.user_id || 0,
             user_type_id: u?.user_type_id || 0,
-            schedule_id: u?.schedule_id || 0,
+            // schedule_id: u?.schedule_id || 0,
         })
         if (res?.status === 0 && res?.data) {
             const nextAssign = res.data.assignPanelCandidateList || []
@@ -153,8 +153,8 @@ export default function PreInterviewPage() {
         if (s === "Interview Complete")
             return { bg: "bg-emerald-500", text: "text-white", icon: <CheckCircle2 className="h-4 w-4" />, label: "Completed" }
         if (s === "Panel Assigned")
-            return { bg: "bg-amber-500", text: "text-white", icon: <Clock className="h-4 w-4" />, label: "In Progress" }
-        return { bg: "bg-blue-500", text: "text-white", icon: <Activity className="h-4 w-4" />, label: "Active" }
+            return { bg: "bg-amber-500", text: "text-white", icon: <Clock className="h-4 w-4" />, label: "Panel Assigned" }
+        return { bg: "bg-green-500", text: "text-white", icon: <Activity className="h-4 w-4" />, label: "Interview On Going" }
 
     }
 

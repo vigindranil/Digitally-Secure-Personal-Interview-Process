@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { ShieldCheck, UserCheck, Users, Phone, Lock, Sparkles, ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { decryptAESGCM, encryptAESGCM } from "@/lib/utils"
 import { generateOtpApi, validateOtpApi } from "./api"
 import { getUser } from "@/hooks/getUser"
 
@@ -39,7 +38,7 @@ const roleOptions: RoleOption[] = [
   },
   {
     id: 3,
-    label: "Panel Member",
+    label: "Interviewer",
     description: "Scoring & interviews",
     accent: "from-fuchsia-600 to-violet-500",
     icon: Users,
