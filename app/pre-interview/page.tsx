@@ -5,10 +5,24 @@ import { Calendar, CheckCircle2, Users, Building2, User, Clock, Activity, Trendi
 import { getUser } from "@/hooks/getUser"
 import { callAPIWithEnc } from "@/lib/commonApi"
 
+// 1. Restored the rotation keyframes and class in the styles
 const styles = `
   @keyframes slideIn {
     0% { transform: translateX(-20px); opacity: 0; }
     100% { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes rotate {
+    0% { opacity: 1; }
+    45% { opacity: 1; }
+    50% { opacity: 0; }
+    55% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+  .rotate-text {
+    animation: rotate 8s ease-in-out infinite;
   }
   table {
     border-collapse: separate;
@@ -41,83 +55,91 @@ type QueueCandidate = {
 }
 
 export default function PreInterviewPage() {
-  const [user, setUser] = useState<any>(null)
-  const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
-  const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
-  const [currentTime, setCurrentTime] = useState(new Date())
-  const [rotatingIndex, setRotatingIndex] = useState(0)
-  const [dashboard, setDashboard] = useState<{ active_inter_view_panel: number; total_pending: number | null; total_ongoing_interview: number | null; total_completed_interview: number | null }>({ active_inter_view_panel: 0, total_pending: null, total_ongoing_interview: null, total_completed_interview: null })
+    const [user, setUser] = useState<any>(null)
+    const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
+    const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
+    const [currentTime, setCurrentTime] = useState(new Date())
+    const [rotatingIndex, setRotatingIndex] = useState(0)
+    const [dashboard, setDashboard] = useState<{ active_inter_view_panel: number; total_pending: number | null; total_ongoing_interview: number | null; total_completed_interview: number | null }>({ active_inter_view_panel: 0, total_pending: null, total_ongoing_interview: null, total_completed_interview: null })
 
     const pollRef = useRef<any>(null)
 
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000)
-    return () => clearInterval(timer)
-  }, [])
+    useEffect(() => {
+        const now = new Date()
+        setCurrentTime(now)
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000)
+        return () => clearInterval(timer)
+    }, [])
 
-  // stop blinking: remove rotate timer
+    // 2. Restored the rotation timer logic
+    useEffect(() => {
+        const rotateTimer = setInterval(() => {
+            setRotatingIndex(prev => prev + 1)
+        }, 8000)
+        return () => clearInterval(rotateTimer)
+    }, [])
 
-  useEffect(() => {
-    ;(async () => {
-      const u = await getUser()
-      setUser(u)
-      if (!u) return
-      await fetchPreInterviewData(u)
-      await fetchDashboard(u)
-    })()
-  }, [])
+    useEffect(() => {
+        ; (async () => {
+            const u = await getUser()
+            setUser(u)
+            if (!u) return
+            await fetchPreInterviewData(u)
+            await fetchDashboard(u)
+        })()
+    }, [])
 
-  useEffect(() => {
-    if (!user) return
-    if (pollRef.current) clearInterval(pollRef.current)
-    pollRef.current = setInterval(async () => {
-      await fetchPreInterviewData(user)
-      await fetchDashboard(user)
-    }, 10000)
-    return () => {
-      if (pollRef.current) clearInterval(pollRef.current)
+    useEffect(() => {
+        if (!user) return
+        if (pollRef.current) clearInterval(pollRef.current)
+        pollRef.current = setInterval(async () => {
+            await fetchPreInterviewData(user)
+            await fetchDashboard(user)
+        }, 10000)
+        return () => {
+            if (pollRef.current) clearInterval(pollRef.current)
+        }
+    }, [user])
+
+    const fetchPreInterviewData = async (u: any) => {
+        const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
+            user_id: u?.user_id || 0,
+            user_type_id: u?.user_type_id || 0,
+            schedule_id: u?.schedule_id || 0,
+        })
+        if (res?.status === 0 && res?.data) {
+            const nextAssign = res.data.assignPanelCandidateList || []
+            const nextQueue = res.data.queueCandidateList || []
+            const currAssign = assignPanelCandidates
+            const currQueue = queueCandidates
+            const sameAssign = JSON.stringify(currAssign) === JSON.stringify(nextAssign)
+            const sameQueue = JSON.stringify(currQueue) === JSON.stringify(nextQueue)
+            if (!sameAssign) setAssignPanelCandidates(nextAssign)
+            if (!sameQueue) setQueueCandidates(nextQueue)
+        } else {
+            if (assignPanelCandidates.length) setAssignPanelCandidates([])
+            if (queueCandidates.length) setQueueCandidates([])
+        }
     }
-  }, [user])
 
-  const fetchPreInterviewData = async (u: any) => {
-    const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
-      user_id: u?.user_id || 0,
-      user_type_id: u?.user_type_id || 0,
-      schedule_id: u?.schedule_id || 0,
-    })
-    if (res?.status === 0 && res?.data) {
-      const nextAssign = res.data.assignPanelCandidateList || []
-      const nextQueue = res.data.queueCandidateList || []
-      const currAssign = assignPanelCandidates
-      const currQueue = queueCandidates
-      const sameAssign = JSON.stringify(currAssign) === JSON.stringify(nextAssign)
-      const sameQueue = JSON.stringify(currQueue) === JSON.stringify(nextQueue)
-      if (!sameAssign) setAssignPanelCandidates(nextAssign)
-      if (!sameQueue) setQueueCandidates(nextQueue)
-    } else {
-      if (assignPanelCandidates.length) setAssignPanelCandidates([])
-      if (queueCandidates.length) setQueueCandidates([])
+    const fetchDashboard = async (u: any) => {
+        const res = await callAPIWithEnc("/admin/getPreinterviewerDashBardDetails", "POST", {
+            schedule_id: u?.schedule_id || 0,
+            user_id: u?.user_id || 0,
+            user_type_id: u?.user_type_id || 0,
+        })
+        const d = res?.status === 0 ? res?.data : null
+        const next = {
+            active_inter_view_panel: Number(d?.active_inter_view_panel ?? 0),
+            total_pending: d?.total_pending ?? null,
+            total_ongoing_interview: d?.total_ongoing_interview ?? null,
+            total_completed_interview: d?.total_completed_interview ?? null,
+        }
+        if (JSON.stringify(dashboard) !== JSON.stringify(next)) setDashboard(next)
     }
-  }
 
-  const fetchDashboard = async (u: any) => {
-    const res = await callAPIWithEnc("/admin/getPreinterviewerDashBardDetails", "POST", {
-      schedule_id: u?.schedule_id || 0,
-      user_id: u?.user_id || 0,
-      user_type_id: u?.user_type_id || 0,
-    })
-    const d = res?.status === 0 ? res?.data : null
-    const next = {
-      active_inter_view_panel: Number(d?.active_inter_view_panel ?? 0),
-      total_pending: d?.total_pending ?? null,
-      total_ongoing_interview: d?.total_ongoing_interview ?? null,
-      total_completed_interview: d?.total_completed_interview ?? null,
-    }
-    if (JSON.stringify(dashboard) !== JSON.stringify(next)) setDashboard(next)
-  }
-
-  const completedCount = assignPanelCandidates.filter(c => c.interview_status === "Interview Complete").length
-  const activeCount = assignPanelCandidates.length - completedCount
+    const completedCount = assignPanelCandidates.filter(c => c.interview_status === "Interview Complete").length
+    const activeCount = assignPanelCandidates.length - completedCount
 
     const formatTime = (date: Date) => {
         return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
@@ -150,10 +172,14 @@ export default function PreInterviewPage() {
                                     <p className="text-sm text-white/95 font-bold mt-1">Real-Time Monitoring System</p>
                                 </div>
                             </div>
-                            <div className="text-right">
-                                <div className="text-3xl font-black text-white">{formatTime(currentTime)}</div>
-                                <div className="text-sm text-white/95 font-bold">{formatDate(currentTime)}</div>
-                            </div>
+                            {currentTime ? (
+                                <>
+                                    <div className="text-3xl font-black text-white">{formatTime(currentTime)}</div>
+                                    <div className="text-sm text-white/95 font-bold">{formatDate(currentTime)}</div>
+                                </>
+                            ) : (
+                                <div className="text-3xl font-black text-white">Loading...</div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -212,8 +238,9 @@ export default function PreInterviewPage() {
                                                 <td className="px-3 py-3">
                                                     <div className="text-2xl font-black text-blue-600">{c.room_number || "??"}</div>
                                                 </td>
+                                                {/* 3. Added 'rotate-text' class here */}
                                                 <td className="px-3 py-3">
-                                                    <div className="text-base font-black text-gray-900">{c.candidaten_name || c.candidate_name || "Candidate"}</div>
+                                                    <div className="text-base font-black text-gray-900 rotate-text">{c.candidaten_name || c.candidate_name || "Candidate"}</div>
                                                 </td>
                                                 <td className="px-3 py-3">
                                                     <div className="text-sm font-bold text-gray-700">{c.examname || "Exam"}</div>
@@ -269,8 +296,9 @@ export default function PreInterviewPage() {
                                                 <td className="px-3 py-3">
                                                     <div className="text-sm font-mono font-black text-purple-900">{c.candidate_roll}</div>
                                                 </td>
+                                                {/* 4. Added 'rotate-text' class here */}
                                                 <td className="px-3 py-3">
-                                                    <div className="text-base font-black text-gray-900">{c.candidate_name}</div>
+                                                    <div className="text-base font-black text-gray-900 rotate-text">{c.candidate_name}</div>
                                                 </td>
                                                 <td className="px-3 py-3">
                                                     <div className="text-sm font-bold text-gray-700">{c.examname}</div>
