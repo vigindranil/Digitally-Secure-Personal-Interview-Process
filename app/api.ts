@@ -87,7 +87,7 @@ export const validateOtpApi = async (
       if (accessToken) {
         Cookies.set("access_token", accessToken, {
           expires: 1,
-          secure: true,
+          // secure: true,
           sameSite: "strict",
         });
       }
@@ -95,11 +95,11 @@ export const validateOtpApi = async (
       if (result?.data) {
         Cookies.set("user_info", JSON.stringify(result.data), {
           expires: 1,
-          secure: true,
+          // secure: true,
           sameSite: "strict",
         });
       }
-
+ 
       return {
         ...result,
         accessToken,

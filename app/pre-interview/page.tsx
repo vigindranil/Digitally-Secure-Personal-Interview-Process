@@ -105,20 +105,17 @@ export default function PreInterviewPage() {
         const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
             user_id: u?.user_id || 0,
             user_type_id: u?.user_type_id || 0,
-            // schedule_id: u?.schedule_id || 0,
         })
+
         if (res?.status === 0 && res?.data) {
             const nextAssign = res.data.assignPanelCandidateList || []
             const nextQueue = res.data.queueCandidateList || []
-            const currAssign = assignPanelCandidates
-            const currQueue = queueCandidates
-            const sameAssign = JSON.stringify(currAssign) === JSON.stringify(nextAssign)
-            const sameQueue = JSON.stringify(currQueue) === JSON.stringify(nextQueue)
-            if (!sameAssign) setAssignPanelCandidates(nextAssign)
-            if (!sameQueue) setQueueCandidates(nextQueue)
+
+            setAssignPanelCandidates(nextAssign)
+            setQueueCandidates(nextQueue)
         } else {
-            if (assignPanelCandidates.length) setAssignPanelCandidates([])
-            if (queueCandidates.length) setQueueCandidates([])
+            setAssignPanelCandidates([])
+            setQueueCandidates([])
         }
     }
 
