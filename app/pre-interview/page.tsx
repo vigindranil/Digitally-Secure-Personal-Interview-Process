@@ -79,6 +79,7 @@ export default function PreInterviewPage() {
     }
   }, [user])
 
+
   const fetchPreInterviewData = async (u: any) => {
     const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
       user_id: u?.user_id || 0,
@@ -128,9 +129,12 @@ export default function PreInterviewPage() {
     }
 
     const getStatusBg = (s?: string) => {
-        if (s === "Interview Complete") return "bg-green-500"
-        if (s === "Panel Assigned") return "bg-amber-500"
-        return "bg-blue-500"
+        if (s === "Interview Complete")
+              return { bg: "bg-emerald-500", text: "text-white", icon: <CheckCircle2 className="h-4 w-4" />, label: "Completed" }
+          if (s === "Panel Assigned")
+              return { bg: "bg-amber-500", text: "text-white", icon: <Clock className="h-4 w-4" />, label: "In Progress" }
+          return { bg: "bg-blue-500", text: "text-white", icon: <Activity className="h-4 w-4" />, label: "Active" }
+     
     }
 
     return (
@@ -188,7 +192,7 @@ export default function PreInterviewPage() {
                         {/* Left - Active Panels Table */}
                         <div>
                             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 mb-3">
-                                <h2 className="text-2xl font-black text-white">ACTIVE PANELS ({assignPanelCandidates.length})</h2>
+                                <h2 className="text-2xl font-black text-white">IN PROGRESS ({assignPanelCandidates.length})</h2>
                             </div>
 
                             {assignPanelCandidates.length > 0 ? (
@@ -223,9 +227,15 @@ export default function PreInterviewPage() {
                                                     <div className="text-sm font-bold text-gray-700">{c.inter_viewer_name || "Not assigned"}</div>
                                                 </td>
                                                 <td className="px-3 py-3 text-center">
-                                                    <div className={`inline-block px-3 py-1 rounded-lg ${getStatusBg(c.interview_status)} text-white text-xs font-black`}>
-                                                        {c.interview_status === "Interview Complete" ? "DONE" : "ACTIVE"}
-                                                    </div>
+                                                    {(() => {
+                                                      const s = getStatusBg(c.interview_status)
+                                                      return (
+                                                        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg ${s.bg} ${s.text} text-xs font-black`}>
+                                                          {s.icon}
+                                                          <span>{s.label}</span>
+                                                        </div>
+                                                      )
+                                                    })()}
                                                 </td>
                                             </tr>
                                         ))}
