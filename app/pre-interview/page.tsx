@@ -6,32 +6,32 @@ import { getUser } from "@/hooks/getUser"
 import { callAPIWithEnc } from "@/lib/commonApi"
 
 // 1. Restored the rotation keyframes and class in the styles
-const styles = `
-  @keyframes slideIn {
-    0% { transform: translateX(-20px); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
-  }
-  @keyframes rotate {
-    0% { opacity: 1; }
-    45% { opacity: 1; }
-    50% { opacity: 0; }
-    55% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  .animate-slide-in {
-    animation: slideIn 0.3s ease-out;
-  }
-  .rotate-text {
-    animation: rotate 8s ease-in-out infinite;
-  }
-  table {
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-  tr {
-    page-break-inside: avoid;
-  }
-`
+// const styles = `
+//   @keyframes slideIn {
+//     0% { transform: translateX(-20px); opacity: 0; }
+//     100% { transform: translateX(0); opacity: 1; }
+//   }
+//   @keyframes rotate {
+//     0% { opacity: 1; }
+//     45% { opacity: 1; }
+//     50% { opacity: 0; }
+//     55% { opacity: 0; }
+//     100% { opacity: 1; }
+//   }
+//   .animate-slide-in {
+//     animation: slideIn 0.3s ease-out;
+//   }
+//   .rotate-text {
+//     animation: rotate 8s ease-in-out infinite;
+//   }
+//   table {
+//     border-collapse: separate;
+//     border-spacing: 0;
+//   }
+//   tr {
+//     page-break-inside: avoid;
+//   }
+// `
 
 type PanelCandidate = {
     room_number?: string
@@ -150,14 +150,17 @@ export default function PreInterviewPage() {
     }
 
     const getStatusBg = (s?: string) => {
-        if (s === "Interview Complete") return "bg-green-500"
-        if (s === "Panel Assigned") return "bg-amber-500"
-        return "bg-blue-500"
+        if (s === "Interview Complete")
+            return { bg: "bg-emerald-500", text: "text-white", icon: <CheckCircle2 className="h-4 w-4" />, label: "Completed" }
+        if (s === "Panel Assigned")
+            return { bg: "bg-amber-500", text: "text-white", icon: <Clock className="h-4 w-4" />, label: "In Progress" }
+        return { bg: "bg-blue-500", text: "text-white", icon: <Activity className="h-4 w-4" />, label: "Active" }
+
     }
 
     return (
         <>
-            <style>{styles}</style>
+            {/* <style>{styles}</style> */}
             <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-100 to-indigo-100">
                 {/* Header */}
                 <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-lg">
@@ -214,7 +217,7 @@ export default function PreInterviewPage() {
                         {/* Left - Active Panels Table */}
                         <div>
                             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 mb-3">
-                                <h2 className="text-2xl font-black text-white">ACTIVE PANELS ({assignPanelCandidates.length})</h2>
+                                <h2 className="text-2xl font-black text-white">IN PROGRESS ({assignPanelCandidates.length})</h2>
                             </div>
 
                             {assignPanelCandidates.length > 0 ? (
@@ -250,9 +253,15 @@ export default function PreInterviewPage() {
                                                     <div className="text-sm font-bold text-gray-700">{c.inter_viewer_name || "Not assigned"}</div>
                                                 </td>
                                                 <td className="px-3 py-3 text-center">
-                                                    <div className={`inline-block px-3 py-1 rounded-lg ${getStatusBg(c.interview_status)} text-white text-xs font-black`}>
-                                                        {c.interview_status === "Interview Complete" ? "DONE" : "ACTIVE"}
-                                                    </div>
+                                                    {(() => {
+                                                        const s = getStatusBg(c.interview_status)
+                                                        return (
+                                                            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg ${s.bg} ${s.text} text-xs font-black`}>
+                                                                {s.icon}
+                                                                <span>{s.label}</span>
+                                                            </div>
+                                                        )
+                                                    })()}
                                                 </td>
                                             </tr>
                                         ))}
