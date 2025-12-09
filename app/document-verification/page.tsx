@@ -215,19 +215,19 @@ export default function VerificationPage() {
                   { header: "Applied For", accessorKey: "appliedFor" },
                   // { header: "Email", accessorKey: "email" },
                   // { header: "Phone", accessorKey: "phone" },
+                  // {
+                  //   header: "Bio Status",
+                  //   accessorFn: (row: any) => (
+                  //     <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.biometricStatus)}`}>
+                  //       {row.biometricStatus === "Verified" && <CheckCircle2 className="h-3 w-3" />}
+                  //       {row.biometricStatus === "Not Verified" && <AlertCircle className="h-3 w-3" />}
+                  //       {row.biometricStatus === "Pending" && <AlertCircle className="h-3 w-3" />}
+                  //       {row.biometricStatus}
+                  //     </div>
+                  //   ),
+                  // },
                   {
-                    header: "Bio Status",
-                    accessorFn: (row: any) => (
-                      <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.biometricStatus)}`}>
-                        {row.biometricStatus === "Verified" && <CheckCircle2 className="h-3 w-3" />}
-                        {row.biometricStatus === "Not Verified" && <AlertCircle className="h-3 w-3" />}
-                        {row.biometricStatus === "Pending" && <AlertCircle className="h-3 w-3" />}
-                        {row.biometricStatus}
-                      </div>
-                    ),
-                  },
-                  {
-                    header: "Doc Status",
+                    header: "Status",
                     accessorFn: (row: any) => (
                       <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.documentStatus)}`}>
                         {row.documentStatus === "Verified" && <CheckCircle2 className="h-3 w-3" />}

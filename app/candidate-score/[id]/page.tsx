@@ -318,16 +318,16 @@ const CandidateScorePage = () => {
                             <div className="text-xs sm:text-sm">
                                 <span className="text-slate-600">Total Score:</span>
                                 <span className="font-bold text-slate-900 ml-1 text-base sm:text-lg">
-                                    {totalScore.toFixed(1)}
+                                    {totalScore}
                                 </span>
                                 <span className="text-slate-500 text-xs"> / 40</span>
                             </div>
-                            <div className="flex items-center gap-2">
+                            {/* <div className="flex items-center gap-2">
                                 <Sparkles className={`h-4 w-4 ${performance.color}`} />
                                 <span className={`text-xs sm:text-sm font-bold ${performance.color}`}>
                                     {performance.text}
                                 </span>
-                            </div>
+                            </div> */}
                         </div>
                         <Button 
                             size="sm"
