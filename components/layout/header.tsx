@@ -21,7 +21,7 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar?: () => vo
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const u = await getUser()
       setUser(u)
     })()
@@ -91,8 +91,9 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar?: () => vo
             className="flex items-center gap-3 px-3 py-2 hover:bg-slate-100 rounded-xl transition-all duration-200 group"
           >
             <div className="relative">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 overflow-hidden border-2 border-white shadow-md">
+              <div className="h-8 w-8 flex justify-center items-center rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 overflow-hidden border-2 border-white shadow-md">
                 {/* Avatar placeholder */}
+                <User className="w-6 h-6 text-white" />
               </div>
               <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 bg-emerald-500 border-2 border-white rounded-full" />
             </div>
@@ -106,8 +107,8 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar?: () => vo
           {/* User Menu Dropdown */}
           {showUserMenu && (
             <>
-              <div 
-                className="fixed inset-0 z-40" 
+              <div
+                className="fixed inset-0 z-40"
                 onClick={() => setShowUserMenu(false)}
               />
               <div className="absolute right-0 mt-2 w-56 rounded-xl border border-slate-200 bg-white shadow-2xl z-50 overflow-hidden">
@@ -126,7 +127,7 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar?: () => vo
                   </button>
                 </div> */}
                 <div className="border-t border-slate-200 py-2">
-                  <button 
+                  <button
                     onClick={() => {
                       setShowUserMenu(false)
                       logout()

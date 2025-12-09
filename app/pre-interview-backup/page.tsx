@@ -57,12 +57,16 @@ export default function PreInterviewPage() {
     const [user, setUser] = useState<any>(null)
     const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
     const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
-    const [currentTime, setCurrentTime] = useState(new Date())
+    // FIX: Initialize with null to prevent hydration mismatch
+    const [currentTime, setCurrentTime] = useState<Date | null>(null)
     const [rotatingIndex, setRotatingIndex] = useState(0)
+    const [dashboard, setDashboard] = useState<{ active_inter_view_panel: number; total_pending: number | null; total_ongoing_interview: number | null; total_completed_interview: number | null }>({ active_inter_view_panel: 0, total_pending: null, total_ongoing_interview: null, total_completed_interview: null })
 
     const pollRef = useRef<any>(null)
 
     useEffect(() => {
+        // Set time immediately on mount
+        setCurrentTime(new Date())
         const timer = setInterval(() => setCurrentTime(new Date()), 1000)
         return () => clearInterval(timer)
     }, [])
@@ -78,37 +82,59 @@ export default function PreInterviewPage() {
         ; (async () => {
             const u = await getUser()
             setUser(u)
-            if (u) {
-                await fetchPreInterviewData(u, false)
-                if (!pollRef.current) {
-                    pollRef.current = setInterval(async () => {
-                        await fetchPreInterviewData(u, true)
-                    }, 10000)
-                }
-            }
+            if (!u) return
+            await fetchPreInterviewData(u)
+            await fetchDashboard(u)
         })()
-        return () => {
-            if (pollRef.current) {
-                clearInterval(pollRef.current)
-                pollRef.current = null
-            }
-        }
     }, [])
 
-    const fetchPreInterviewData = async (u: any, background: boolean) => {
-        try {
-            const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
-                user_id: u?.user_id || 0,
-                user_type_id: u?.user_type_id || 0,
-            })
-            if (res?.status === 0 && res?.data) {
-                setAssignPanelCandidates(res.data.assignPanelCandidateList || [])
-                setQueueCandidates(res.data.queueCandidateList || [])
-            } else {
-                setAssignPanelCandidates([])
-                setQueueCandidates([])
-            }
-        } finally { }
+    useEffect(() => {
+        if (!user) return
+        if (pollRef.current) clearInterval(pollRef.current)
+        pollRef.current = setInterval(async () => {
+            await fetchPreInterviewData(user)
+            await fetchDashboard(user)
+        }, 10000)
+        return () => {
+            if (pollRef.current) clearInterval(pollRef.current)
+        }
+    }, [user])
+
+    const fetchPreInterviewData = async (u: any) => {
+        const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
+            user_id: u?.user_id || 0,
+            user_type_id: u?.user_type_id || 0,
+            schedule_id: u?.schedule_id || 0,
+        })
+        if (res?.status === 0 && res?.data) {
+            const nextAssign = res.data.assignPanelCandidateList || []
+            const nextQueue = res.data.queueCandidateList || []
+            const currAssign = assignPanelCandidates
+            const currQueue = queueCandidates
+            const sameAssign = JSON.stringify(currAssign) === JSON.stringify(nextAssign)
+            const sameQueue = JSON.stringify(currQueue) === JSON.stringify(nextQueue)
+            if (!sameAssign) setAssignPanelCandidates(nextAssign)
+            if (!sameQueue) setQueueCandidates(nextQueue)
+        } else {
+            if (assignPanelCandidates.length) setAssignPanelCandidates([])
+            if (queueCandidates.length) setQueueCandidates([])
+        }
+    }
+
+    const fetchDashboard = async (u: any) => {
+        const res = await callAPIWithEnc("/admin/getPreinterviewerDashBardDetails", "POST", {
+            schedule_id: u?.schedule_id || 0,
+            user_id: u?.user_id || 0,
+            user_type_id: u?.user_type_id || 0,
+        })
+        const d = res?.status === 0 ? res?.data : null
+        const next = {
+            active_inter_view_panel: Number(d?.active_inter_view_panel ?? 0),
+            total_pending: d?.total_pending ?? null,
+            total_ongoing_interview: d?.total_ongoing_interview ?? null,
+            total_completed_interview: d?.total_completed_interview ?? null,
+        }
+        if (JSON.stringify(dashboard) !== JSON.stringify(next)) setDashboard(next)
     }
 
     const completedCount = assignPanelCandidates.filter(c => c.interview_status === "Interview Complete").length
@@ -145,10 +171,14 @@ export default function PreInterviewPage() {
                                     <p className="text-sm text-white/95 font-bold mt-1">Real-Time Monitoring System</p>
                                 </div>
                             </div>
-                            <div className="text-right">
-                                <div className="text-3xl font-black text-white">{formatTime(currentTime)}</div>
-                                <div className="text-sm text-white/95 font-bold">{formatDate(currentTime)}</div>
-                            </div>
+                            {currentTime ? (
+                                <div className="text-right">
+                                    <div className="text-3xl font-black text-white">{formatTime(currentTime)}</div>
+                                    <div className="text-sm text-white/95 font-bold">{formatDate(currentTime)}</div>
+                                </div>
+                            ) : (
+                                <div className="text-3xl font-black text-white">Loading...</div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -158,19 +188,19 @@ export default function PreInterviewPage() {
                     <div className="px-6 py-3">
                         <div className="grid grid-cols-4 gap-6">
                             <div className="text-center">
-                                <div className="text-4xl font-black text-blue-600 mb-1">{assignPanelCandidates.length}</div>
+                                <div className="text-4xl font-black text-blue-600 mb-1">{dashboard.active_inter_view_panel || assignPanelCandidates.length}</div>
                                 <div className="text-sm font-black text-gray-700">TOTAL PANELS</div>
                             </div>
                             <div className="text-center border-l-2 border-gray-300">
-                                <div className="text-4xl font-black text-amber-600 mb-1">{activeCount}</div>
+                                <div className="text-4xl font-black text-amber-600 mb-1">{dashboard.total_ongoing_interview ?? activeCount}</div>
                                 <div className="text-sm font-black text-gray-700">IN PROGRESS</div>
                             </div>
                             <div className="text-center border-l-2 border-gray-300">
-                                <div className="text-4xl font-black text-green-600 mb-1">{completedCount}</div>
+                                <div className="text-4xl font-black text-green-600 mb-1">{dashboard.total_completed_interview ?? completedCount}</div>
                                 <div className="text-sm font-black text-gray-700">COMPLETED</div>
                             </div>
                             <div className="text-center border-l-2 border-gray-300">
-                                <div className="text-4xl font-black text-purple-600 mb-1">{queueCandidates.length}</div>
+                                <div className="text-4xl font-black text-purple-600 mb-1">{dashboard.total_pending ?? queueCandidates.length}</div>
                                 <div className="text-sm font-black text-gray-700">IN QUEUE</div>
                             </div>
                         </div>
@@ -179,7 +209,7 @@ export default function PreInterviewPage() {
 
                 {/* Two Column Layout - Tables */}
                 <div className="px-6 py-4">
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Left - Active Panels Table */}
                         <div>
                             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 mb-3">
@@ -198,36 +228,32 @@ export default function PreInterviewPage() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {assignPanelCandidates.map((c, idx) => {
-                                            const names = [c.candidaten_name || c.candidate_name || "Candidate", c.inter_viewer_name || "Not assigned"]
-                                            const currentNameIndex = rotatingIndex % names.length
-                                            return (
-                                                <tr
-                                                    key={idx}
-                                                    className={`${idx % 2 === 0 ? 'bg-white' : 'bg-blue-50'} border-b border-blue-200 animate-slide-in`}
-                                                    style={{ animationDelay: `${idx * 0.05}s` }}
-                                                >
-                                                    <td className="px-3 py-3">
-                                                        <div className="text-2xl font-black text-blue-600">{c.room_number || "??"}</div>
-                                                    </td>
-                                                    <td className="px-3 py-3">
-                                                        <div className="text-base font-black text-gray-900 rotate-text">{c.candidaten_name || c.candidate_name || "Candidate"}</div>
-                                                    </td>
-                                                    <td className="px-3 py-3">
-                                                        <div className="text-sm font-bold text-gray-700">{c.examname || "Exam"}</div>
-                                                        <div className="text-sm font-bold text-gray-600">{c.post || "Post"}</div>
-                                                    </td>
-                                                    <td className="px-3 py-3">
-                                                        <div className="text-sm font-bold text-gray-700 rotate-text">{c.inter_viewer_name || "Not assigned"}</div>
-                                                    </td>
-                                                    <td className="px-3 py-3 text-center">
-                                                        <div className={`inline-block px-3 py-1 rounded-lg ${getStatusBg(c.interview_status)} text-white text-xs font-black`}>
-                                                            {c.interview_status === "Interview Complete" ? "DONE" : "ACTIVE"}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })}
+                                        {assignPanelCandidates.map((c, idx) => (
+                                            <tr
+                                                key={idx}
+                                                className={`${idx % 2 === 0 ? 'bg-white' : 'bg-blue-50'} border-b border-blue-200`}
+                                                style={{ animationDelay: `${idx * 0.05}s` }}
+                                            >
+                                                <td className="px-3 py-3">
+                                                    <div className="text-2xl font-black text-blue-600">{c.room_number || "??"}</div>
+                                                </td>
+                                                <td className="px-3 py-3">
+                                                    <div className="text-base font-black text-gray-900 rotate-text">{c.candidaten_name || c.candidate_name || "Candidate"}</div>
+                                                </td>
+                                                <td className="px-3 py-3">
+                                                    <div className="text-sm font-bold text-gray-700">{c.examname || "Exam"}</div>
+                                                    <div className="text-sm font-bold text-gray-600">{c.post || "Post"}</div>
+                                                </td>
+                                                <td className="px-3 py-3">
+                                                    <div className="text-sm font-bold text-gray-700">{c.inter_viewer_name || "Not assigned"}</div>
+                                                </td>
+                                                <td className="px-3 py-3 text-center">
+                                                    <div className={`inline-block px-3 py-1 rounded-lg ${getStatusBg(c.interview_status)} text-white text-xs font-black`}>
+                                                        {c.interview_status === "Interview Complete" ? "DONE" : "ACTIVE"}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             ) : (
@@ -257,7 +283,7 @@ export default function PreInterviewPage() {
                                         {queueCandidates.map((c, idx) => (
                                             <tr
                                                 key={idx}
-                                                className={`${idx % 2 === 0 ? 'bg-white' : 'bg-purple-50'} border-b border-purple-200 animate-slide-in`}
+                                                className={`${idx % 2 === 0 ? 'bg-white' : 'bg-purple-50'} border-b border-purple-200`}
                                                 style={{ animationDelay: `${idx * 0.05}s` }}
                                             >
                                                 <td className="px-3 py-3 text-center">
