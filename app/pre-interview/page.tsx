@@ -184,7 +184,7 @@ export default function PreInterviewPage() {
 
                 {/* Two Column Layout - Tables */}
                 <div className="px-6 py-4">
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Left - Active Panels Table */}
                         <div>
                             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 mb-3">
