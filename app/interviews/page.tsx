@@ -66,6 +66,14 @@ export default function InterviewPage() {
     })()
   }, [])
 
+  useEffect(() => {
+    if (!user) return
+    const intervalId = setInterval(() => {
+      fetchCurrentCandidate(user)
+    }, 5000)
+    return () => clearInterval(intervalId)
+  }, [user])
+
   const fetchCurrentCandidate = (u: any) => {
     const callAPI = async (statusId: number) => {
       const response = await callAPIWithEnc("/admin/getCandidateByInterviewer", "POST", {

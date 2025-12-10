@@ -86,7 +86,7 @@ export const validateOtpApi = async (mobileNumber: string, otp: string,userTypeI
       if (finalTokenResponse?.data?.access_token) {
         Cookies.set("access_token", finalTokenResponse.data.access_token, {
           expires: 1,
-          secure: true,
+          // secure: true,
           sameSite: "strict",
         });
       }
@@ -101,7 +101,7 @@ export const validateOtpApi = async (mobileNumber: string, otp: string,userTypeI
       if (result?.data) {
         Cookies.set("user_info", JSON.stringify(result.data), {
           expires: 1,
-          secure: true,
+          // secure: true,
           sameSite: "strict",
         });
       }

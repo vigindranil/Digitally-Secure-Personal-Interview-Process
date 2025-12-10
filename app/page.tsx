@@ -20,22 +20,22 @@ type RoleOption = {
 }
 
 const roleOptions: RoleOption[] = [
-  {
-    id: 1,
-    label: "Super Admin",
-    description: "Full control & workflow",
-    accent: "from-fuchsia-600 to-violet-500",
-    icon: ShieldCheck,
-    meta: "Full control",
-  },
-  {
-    id: 2,
-    label: "Webel Admin",
-    description: "Full control & workflow",
-    accent: "from-blue-700 to-indigo-400",
-    icon: ShieldCheck,
-    meta: "Full control",
-  },
+  // {
+  //   id: 1,
+  //   label: "Super Admin",
+  //   description: "Full control & workflow",
+  //   accent: "from-fuchsia-600 to-violet-500",
+  //   icon: ShieldCheck,
+  //   meta: "Full control",
+  // },
+  // {
+  //   id: 2,
+  //   label: "Webel Admin",
+  //   description: "Full control & workflow",
+  //   accent: "from-blue-700 to-indigo-400",
+  //   icon: ShieldCheck,
+  //   meta: "Full control",
+  // },
   {
     id: 3,
     label: "Interviewer",
@@ -416,10 +416,6 @@ export default function LoginPage() {
                   </button>
                 )}
               </div>
-
-              <p className="text-xs text-center text-slate-500">
-                🔒 AES-256 encrypted • ISO 27001 • SSL
-              </p>
             </div>
           </div>
         </div>
