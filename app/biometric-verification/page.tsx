@@ -88,7 +88,7 @@ export default function VerificationPage() {
             return raw
           })(),
         }))
-        setResults(mapped)
+        setResults(mapped.filter((c) => c.biometricVerifyStatusId !== 10))
         setSelectedCandidate(null)
       } else {
         setResults([])
@@ -117,7 +117,9 @@ export default function VerificationPage() {
         }
       )
       if (response?.status === 0) {
-        setResults((prev) => prev.map((c) => c.id === candidateId ? { ...c, biometricStatus: mapStatus(statusId), biometricVerifyStatusId: statusId } : c))
+        setResults((prev) => statusId === 10
+          ? prev.filter((c) => c.id !== candidateId)
+          : prev.map((c) => c.id === candidateId ? { ...c, biometricStatus: mapStatus(statusId), biometricVerifyStatusId: statusId } : c))
         if (statusId === 10) {
           toast({ title: "Biometric Verified", description: "Candidate biometric marked as verified." })
         }

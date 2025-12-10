@@ -11,12 +11,12 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1, 2], color: "blue" },
   { name: "Candidates", href: "/candidates", icon: Users, allowed: [1, 2], color: "emerald" },
   { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1, 2], color: "cyan" },
-  { name: "Biometric Verification", href: "/biometric-verification", icon: ShieldCheck, allowed: [2, 5], color: "amber" },
-  { name: "Document Verification", href: "/document-verification", icon: FileCheck, allowed: [2, 6], color: "violet" },
-  { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, allowed: [2, 4], color: "indigo" },
-  { name: "Interviews", href: "/interviews", icon: ClipboardList, allowed: [1, 2, 3], color: "violet" },
-  { name: "Reports", href: "/reports", icon: FileCheck, allowed: [1, 2], color: "indigo" },
-  { name: "Settings", href: "/settings", icon: Settings, allowed: [1, 2], color: "slate" },
+  { name: "Biometric Verification", href: "/biometric-verification", icon: ShieldCheck, allowed: [5], color: "amber" },
+  { name: "Document Verification", href: "/document-verification", icon: FileCheck, allowed: [6], color: "violet" },
+  { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, allowed: [4], color: "indigo" },
+  { name: "Interviews", href: "/interviews", icon: ClipboardList, allowed: [3], color: "violet" },
+  // { name: "Reports", href: "/reports", icon: FileCheck, allowed: [], color: "indigo" },
+  // { name: "Settings", href: "/settings", icon: Settings, allowed: [], color: "slate" },
 ]
 
 export default function Sidebar({ mobileOpen = false, onClose }: { mobileOpen?: boolean; onClose?: () => void }) {

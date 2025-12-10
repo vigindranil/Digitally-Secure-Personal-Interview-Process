@@ -191,19 +191,19 @@ export default function PreInterviewPage() {
                     <div className="px-6 py-3">
                         <div className="grid grid-cols-4 gap-6">
                             <div className="text-center">
-                                <div className="text-4xl font-black text-blue-600 mb-1">{dashboard.active_inter_view_panel || assignPanelCandidates.length}</div>
+                                <div className="text-4xl font-black text-blue-600 mb-1">{Number(dashboard.active_inter_view_panel ?? 0)}</div>
                                 <div className="text-sm font-black text-gray-700">TOTAL PANELS</div>
                             </div>
                             <div className="text-center border-l-2 border-gray-300">
-                                <div className="text-4xl font-black text-amber-600 mb-1">{dashboard.total_ongoing_interview ?? activeCount}</div>
+                                <div className="text-4xl font-black text-amber-600 mb-1">{Number(dashboard.total_ongoing_interview ?? 0)}</div>
                                 <div className="text-sm font-black text-gray-700">IN PROGRESS</div>
                             </div>
                             <div className="text-center border-l-2 border-gray-300">
-                                <div className="text-4xl font-black text-green-600 mb-1">{dashboard.total_completed_interview ?? completedCount}</div>
+                                <div className="text-4xl font-black text-green-600 mb-1">{Number(dashboard.total_completed_interview ?? 0)}</div>
                                 <div className="text-sm font-black text-gray-700">COMPLETED</div>
                             </div>
                             <div className="text-center border-l-2 border-gray-300">
-                                <div className="text-4xl font-black text-purple-600 mb-1">{dashboard.total_pending ?? queueCandidates.length}</div>
+                                <div className="text-4xl font-black text-purple-600 mb-1">{Number(dashboard.total_pending ?? 0)}</div>
                                 <div className="text-sm font-black text-gray-700">IN QUEUE</div>
                             </div>
                         </div>
