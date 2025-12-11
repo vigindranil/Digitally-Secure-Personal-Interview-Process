@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck, X } from "lucide-react"
+import { LayoutDashboard, Users, FileCheck, ClipboardList, Settings, ShieldCheck, LogOut, ChevronRight, UserCheck, X, Calendar, FileText, Briefcase, Users as UsersIcon, UserPlus } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 import { getUser } from "@/hooks/getUser"
@@ -11,6 +11,11 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, allowed: [1, 2], color: "blue" },
   { name: "Candidates", href: "/candidates", icon: Users, allowed: [1, 2], color: "emerald" },
   { name: "Interviewers", href: "/interviewers", icon: UserCheck, allowed: [1, 2], color: "cyan" },
+  { name: "Schedule Interview", href: "/schedule-interview", icon: Calendar, allowed: [1, 2], color: "blue" },
+  { name: "Add Post Details", href: "/add-post", icon: FileText, allowed: [1, 2], color: "indigo" },
+  { name: "Add Designation Details", href: "/add-designation", icon: Briefcase, allowed: [1, 2], color: "emerald" },
+  { name: "Add Panel", href: "/add-panel", icon: UsersIcon, allowed: [1, 2], color: "purple" },
+  { name: "Add Panel Member", href: "/add-panel-member", icon: UserPlus, allowed: [1, 2], color: "violet" },
   { name: "Biometric Verification", href: "/biometric-verification", icon: ShieldCheck, allowed: [5], color: "amber" },
   { name: "Document Verification", href: "/document-verification", icon: FileCheck, allowed: [6], color: "violet" },
   { name: "Pre-Interview", href: "/pre-interview", icon: ClipboardList, allowed: [4], color: "indigo" },
