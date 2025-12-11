@@ -159,7 +159,7 @@ export default function PreInterviewPage() {
     return (
         <>
             {/* Styles for animations */}
-            <style>{styles}</style>
+            {/* <style>{styles}</style> */}
             <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-100 to-indigo-100">
                 {/* Header */}
                 <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-lg">
