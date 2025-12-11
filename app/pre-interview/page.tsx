@@ -6,32 +6,32 @@ import { getUser } from "@/hooks/getUser"
 import { callAPIWithEnc } from "@/lib/commonApi"
 
 // 1. Restored the rotation keyframes and class in the styles
-// const styles = `
-//   @keyframes slideIn {
-//     0% { transform: translateX(-20px); opacity: 0; }
-//     100% { transform: translateX(0); opacity: 1; }
-//   }
-//   @keyframes rotate {
-//     0% { opacity: 1; }
-//     45% { opacity: 1; }
-//     50% { opacity: 0; }
-//     55% { opacity: 0; }
-//     100% { opacity: 1; }
-//   }
-//   .animate-slide-in {
-//     animation: slideIn 0.3s ease-out;
-//   }
-//   .rotate-text {
-//     animation: rotate 8s ease-in-out infinite;
-//   }
-//   table {
-//     border-collapse: separate;
-//     border-spacing: 0;
-//   }
-//   tr {
-//     page-break-inside: avoid;
-//   }
-// `
+const styles = `
+  @keyframes slideIn {
+    0% { transform: translateX(-20px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes rotate {
+    0% { opacity: 1; }
+    45% { opacity: 1; }
+    50% { opacity: 0; }
+    55% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+  .rotate-text {
+    animation: rotate 8s ease-in-out infinite;
+  }
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  tr {
+    page-break-inside: avoid;
+  }
+`
 
 type PanelCandidate = {
     room_number?: string
@@ -58,6 +58,7 @@ export default function PreInterviewPage() {
     const [user, setUser] = useState<any>(null)
     const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
     const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
+    // FIX: Initialize with null to prevent hydration mismatch between server and client time
     const [currentTime, setCurrentTime] = useState<Date | null>(null)
     const [rotatingIndex, setRotatingIndex] = useState(0)
     const [dashboard, setDashboard] = useState<{ active_inter_view_panel: number; total_pending: number | null; total_ongoing_interview: number | null; total_completed_interview: number | null }>({ active_inter_view_panel: 0, total_pending: null, total_ongoing_interview: null, total_completed_interview: null })
@@ -65,8 +66,8 @@ export default function PreInterviewPage() {
     const pollRef = useRef<any>(null)
 
     useEffect(() => {
-        const now = new Date()
-        setCurrentTime(now)
+        // Set time immediately upon mounting on the client
+        setCurrentTime(new Date())
         const timer = setInterval(() => setCurrentTime(new Date()), 1000)
         return () => clearInterval(timer)
     }, [])
@@ -105,20 +106,17 @@ export default function PreInterviewPage() {
         const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
             user_id: u?.user_id || 0,
             user_type_id: u?.user_type_id || 0,
-            // schedule_id: u?.schedule_id || 0,
         })
+
         if (res?.status === 0 && res?.data) {
             const nextAssign = res.data.assignPanelCandidateList || []
             const nextQueue = res.data.queueCandidateList || []
-            const currAssign = assignPanelCandidates
-            const currQueue = queueCandidates
-            const sameAssign = JSON.stringify(currAssign) === JSON.stringify(nextAssign)
-            const sameQueue = JSON.stringify(currQueue) === JSON.stringify(nextQueue)
-            if (!sameAssign) setAssignPanelCandidates(nextAssign)
-            if (!sameQueue) setQueueCandidates(nextQueue)
+
+            setAssignPanelCandidates(nextAssign)
+            setQueueCandidates(nextQueue)
         } else {
-            if (assignPanelCandidates.length) setAssignPanelCandidates([])
-            if (queueCandidates.length) setQueueCandidates([])
+            setAssignPanelCandidates([])
+            setQueueCandidates([])
         }
     }
 
@@ -160,6 +158,7 @@ export default function PreInterviewPage() {
 
     return (
         <>
+            {/* Styles for animations */}
             {/* <style>{styles}</style> */}
             <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-100 to-indigo-100">
                 {/* Header */}
@@ -176,10 +175,10 @@ export default function PreInterviewPage() {
                                 </div>
                             </div>
                             {currentTime ? (
-                                <>
-                                    <div className="text-3xl font-black text-white">{formatTime(currentTime)}</div>
-                                    <div className="text-sm text-white/95 font-bold">{formatDate(currentTime)}</div>
-                                </>
+                                <div>
+                                    <div className="text-3xl font-black text-white text-right">{formatTime(currentTime)}</div>
+                                    <div className="text-sm text-white/95 font-bold text-right">{formatDate(currentTime)}</div>
+                                </div>
                             ) : (
                                 <div className="text-3xl font-black text-white">Loading...</div>
                             )}

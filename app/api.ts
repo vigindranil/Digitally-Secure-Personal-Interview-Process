@@ -99,7 +99,7 @@ export const validateOtpApi = async (
           sameSite: "strict",
         });
       }
-
+ 
       return {
         ...result,
         accessToken,

@@ -20,6 +20,8 @@ export default function Header({ onToggleSidebar }: { onToggleSidebar?: () => vo
     router.push("/")
   }
 
+  console.log("Header user:", user)
+
   useEffect(() => {
     ; (async () => {
       const u = await getUser()
