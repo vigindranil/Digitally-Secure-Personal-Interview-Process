@@ -58,7 +58,7 @@ export default function PreInterviewPage() {
     const [user, setUser] = useState<any>(null)
     const [assignPanelCandidates, setAssignPanelCandidates] = useState<PanelCandidate[]>([])
     const [queueCandidates, setQueueCandidates] = useState<QueueCandidate[]>([])
-    const [currentTime, setCurrentTime] = useState(new Date())
+    const [currentTime, setCurrentTime] = useState<Date | null>(null)
     const [rotatingIndex, setRotatingIndex] = useState(0)
     const [dashboard, setDashboard] = useState<{ active_inter_view_panel: number; total_pending: number | null; total_ongoing_interview: number | null; total_completed_interview: number | null }>({ active_inter_view_panel: 0, total_pending: null, total_ongoing_interview: null, total_completed_interview: null })
 
