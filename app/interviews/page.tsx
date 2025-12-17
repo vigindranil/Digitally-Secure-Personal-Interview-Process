@@ -371,7 +371,7 @@ export default function InterviewPage() {
                         ) : interviewerStatusId === 50 ? (
                           <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-blue-50 border border-blue-200">
                             <Clock className="h-4 w-4 text-blue-600" />
-                            <span className="font-semibold text-blue-700 text-xs sm:text-sm">The exam is currently in progress</span>
+                            <span className="font-semibold text-blue-700 text-xs sm:text-sm">The interview is currently in progress</span>
                           </div>
                         ) : (
                           <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-amber-50 border border-amber-200">
