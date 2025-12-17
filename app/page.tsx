@@ -28,14 +28,14 @@ const roleOptions: RoleOption[] = [
   //   icon: ShieldCheck,
   //   meta: "Full control",
   // },
-  // {
-  //   id: 2,
-  //   label: "Webel Admin",
-  //   description: "Full control & workflow",
-  //   accent: "from-blue-700 to-indigo-400",
-  //   icon: ShieldCheck,
-  //   meta: "Full control",
-  // },
+  {
+    id: 2,
+    label: "Admin",
+    description: "Full control & workflow",
+    accent: "from-blue-700 to-indigo-400",
+    icon: ShieldCheck,
+    meta: "Full control",
+  },
   {
     id: 3,
     label: "Interviewer",

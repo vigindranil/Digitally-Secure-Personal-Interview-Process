@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+ 
 import { getUser } from "@/hooks/getUser"
 import { User, Hash, CalendarDays, ClipboardList, GraduationCap, Mail, Phone, CheckCircle2, XCircle, Clock, Sparkles } from "lucide-react"
 import { callAPIWithEnc } from "@/lib/commonApi"
@@ -17,7 +17,7 @@ type CurrentCandidate = {
   interview_id: string
   exam_name: string
   post_name: string
-  candidate_full_name: string
+  candidate_name: string
   candidate_gender: string
   candidate_dob: string
   image_url?: string | null
@@ -42,13 +42,12 @@ type OngoingCandidate = {
 export default function InterviewPage() {
   const router = useRouter()
   const [currentCandidate, setCurrentCandidate] = useState<CurrentCandidate | null>(null)
-  const [ongoingCandidates, setOngoingCandidates] = useState<OngoingCandidate[]>([])
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<any>(null)
   const [verificationStatusId, setVerificationStatusId] = useState<number | null>(null)
   const { toast } = useToast()
-  const [confirmOpen, setConfirmOpen] = useState(false)
-  const [confirmAction, setConfirmAction] = useState<'verify' | 'reject' | null>(null)
+  const [overallStatusId, setOverallStatusId] = useState<number | null>(null)
+  const [interviewerStatusId, setInterviewerStatusId] = useState<number | null>(null)
 
   const statusBadgeClass = (id?: number | null) => {
     if (id === 42) return "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-0"
@@ -101,7 +100,7 @@ export default function InterviewPage() {
             interview_id: String(d.interview_id ?? ""),
             exam_name: String(d.exam_name ?? d.applied_for ?? ""),
             post_name: String(d.post_name ?? d.applied_for ?? ""),
-            candidate_full_name: String(d.candidate_full_name ?? ""),
+            candidate_name: String(d.candidate_name ?? ""),
             candidate_gender: String(d.candidate_gender ?? ""),
             candidate_dob: String(d.date_of_birth ?? d.candidate_dob ?? ""),
             image_url: d.image_url ?? null,
@@ -110,10 +109,17 @@ export default function InterviewPage() {
             category: String(d.category ?? ""),
             roll_number: String(d.roll_number ?? ""),
           });
-
-          setVerificationStatusId(Number(d.verify_status ?? 0) || null);
+          const ov = Number(d.overall_verify_status ?? 0) || null
+          const iv = Number(d.interviewer_verify_status ?? 0) || null
+          setOverallStatusId(ov)
+          setInterviewerStatusId(iv)
+          setVerificationStatusId(iv)
+          
         } else {
           setCurrentCandidate(null);
+          setOverallStatusId(null)
+          setInterviewerStatusId(null)
+          
         }
 
       } catch (e) {
@@ -152,12 +158,22 @@ export default function InterviewPage() {
 
       if (response?.status === 0) {
         if (statusId === 42) {
-          try {
-            router.push(`/candidate-score/${candidateId}`)
-            toast({ title: "Candidate Verified", description: "Marked as verified successfully." })
-          } catch (e) {
-            console.log("Error while redirecting to candidate score page:", e);
+          setInterviewerStatusId(42)
+          setVerificationStatusId(42)
+          toast({ title: "Candidate Verified", description: "Marked as verified successfully." })
+          if (overallStatusId === 42) {
+            try {
+              router.push(`/candidate-score/${candidateId}`)
+            } catch (e) {
+              console.log("Error while redirecting to candidate score page:", e);
+            }
+          } else {
+            toast({ title: "Waiting for overall approval", description: "Verification pending from others.", variant: "default" })
           }
+        } else if (statusId === 46) {
+          setInterviewerStatusId(46)
+          setVerificationStatusId(46)
+          toast({ title: "Candidate Not Approved", description: "Marked as not approved." })
         }
       } else {
         toast({ title: "Error", description: "Failed to update candidate status.", variant: "destructive" })
@@ -249,7 +265,7 @@ export default function InterviewPage() {
                         {currentCandidate.image_url ? (
                           <img
                             src={safeImageUrl(currentCandidate.image_url)}
-                            alt={currentCandidate.candidate_full_name}
+                            alt={currentCandidate.candidate_name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                           />
                         ) : (
@@ -262,7 +278,7 @@ export default function InterviewPage() {
 
                     <div className="space-y-1.5">
                       <h3 className="text-base sm:text-lg font-bold text-slate-800 leading-tight">
-                        {currentCandidate.candidate_full_name}
+                        {currentCandidate.candidate_name}
                       </h3>
                       <div className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 border border-indigo-200">
                         <Hash className="h-3 w-3 text-indigo-600" />
@@ -307,38 +323,56 @@ export default function InterviewPage() {
                 {/* Compact Action Buttons */}
                 <div className="pt-4 sm:pt-5 border-t border-slate-200">
                   <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2 sm:gap-3">
-                    {verificationStatusId === 42 ? (
+                    {interviewerStatusId === 42 ? (
                       <>
-                        <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-emerald-50 border border-emerald-200">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                          <span className="font-semibold text-emerald-700 text-xs sm:text-sm">Verified</span>
-                        </div>
-                        <Button
-                          onClick={() => router.push(`/candidate-score/${currentCandidate?.candidate_id}`)}
-                          size="sm"
-                          className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg"
-                        >
-                          Proceed to Scoring →
-                        </Button>
+                        {overallStatusId === 42 ? (
+                          <>
+                            <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-emerald-50 border border-emerald-200">
+                              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                              <span className="font-semibold text-emerald-700 text-xs sm:text-sm">Verified</span>
+                            </div>
+                            <Button
+                              onClick={() => router.push(`/candidate-score/${currentCandidate?.candidate_id}`)}
+                              size="sm"
+                              className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg"
+                            >
+                              Proceed to Scoring →
+                            </Button>
+                          </>
+                        ) : (
+                          <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-amber-50 border border-amber-200">
+                            <Clock className="h-4 w-4 text-amber-600" />
+                            <span className="font-semibold text-amber-700 text-xs sm:text-sm">Verification pending from others</span>
+                          </div>
+                        )}
                       </>
                     ) : (
                       <>
-                        <Button
-                          onClick={() => { setConfirmAction('verify'); setConfirmOpen(true) }}
-                          size="sm"
-                          className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
-                        >
-                          <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                          Verify
-                        </Button>
-                        <Button
-                          onClick={() => { setConfirmAction('reject'); setConfirmOpen(true) }}
-                          size="sm"
-                          className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
-                        >
-                          <XCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                          Not Approved
-                        </Button>
+                        {interviewerStatusId === 40 ? (
+                          <>
+                            <Button
+                              onClick={() => { if (!currentCandidate) return; updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id) }}
+                              size="sm"
+                              className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
+                            >
+                              <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                              Verify
+                            </Button>
+                            <Button
+                              onClick={() => { if (!currentCandidate) return; updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id) }}
+                              size="sm"
+                              className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 rounded-lg flex items-center justify-center gap-1.5"
+                            >
+                              <XCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                              Not Approved
+                            </Button>
+                          </>
+                        ) : (
+                          <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-amber-50 border border-amber-200">
+                            <Clock className="h-4 w-4 text-amber-600" />
+                            <span className="font-semibold text-amber-700 text-xs sm:text-sm">Verification pending from others</span>
+                          </div>
+                        )}
                       </>
                     )}
                   </div>
@@ -356,20 +390,7 @@ export default function InterviewPage() {
           </CardContent>
         </Card>
       </div>
-      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <DialogContent className="bg-white">
-          <DialogHeader>
-            <DialogTitle>{confirmAction === 'verify' ? 'Approve Candidate' : 'Not Approve Candidate'}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-3">
-            <p className="text-sm text-slate-600">{confirmAction === 'verify' ? 'Do you want to approve this candidate?' : 'Do you want to mark this candidate as not approved?'}</p>
-            <div className="flex justify-end gap-2">
-              <button onClick={() => { setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700">No</button>
-              <button onClick={async () => { if (!currentCandidate || !confirmAction) return; if (confirmAction === 'verify') { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 42, currentCandidate.interview_id) } else { await updateCandidateVerifyStatus(currentCandidate.candidate_id, 46, currentCandidate.interview_id) } setConfirmOpen(false); setConfirmAction(null) }} className="px-4 py-2 rounded-md bg-green-600 text-white">Yes</button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      
     </div>
   )
 }

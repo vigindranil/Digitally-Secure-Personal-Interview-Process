@@ -104,6 +104,7 @@ export default function PreInterviewPage() {
 
     const fetchPreInterviewData = async (u: any) => {
         const res = await callAPIWithEnc("/admin/getPreInterviewCandidateDetails", "POST", {
+             schedule_id: u?.schedule_id || 0,
             user_id: u?.user_id || 0,
             user_type_id: u?.user_type_id || 0,
         })
@@ -268,7 +269,7 @@ export default function PreInterviewPage() {
                                 </table>
                             ) : (
                                 <div className="text-center py-12 bg-white">
-                                    <div className="text-2xl font-bold text-gray-400">No Active Panels</div>
+                                    <div className="text-2xl font-bold text-gray-400">No Inprogress Panels</div>
                                 </div>
                             )}
                         </div>

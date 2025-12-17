@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 type CurrentCandidate = {
     candidate_id: number
     interview_id: number
-    candidate_full_name: string
+    candidate_name: string
     roll_number: string
     candidate_roll_no: string
     category: string
@@ -83,11 +83,11 @@ const CandidateScorePage = () => {
                     setCurrentCandidate({
                         candidate_id: Number(d.candidate_id ?? 0),
                         interview_id: Number(d.interview_id ?? 0),
-                        candidate_full_name: String(d.candidate_full_name ?? d.candidate_name ?? ""),
+                        candidate_name: String(d.candidate_name ?? d.candidate_name ?? ""),
                         roll_number: String(d.roll_number ?? ""),
                         candidate_roll_no: String(d.candidate_roll_no ?? d.roll_number ?? ""),
                         category: String(d.category ?? ""),
-                        date_of_birth: String(d.date_of_birth ?? ""),
+                        date_of_birth: String(d.candidate_dob ?? ""),
                         applied_for: String(d.applied_for ?? ""),
                         exam_name: String(d.exam_name ?? d.applied_for ?? ""),
                         post_name: String(d.post_name ?? d.applied_for ?? ""),
@@ -95,7 +95,7 @@ const CandidateScorePage = () => {
                         email: String(d.email ?? ""),
                         phone: String(d.phone ?? ""),
                         image_url: d.image_url ?? null,
-                        verify_status: Number(d.verify_status ?? 0),
+                        verify_status: Number(d.overall_verify_status ?? 0),
                     })
                     setVerificationStatusId(Number(d.verify_status ?? 0) || null)
                 } else {
@@ -220,7 +220,7 @@ const CandidateScorePage = () => {
                                                 {currentCandidate.image_url ? (
                                                     <img 
                                                         src={currentCandidate.image_url} 
-                                                        alt={currentCandidate.candidate_full_name} 
+                                                        alt={currentCandidate.candidate_name} 
                                                         className="w-full h-full object-cover" 
                                                     />
                                                 ) : (
@@ -232,7 +232,7 @@ const CandidateScorePage = () => {
                                         </div>
                                         <div className="space-y-1">
                                             <h3 className="text-sm sm:text-base font-bold text-slate-800 leading-tight">
-                                                {currentCandidate.candidate_full_name}
+                                                {currentCandidate.candidate_name}
                                             </h3>
                                             <div className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 border border-indigo-200">
                                                 <Hash className="h-3 w-3 text-indigo-600" />
