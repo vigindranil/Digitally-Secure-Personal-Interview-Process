@@ -50,7 +50,7 @@ export default function InterviewPage() {
   const [interviewerStatusId, setInterviewerStatusId] = useState<number | null>(null)
 
   const statusBadgeClass = (id?: number | null) => {
-    if (id === 42) return "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-0"
+    if (id === 42 || id === 50) return "bg-gradient-to-r from-emerald-500 to-green-500 text-white border-0"
     if (id === 46) return "bg-gradient-to-r from-rose-500 to-red-500 text-white border-0"
     return "bg-gradient-to-r from-amber-400 to-orange-400 text-white border-0"
   }
@@ -132,9 +132,9 @@ export default function InterviewPage() {
   };
 
   const mapStatusText = (id?: number | null) => {
-    if (id === 42) return "Verified"
+    if (id === 42 || id === 50) return "Verified"
     if (id === 46) return "Not Approved"
-    if (id === 50) return "Exam In Progress"
+    // if () return "Exam In Progress"
     return "Pending"
   }
 
