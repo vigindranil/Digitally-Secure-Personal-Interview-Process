@@ -84,7 +84,7 @@ export default function PanelDetailsPage() {
                 Panel Details
               </h1>
               <p className="text-sm text-slate-500 font-medium">
-                Manage interview assignments and schedules
+                Manage interview assignments & schedules
               </p>
             </div>
           </div>
