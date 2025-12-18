@@ -9,11 +9,14 @@ import {
   Trash2,
   Loader2,
   AlertCircle,
+  ArrowRight,
 } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import AddPanelModal from '../../components/AddPanelModal';
 import EditPanelModal from '../../components/EditPanelModal';
 import { mockApi, Venue, Panel } from './api';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function PanelManagement() {
   const router = useRouter();
@@ -26,6 +29,8 @@ export default function PanelManagement() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingPanel, setEditingPanel] = useState<Panel | null>(null);
   const [deletingPanelId, setDeletingPanelId] = useState<string | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmTargetId, setConfirmTargetId] = useState<string | null>(null);
 
   useEffect(() => {
     loadVenues();
@@ -174,9 +179,6 @@ export default function PanelManagement() {
                       <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
                         Designation
                       </th>
-                      <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Details
-                      </th>
                       <th className="text-center py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
                         Actions
                       </th>
@@ -208,29 +210,20 @@ export default function PanelManagement() {
                             {panel.designationLabel}
                           </span>
                         </td>
-                        <td className="py-4 px-4">
-                          <button
-                            onClick={() => router.push(`/panel-details/${panel.id}?venueId=${selectedVenue}`)}
-                            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                            title="View panel details"
-                          >
-                            <LayoutGrid className="h-4 w-4" />
-                            View
-                          </button>
-                        </td>
+
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-center gap-2">
                             <button
                               onClick={() => handleEditClick(panel)}
-                              className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors border border-transparent hover:border-blue-100"
+                              className="h-9 w-9 flex items-center justify-center hover:bg-blue-50 text-blue-600 rounded-lg transition-colors border border-transparent hover:border-blue-100"
                               title="Edit panel"
                             >
                               <Edit2 className="h-4 w-4" />
                             </button>
                             <button
-                              onClick={() => handleDeletePanel(panel.id)}
+                              onClick={() => { setConfirmTargetId(panel.id); setConfirmOpen(true) }}
                               disabled={deletingPanelId === panel.id}
-                              className="p-2 hover:bg-rose-50 text-rose-600 rounded-lg transition-colors border border-transparent hover:border-rose-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="h-9 w-9 flex items-center justify-center hover:bg-rose-50 text-rose-600 rounded-lg transition-colors border border-transparent hover:border-rose-100 disabled:opacity-50 disabled:cursor-not-allowed"
                               title="Delete panel"
                             >
                               {deletingPanelId === panel.id ? (
@@ -239,6 +232,21 @@ export default function PanelManagement() {
                                 <Trash2 className="h-4 w-4" />
                               )}
                             </button>
+                            <button
+  onClick={() =>
+    router.push(`/panel-details/${panel.id}?venueId=${selectedVenue}`)
+  }
+  className="inline-flex items-center justify-center h-9 px-3 rounded-lg
+             bg-gradient-to-r from-purple-600 to-violet-600
+             text-white
+             hover:from-purple-700 hover:to-violet-700
+             focus:ring-2 focus:ring-purple-400
+             transition-all"
+  title="View panel details"
+>
+  <ArrowRight className="h-4 w-4" />
+</button>
+
                           </div>
                         </td>
                       </tr>
@@ -250,6 +258,36 @@ export default function PanelManagement() {
           </div>
         </div>
       </div>
+
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <DialogTitle>Delete Panel</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-slate-600">Do you want to delete this panel?</p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => { setConfirmOpen(false); setConfirmTargetId(null) }}
+                className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  if (!confirmTargetId) return;
+                  await handleDeletePanel(confirmTargetId);
+                  setConfirmOpen(false);
+                  setConfirmTargetId(null);
+                }}
+                className="px-4 py-2 rounded-md bg-rose-600 text-white"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {selectedVenue && (
         <AddPanelModal

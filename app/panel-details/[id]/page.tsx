@@ -4,8 +4,9 @@ import { useParams, useSearchParams, useRouter } from "next/navigation"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { mockApi, Panel, PanelAssignment } from "@/app/add-panel/api"
-import { Building2, CalendarDays, Users, Edit2, Trash2, Plus, Loader2, Search } from "lucide-react"
+import { Building2, CalendarDays, Users, Edit2, Trash2, Plus, Loader2, Search, ArrowLeft } from "lucide-react"
 import { interviewers as allInterviewers } from "@/lib/interviewers"
 import { MultiSelect } from "@/components/multiSelect"
 
@@ -23,6 +24,8 @@ export default function PanelDetailsPage() {
   const [editAssignmentId, setEditAssignmentId] = useState<string | null>(null)
   const [selectedInterviewers, setSelectedInterviewers] = useState<string[]>([])
   const [assignDate, setAssignDate] = useState<string>("")
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [confirmTargetId, setConfirmTargetId] = useState<string | null>(null)
 
   useEffect(() => {
     if (assignOpen) {
@@ -93,7 +96,13 @@ export default function PanelDetailsPage() {
           </CardHeader>
           <CardContent className="p-6 space-y-6">
             <div className="flex items-center justify-between">
-              <div />
+              <Button
+                className="inline-flex items-center gap-2 h-9 px-3 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200"
+                onClick={() => router.back()}
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back
+              </Button>
               <Button onClick={() => { setEditAssignmentId(null); setSelectedInterviewers([]); setAssignDate(''); setAssignOpen(true) }} className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
                 <Plus className="h-4 w-4 mr-1" />
                 Assign Interviews to Panel
@@ -127,21 +136,18 @@ export default function PanelDetailsPage() {
                           <input
                             type="date"
                             value={a.date}
-                             disabled={true}
+                            disabled={true}
                             onChange={(e) => handleUpdateAssignment(a.id, undefined, e.target.value)}
                             className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-xs"
                           />
                         </td>
                         <td className="py-4 px-4">
-                          <select
-                            value={a.interviewerId}
-                            onChange={(e) => handleUpdateAssignment(a.id, e.target.value, undefined)}
-                            className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-xs"
-                          >
-                            {allInterviewers.map(i => (
-                              <option key={i.id} value={i.id}>{i.name}</option>
-                            ))}
-                          </select>
+                          <span className="text-sm text-slate-700">
+                            {assignments
+                              .filter(x => x.date === a.date)
+                              .map(x => x.interviewerName)
+                              .join(", ")}
+                          </span>
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-center gap-2">
@@ -153,7 +159,7 @@ export default function PanelDetailsPage() {
                               <Edit2 className="h-4 w-4" />
                             </button>
                             <button
-                              onClick={() => handleDeleteAssignment(a.id)}
+                              onClick={() => { setConfirmTargetId(a.id); setConfirmOpen(true) }}
                               className="p-2 hover:bg-rose-50 text-rose-600 rounded-lg transition-colors border border-transparent hover:border-rose-100"
                               title="Delete assignment"
                             >
@@ -244,6 +250,35 @@ export default function PanelDetailsPage() {
           </div>
         </div>
       )}
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <DialogTitle>Delete Assignment</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-slate-600">Do you want to delete this assignment?</p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => { setConfirmOpen(false); setConfirmTargetId(null) }}
+                className="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-700"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  if (!confirmTargetId) return
+                  await handleDeleteAssignment(confirmTargetId)
+                  setConfirmOpen(false)
+                  setConfirmTargetId(null)
+                }}
+                className="px-4 py-2 rounded-md bg-rose-600 text-white"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
