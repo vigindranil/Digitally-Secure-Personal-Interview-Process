@@ -233,19 +233,14 @@ export default function PanelManagement() {
                               )}
                             </button>
                             <button
-  onClick={() =>
-    router.push(`/panel-details/${panel.id}?venueId=${selectedVenue}`)
-  }
-  className="inline-flex items-center justify-center h-9 px-3 rounded-lg
-             bg-gradient-to-r from-purple-600 to-violet-600
-             text-white
-             hover:from-purple-700 hover:to-violet-700
-             focus:ring-2 focus:ring-purple-400
-             transition-all"
-  title="View panel details"
->
-  <ArrowRight className="h-4 w-4" />
-</button>
+                              onClick={() =>
+                                router.push(`/panel-details/${panel.id}?venueId=${selectedVenue}`)
+                              }
+                              className="inline-flex items-center justify-center h-9 w-9 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 shadow-sm shadow-cyan-200 transition-all"
+                              title="View panel details"
+                            >
+                              <ArrowRight className="h-4 w-4" />
+                            </button>
 
                           </div>
                         </td>
