@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { mockApi, Panel, PanelAssignment } from "@/app/add-panel/api"
 import { Building2, CalendarDays, Users, Edit2, Trash2, Plus, Loader2, Search } from "lucide-react"
 import { interviewers as allInterviewers } from "@/lib/interviewers"
+import { MultiSelect } from "@/components/multiSelect"
 
 export default function PanelDetailsPage() {
   const params = useParams()
@@ -22,11 +23,17 @@ export default function PanelDetailsPage() {
   const [editAssignmentId, setEditAssignmentId] = useState<string | null>(null)
   const [selectedInterviewers, setSelectedInterviewers] = useState<string[]>([])
   const [assignDate, setAssignDate] = useState<string>("")
-  const [modalSearch, setModalSearch] = useState<string>("")
-  const filteredInterviewers = useMemo(() => {
-    const term = modalSearch.trim().toLowerCase()
-    return allInterviewers.filter(i => i.name.toLowerCase().includes(term))
-  }, [modalSearch])
+
+  useEffect(() => {
+    if (assignOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [assignOpen])
 
   useEffect(() => {
     ; (async () => {
@@ -40,15 +47,6 @@ export default function PanelDetailsPage() {
       setLoading(false)
     })()
   }, [panelId, venueId])
-
-  const toggleInterviewer = (id: string) => {
-    setSelectedInterviewers(prev => {
-      if (editAssignmentId) {
-        return [id]
-      }
-      return prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    })
-  }
 
   const handleUpdateAssignment = async (id: string, interviewerId?: string, date?: string) => {
     await mockApi.updateAssignment(id, { interviewerId, date })
@@ -129,6 +127,7 @@ export default function PanelDetailsPage() {
                           <input
                             type="date"
                             value={a.date}
+                             disabled={true}
                             onChange={(e) => handleUpdateAssignment(a.id, undefined, e.target.value)}
                             className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-xs"
                           />
@@ -147,7 +146,7 @@ export default function PanelDetailsPage() {
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-center gap-2">
                             <button
-                              onClick={() => { setEditAssignmentId(a.id); setSelectedInterviewers([a.interviewerId]); setAssignDate(a.date); setModalSearch(""); setAssignOpen(true) }}
+                              onClick={() => { setEditAssignmentId(a.id); setSelectedInterviewers([a.interviewerId]); setAssignDate(a.date); setAssignOpen(true) }}
                               className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors border border-transparent hover:border-blue-100"
                               title="Edit assignment"
                             >
@@ -172,47 +171,33 @@ export default function PanelDetailsPage() {
         </Card>
       </div>
       {assignOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-3/5">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50" role="dialog" aria-modal="true">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-4/5 lg:w-3/5">
             <h2 className="text-lg font-bold mb-4">{editAssignmentId ? 'Edit Assignment' : 'Assign Interviews to Panel'}</h2>
             <label className="font-semibold">Select Interviewers</label>
             <div className="mt-2 mb-4">
-              <input
-                type="text"
-                value={modalSearch}
-                onChange={(e) => setModalSearch(e.target.value)}
+              <MultiSelect
+                options={allInterviewers}
+                selected={allInterviewers.filter(i => selectedInterviewers.includes(i.id))}
+                onChange={(vals) => setSelectedInterviewers(vals.map(v => (v as any).id))}
                 placeholder="Search interviewers"
-                className="w-full h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm"
+                getOptionKey={(i: any) => i.id}
+                getOptionLabel={(i: any) => i.name}
               />
-              <div className="mt-2 max-h-48 overflow-y-auto border border-slate-200 rounded-lg">
-                {filteredInterviewers.map(i => (
-                  <label key={i.id} className="flex items-center gap-2 px-3 py-2 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={selectedInterviewers.includes(i.id)}
-                      onChange={() => toggleInterviewer(i.id)}
-                    />
-                    <span>{i.name}</span>
-                  </label>
-                ))}
-                {filteredInterviewers.length === 0 && (
-                  <div className="px-3 py-2 text-sm text-slate-400">No interviewers found</div>
-                )}
-              </div>
             </div>
             <div className="flex justify-between mb-4">
-              <button
-                className="bg-green-500 text-white px-4 py-2 rounded"
+              <Button
                 onClick={() => setSelectedInterviewers(allInterviewers.map(i => i.id))}
+                className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white"
               >
                 Select All Interviewers
-              </button>
-              <button
-                className="bg-gray-200 text-slate-800 px-4 py-2 rounded"
+              </Button>
+              <Button
+                variant="outline"
                 onClick={() => setSelectedInterviewers([])}
               >
                 Clear Selection
-              </button>
+              </Button>
             </div>
             <label className="font-semibold">Interview Date</label>
             <input
@@ -222,20 +207,19 @@ export default function PanelDetailsPage() {
               className="h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm w-full mb-4"
             />
             <div className="flex justify-end">
-              <button
-                className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+              <Button
+                variant="outline"
+                className="mr-2"
                 onClick={() => {
                   setAssignOpen(false)
                   setEditAssignmentId(null)
                   setSelectedInterviewers([])
                   setAssignDate('')
-                  setModalSearch('')
                 }}
               >
                 Cancel
-              </button>
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+              </Button>
+              <Button
                 onClick={async () => {
                   if (!assignDate) return
                   if (editAssignmentId) {
@@ -251,11 +235,11 @@ export default function PanelDetailsPage() {
                   setEditAssignmentId(null)
                   setSelectedInterviewers([])
                   setAssignDate('')
-                  setModalSearch('')
                 }}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
               >
                 Save
-              </button>
+              </Button>
             </div>
           </div>
         </div>
