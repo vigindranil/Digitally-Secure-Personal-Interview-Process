@@ -5,6 +5,17 @@ export interface Interviewer {
   email: string
   qualification: string
   interviewSubject: string
+  postId?: string
+  postLabel?: string
+  designationId?: string
+  designationLabel?: string
+  username?: string
+  password?: string
+  bankName?: string
+  branchName?: string
+  ifscCode?: string
+  bankAccountNumber?: string
+  address?: string
   createdAt?: Date
   updatedAt?: Date
 }

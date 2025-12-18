@@ -1,8 +1,10 @@
 "use client"
 
-import { useState } from "react"
-import { Mail, Phone, Award, BookOpen, User, Save, X } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Mail, Phone, Award, BookOpen, User, Save, X, Building2 } from "lucide-react"
 import { Interviewer } from "@/lib/interviewers"
+import SearchableDropdown from "@/components/SearchableDropdown"
+import { mockApi } from "@/app/add-panel/api"
 
 interface InterviewerFormProps {
   interviewer?: Interviewer
@@ -12,15 +14,35 @@ interface InterviewerFormProps {
 }
 
 export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoading = false }: InterviewerFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Omit<Interviewer, "id" | "createdAt" | "updatedAt">>({
     name: interviewer?.name || "",
     mobile: interviewer?.mobile || "",
     email: interviewer?.email || "",
-    qualification: interviewer?.qualification || "",
-    interviewSubject: interviewer?.interviewSubject || "",
+    postId: interviewer?.postId || "",
+    postLabel: interviewer?.postLabel || "",
+    designationId: interviewer?.designationId || "",
+    designationLabel: interviewer?.designationLabel || "",
+    username: interviewer?.username || "",
+    password: interviewer?.password || "",
+    bankName: interviewer?.bankName || "",
+    branchName: interviewer?.branchName || "",
+    ifscCode: interviewer?.ifscCode || "",
+    bankAccountNumber: interviewer?.bankAccountNumber || "",
+    address: interviewer?.address || "",
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [posts, setPosts] = useState<{ id: string; label: string }[]>([])
+  const [designations, setDesignations] = useState<{ id: string; label: string }[]>([])
+
+  useEffect(() => {
+    (async () => {
+      const p = await mockApi.getPosts()
+      const d = await mockApi.getDesignations()
+      setPosts(p)
+      setDesignations(d)
+    })()
+  }, [])
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -30,8 +52,15 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
     if (!/^\+?[0-9\s\-()]+$/.test(formData.mobile)) newErrors.mobile = "Invalid mobile number format"
     if (!formData.email.trim()) newErrors.email = "Email is required"
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format"
-    if (!formData.qualification.trim()) newErrors.qualification = "Qualification is required"
-    if (!formData.interviewSubject.trim()) newErrors.interviewSubject = "Subject is required"
+    if (!formData.postId) newErrors.postId = "Post is required"
+    if (!formData.designationId) newErrors.designationId = "Designation is required"
+    if (!formData.username.trim()) newErrors.username = "Username is required"
+    if (!formData.password.trim()) newErrors.password = "Password is required"
+    if (!formData.bankName.trim()) newErrors.bankName = "Bank name is required"
+    if (!formData.branchName.trim()) newErrors.branchName = "Branch name is required"
+    if (!formData.ifscCode.trim()) newErrors.ifscCode = "IFSC code is required"
+    if (!formData.bankAccountNumber.trim()) newErrors.bankAccountNumber = "Account number is required"
+    if (!formData.address.trim()) newErrors.address = "Address is required"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -61,11 +90,53 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Post / Role */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          <Building2 className="h-4 w-4 text-blue-600" />
+          Post / Role
+        </label>
+        <SearchableDropdown
+          options={posts.map(p => ({ id: p.id, label: p.label }))}
+          value={formData.postId || ""}
+          onChange={(val) => {
+            const label = posts.find(p => p.id === val)?.label || ""
+            setFormData(prev => ({ ...prev, postId: val, postLabel: label }))
+            if (errors.postId) setErrors(prev => ({ ...prev, postId: "" }))
+          }}
+          placeholder="Select a post / role"
+          icon={<Building2 className="h-4 w-4" />}
+          label=""
+        />
+        {errors.postId && <p className="text-xs font-semibold text-rose-600">{errors.postId}</p>}
+      </div>
+
+      {/* Designation */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          <Award className="h-4 w-4 text-blue-600" />
+          Designation
+        </label>
+        <SearchableDropdown
+          options={designations.map(d => ({ id: d.id, label: d.label }))}
+          value={formData.designationId || ""}
+          onChange={(val) => {
+            const label = designations.find(d => d.id === val)?.label || ""
+            setFormData(prev => ({ ...prev, designationId: val, designationLabel: label }))
+            if (errors.designationId) setErrors(prev => ({ ...prev, designationId: "" }))
+          }}
+          placeholder="Select a designation"
+          icon={<Award className="h-4 w-4" />}
+          label=""
+        />
+        {errors.designationId && <p className="text-xs font-semibold text-rose-600">{errors.designationId}</p>}
+      </div>
+
       {/* Name Field */}
       <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
           <User className="h-4 w-4 text-blue-600" />
-          Name
+          Full Name
         </label>
         <input
           type="text"
@@ -73,11 +144,10 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           value={formData.name}
           onChange={handleChange}
           placeholder="Enter interviewer name"
-          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${
-            errors.name
-              ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
-              : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          } focus:outline-none`}
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.name
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
         />
         {errors.name && <p className="text-xs font-semibold text-rose-600">{errors.name}</p>}
       </div>
@@ -94,13 +164,52 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           value={formData.mobile}
           onChange={handleChange}
           placeholder="e.g., +91 9876543210"
-          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${
-            errors.mobile
-              ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
-              : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          } focus:outline-none`}
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.mobile
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
         />
         {errors.mobile && <p className="text-xs font-semibold text-rose-600">{errors.mobile}</p>}
+      </div>
+
+      {/* Username */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          <User className="h-4 w-4 text-blue-600" />
+          Username
+        </label>
+        <input
+          type="text"
+          name="username"
+          value={formData.username || ""}
+          onChange={handleChange}
+          placeholder="Enter username"
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.username
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
+        />
+        {errors.username && <p className="text-xs font-semibold text-rose-600">{errors.username}</p>}
+      </div>
+
+      {/* Password */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          <User className="h-4 w-4 text-blue-600" />
+          Password
+        </label>
+        <input
+          type="password"
+          name="password"
+          value={formData.password || ""}
+          onChange={handleChange}
+          placeholder="Enter password"
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.password
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
+        />
+        {errors.password && <p className="text-xs font-semibold text-rose-600">{errors.password}</p>}
       </div>
 
       {/* Email Field */}
@@ -115,17 +224,110 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           value={formData.email}
           onChange={handleChange}
           placeholder="e.g., name@company.com"
-          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${
-            errors.email
-              ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
-              : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          } focus:outline-none`}
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.email
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
         />
         {errors.email && <p className="text-xs font-semibold text-rose-600">{errors.email}</p>}
       </div>
 
-      {/* Qualification Field */}
+      {/* Bank Name */}
       <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          Bank Name
+        </label>
+        <input
+          type="text"
+          name="bankName"
+          value={formData.bankName || ""}
+          onChange={handleChange}
+          placeholder="Enter bank name"
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.bankName
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
+        />
+        {errors.bankName && <p className="text-xs font-semibold text-rose-600">{errors.bankName}</p>}
+      </div>
+
+      {/* Branch Name */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          Branch Name
+        </label>
+        <input
+          type="text"
+          name="branchName"
+          value={formData.branchName || ""}
+          onChange={handleChange}
+          placeholder="Enter branch name"
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.branchName
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
+        />
+        {errors.branchName && <p className="text-xs font-semibold text-rose-600">{errors.branchName}</p>}
+      </div>
+
+      {/* IFSC Code */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          IFSC Code
+        </label>
+        <input
+          type="text"
+          name="ifscCode"
+          value={formData.ifscCode || ""}
+          onChange={handleChange}
+          placeholder="e.g., SBIN0001234"
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.ifscCode
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
+        />
+        {errors.ifscCode && <p className="text-xs font-semibold text-rose-600">{errors.ifscCode}</p>}
+      </div>
+
+      {/* Bank Account Number */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          Bank Account Number
+        </label>
+        <input
+          type="text"
+          name="bankAccountNumber"
+          value={formData.bankAccountNumber || ""}
+          onChange={handleChange}
+          placeholder="Enter account number"
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.bankAccountNumber
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
+        />
+        {errors.bankAccountNumber && <p className="text-xs font-semibold text-rose-600">{errors.bankAccountNumber}</p>}
+      </div>
+
+      {/* Address */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
+          Address
+        </label>
+        <textarea
+          name="address"
+          value={formData.address || ""}
+          onChange={handleChange}
+          placeholder="Enter address"
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.address
+            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            } focus:outline-none`}
+        />
+        {errors.address && <p className="text-xs font-semibold text-rose-600">{errors.address}</p>}
+      </div>
+
+      {/* Qualification Field */}
+      {/* <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
           <Award className="h-4 w-4 text-blue-600" />
           Qualification
@@ -134,11 +336,10 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           name="qualification"
           value={formData.qualification}
           onChange={handleChange}
-          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${
-            errors.qualification
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.qualification
               ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
               : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          } focus:outline-none`}
+            } focus:outline-none`}
         >
           <option value="">Select a qualification</option>
           <option value="B.Tech">B.Tech</option>
@@ -151,10 +352,10 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           <option value="M.E">M.E</option>
         </select>
         {errors.qualification && <p className="text-xs font-semibold text-rose-600">{errors.qualification}</p>}
-      </div>
+      </div> */}
 
       {/* Interview Subject Field */}
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
           <BookOpen className="h-4 w-4 text-blue-600" />
           Subject of Interview
@@ -163,11 +364,10 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           name="interviewSubject"
           value={formData.interviewSubject}
           onChange={handleChange}
-          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${
-            errors.interviewSubject
+          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.interviewSubject
               ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
               : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          } focus:outline-none`}
+            } focus:outline-none`}
         >
           <option value="">Select interview subject</option>
           <option value="Full Stack Development">Full Stack Development</option>
@@ -180,7 +380,7 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           <option value="Database Design">Database Design</option>
         </select>
         {errors.interviewSubject && <p className="text-xs font-semibold text-rose-600">{errors.interviewSubject}</p>}
-      </div>
+      </div> */}
 
       {/* Action Buttons */}
       <div className="flex items-center gap-3 pt-4">
