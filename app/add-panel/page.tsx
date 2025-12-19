@@ -11,11 +11,10 @@ import {
   AlertCircle,
   ArrowRight,
 } from 'lucide-react';
-import { Eye } from 'lucide-react';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import AddPanelModal from '../../components/AddPanelModal';
 import EditPanelModal from '../../components/EditPanelModal';
-import { mockApi, Venue, Panel } from './api';
+import { mockApi, Venue, Panel, getVenueList } from './api';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function PanelManagement() {
@@ -44,10 +43,12 @@ export default function PanelManagement() {
     }
   }, [selectedVenue]);
 
+  console.log(selectedVenue)
+
   const loadVenues = async () => {
     setIsLoadingVenues(true);
     try {
-      const data = await mockApi.getVenues();
+      const data = await getVenueList();
       setVenues(data);
     } catch (error) {
       console.error('Error loading venues:', error);
@@ -114,7 +115,7 @@ export default function PanelManagement() {
                   </div>
                 ) : (
                   <SearchableDropdown
-                    options={venues.map((v) => ({ id: v.id, label: v.label }))}
+                    options={venues.map((v) => ({ id: v.venue_id, label: `${v.venue_name} | ${v.venue_address}` }))}
                     value={selectedVenue}
                     onChange={setSelectedVenue}
                     placeholder="Select a venue..."

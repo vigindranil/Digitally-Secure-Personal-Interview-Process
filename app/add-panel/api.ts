@@ -4,13 +4,13 @@ export interface Venue {
 }
 
 export interface Post {
-  id: string;
-  label: string;
+  post_id: string;
+  post_name: string;
 }
 
 export interface Designation {
-  id: string;
-  label: string;
+  designation_id: string;
+  designation_name: string;
 }
 
 export interface Panel {
@@ -232,3 +232,94 @@ export const mockApi = {
     MOCK_ASSIGNMENTS = MOCK_ASSIGNMENTS.filter(a => a.id !== id);
   },
 };
+
+
+
+
+import { callAPIWithEnc } from '@/lib/commonApi';
+
+export async function getExamList() {
+  const response = await callAPIWithEnc(
+    '/admin/getExamList',
+    'POST',
+  )
+  return response.data;
+}
+export async function getExamDate(examId: number) {
+  const response = await callAPIWithEnc(
+    '/admin/getExamDateByExamID',
+    'POST',
+    {
+      exam_id: examId,
+    }
+  )
+  return response.data;
+}
+export async function getVenueList() {
+  const response = await callAPIWithEnc(
+    '/admin/getVenueDetails',
+    'POST',
+  )
+  return response.data;
+}
+export async function getPostList(examId: number) {
+  const response = await callAPIWithEnc(
+    '/admin/getPostList',
+    'POST',
+    {
+      exam_id: examId,
+    }
+  )
+  return response.data;
+}
+export async function getDesignationList(postId: number) {
+  const response = await callAPIWithEnc(
+    '/admin/getDesignationList',
+    'POST',
+    {
+      postID: postId,
+    }
+  )
+  return response.data;
+}
+export async function getInterviewPanelInfo(venueId: number, examId: number, postId: number, designationId: number, examDate: string) {
+  const response = await callAPIWithEnc(
+    '/admin/getInterviewPanelInfoByVenue',
+    'POST',
+    {
+      venue_id: venueId,
+      exam_id: examId,
+      post_id: postId,
+      designation_id: designationId,
+      exam_date: examDate,
+    }
+  )
+  return response.data;
+}
+export async function saveInterviewPanel(interviewPanel: {
+  panelId: number;
+  postId: number;
+  designationId: number;
+  panelName: string;
+  roomNumber: string;
+  venueId: number;
+  examId: number;
+  entryUserId: number;
+}) {
+  const response = await callAPIWithEnc(
+    '/admin/saveInterviewPanel',
+    'POST',
+    {
+      panel_id: interviewPanel.panelId,
+      post_id: interviewPanel.postId,
+      designation_id: interviewPanel.designationId,
+      panel_name: interviewPanel.panelName,
+      room_no: interviewPanel.roomNumber,
+      venue_id: interviewPanel.venueId,
+      exam_id: interviewPanel.examId,
+      entry_user_id: interviewPanel.entryUserId,
+    }
+  )
+  return response.data;
+}
+

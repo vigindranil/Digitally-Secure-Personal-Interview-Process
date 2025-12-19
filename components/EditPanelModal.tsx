@@ -2,13 +2,25 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save, Briefcase, Award, MapPin, Loader2 } from 'lucide-react';
 import SearchableDropdown from './SearchableDropdown';
-import { mockApi, Post, Designation, Panel } from '../app/add-panel/api';
+import { getDesignationList, getVenueList, saveInterviewPanel } from '../app/add-panel/api';
+type Designation = { id: string; label: string }
 
 interface EditPanelModalProps {
   isOpen: boolean;
   onClose: () => void;
-  panel: Panel;
+  panel: {
+    id: string;
+    panelName: string;
+    roomNumber: string;
+    postId: string;
+    postLabel: string;
+    designationId: string;
+    designationLabel: string;
+    venueId: string;
+  };
   onSuccess: () => void;
+  examId: string;
+  interviewerId?: string;
 }
 
 export default function EditPanelModal({
@@ -16,51 +28,62 @@ export default function EditPanelModal({
   onClose,
   panel,
   onSuccess,
+  examId,
+  interviewerId = "0",
 }: EditPanelModalProps) {
-  const [posts, setPosts] = useState<Post[]>([]);
   const [designations, setDesignations] = useState<Designation[]>([]);
   const [selectedPost, setSelectedPost] = useState(panel.postId);
   const [selectedDesignation, setSelectedDesignation] = useState(panel.designationId);
   const [roomNumber, setRoomNumber] = useState(panel.roomNumber);
+  const [panelName, setPanelName] = useState(panel.panelName || '');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
+  const [venueLabel, setVenueLabel] = useState('');
 
   useEffect(() => {
     if (isOpen) {
-      loadData();
+
       setSelectedPost(panel.postId);
       setSelectedDesignation(panel.designationId);
       setRoomNumber(panel.roomNumber);
     }
   }, [isOpen, panel]);
 
-  const loadData = async () => {
-    setIsLoadingData(true);
-    try {
-      const [postsData, designationsData] = await Promise.all([
-        mockApi.getPosts(),
-        mockApi.getDesignations(),
-      ]);
-      setPosts(postsData);
-      setDesignations(designationsData);
-    } catch (error) {
-      console.error('Error loading data:', error);
-    } finally {
-      setIsLoadingData(false);
-    }
-  };
+  useEffect(() => {
+    if (!isOpen) return;
+    (async () => {
+      setIsLoadingData(true);
+      try {
+        const [venuesRes, desigsRes] = await Promise.all([
+          getVenueList(),
+          getDesignationList(panel.postId),
+        ]);
+        const vopts = Array.isArray(venuesRes) ? venuesRes.map((v: any) => ({ id: String(v.venue_id), label: `${v.venue_name} | ${v.venue_address}` })) : [];
+        const v = vopts.find(v => v.id === panel.venueId);
+        setVenueLabel(v?.label || '');
+        const dopts = Array.isArray(desigsRes) ? desigsRes.map((d: any) => ({ id: String(d.designation_id), label: String(d.designation_name) })) : [];
+        setDesignations(dopts);
+      } finally {
+        setIsLoadingData(false);
+      }
+    })();
+  }, [isOpen, panel.postId, panel.venueId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPost || !selectedDesignation || !roomNumber) return;
+    if (!selectedPost || !selectedDesignation || !roomNumber || !panelName) return;
 
     setIsLoading(true);
     try {
-      await mockApi.updatePanel(panel.id, {
+      await saveInterviewPanel({
+        panelId: panel?.panelId || panel.id,
         postId: selectedPost,
         designationId: selectedDesignation,
+        panelName,
         roomNumber,
         venueId: panel.venueId,
+        examId,
+        interviewerId,
       });
 
       onSuccess();
@@ -103,14 +126,45 @@ export default function EditPanelModal({
             </div>
           ) : (
             <>
-              <SearchableDropdown
-                options={posts.map((p) => ({ id: p.id, label: p.label }))}
-                value={selectedPost}
-                onChange={setSelectedPost}
-                placeholder="Select a position..."
-                icon={<Briefcase className="h-4 w-4" />}
-                label="Interview Post"
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
+                    Panel Name
+                  </label>
+                  <input
+                    type="text"
+                    value={panelName}
+                    onChange={(e) => setPanelName(e.target.value)}
+                    placeholder="e.g. Panel A"
+                    className="w-full h-11 px-3 rounded-xl border border-slate-200 bg-slate-50/30 text-slate-900 text-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 focus:outline-none transition-all placeholder:text-slate-400 hover:bg-white"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
+                    Venue
+                  </label>
+                  <input
+                    type="text"
+                    value={venueLabel}
+                    disabled
+                    className="w-full h-11 px-3 rounded-xl border border-slate-200 bg-slate-100 text-slate-900 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
+                  Post / Role
+                </label>
+                <div className="relative">
+                  <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={panel.postLabel}
+                    disabled
+                    className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-100 text-slate-900 text-sm"
+                  />
+                </div>
+              </div>
 
               <SearchableDropdown
                 options={designations.map((d) => ({ id: d.id, label: d.label }))}
@@ -147,7 +201,7 @@ export default function EditPanelModal({
                 </button>
                 <button
                   type="submit"
-                  disabled={!selectedPost || !selectedDesignation || !roomNumber || isLoading}
+                  disabled={!selectedPost || !selectedDesignation || !roomNumber || !panelName || isLoading}
                   className="flex-1 h-11 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-md shadow-blue-200/50 hover:shadow-blue-200 active:scale-[0.98] flex items-center justify-center gap-2"
                 >
                   {isLoading ? (

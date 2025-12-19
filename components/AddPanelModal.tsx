@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Briefcase, Award, MapPin, Loader2, Building2 } from 'lucide-react';
 import SearchableDropdown from './SearchableDropdown';
-import { mockApi, Post, Designation } from '../app/add-panel/api';
+import { Post, Designation, getVenueList, getDesignationList, getPostList, getExamList, saveInterviewPanel } from '../app/add-panel/api';
+import { getUser } from '@/hooks/getUser';
+import { useToast } from '@/components/ui/use-toast';
 
 interface AddPanelModalProps {
   isOpen: boolean;
@@ -17,6 +19,7 @@ export default function AddPanelModal({
   venueId,
   onSuccess,
 }: AddPanelModalProps) {
+  const { toast } = useToast();
   const [posts, setPosts] = useState<Post[]>([]);
   const [designations, setDesignations] = useState<Designation[]>([]);
   const [selectedPost, setSelectedPost] = useState('');
@@ -24,26 +27,40 @@ export default function AddPanelModal({
   const [roomNumber, setRoomNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const [venueLabel, setVenueLabel] = useState('');
+  const [venue, setVenue] = useState<any>(null);
+  const [exams, setExams] = useState<any[]>([]);
+  const [selectedExam, setSelectedExam] = useState('');
+  const [panelName, setPanelName] = useState('');
+  const [user, setUser] = useState<any>(null);
+
+
 
   useEffect(() => {
-    if (isOpen) {
-      loadData();
-    }
+    if (!isOpen) return;
+    (async () => {
+      const u = await getUser();
+      setUser(u);
+    })();
+    loadData();
   }, [isOpen]);
 
   const loadData = async () => {
     setIsLoadingData(true);
     try {
-      const [postsData, designationsData, venuesData] = await Promise.all([
-        mockApi.getPosts(),
-        mockApi.getDesignations(),
-        mockApi.getVenues(),
-      ]);
-      setPosts(postsData);
-      setDesignations(designationsData);
-      const v = venuesData.find(v => v.id === venueId);
-      setVenueLabel(v?.label || '');
+
+      const venuesData = await getVenueList();
+      const v = venuesData.find((v: any) => String(v.venue_id) === String(venueId));
+      setVenue(v);
+      const examsData = await getExamList();
+      setExams(examsData);
+      if (selectedExam) {
+        const postsData = await getPostList(selectedExam);
+        setPosts(postsData);
+      }
+      if (selectedPost) {
+        const designationsData = await getDesignationList(selectedPost);
+        setDesignations(designationsData);
+      }
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -51,26 +68,80 @@ export default function AddPanelModal({
     }
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+    (async () => {
+      if (!selectedExam) {
+        setPosts([]);
+        setSelectedPost('');
+        setDesignations([]);
+        setSelectedDesignation('');
+        return;
+      }
+      const postsData = await getPostList(selectedExam);
+      setPosts(postsData || []);
+      setSelectedPost('');
+      setDesignations([]);
+      setSelectedDesignation('');
+    })();
+  }, [selectedExam, isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    (async () => {
+      if (!selectedPost) {
+        setDesignations([]);
+        setSelectedDesignation('');
+        return;
+      }
+      const designationsData = await getDesignationList(selectedPost);
+      setDesignations(designationsData || []);
+      setSelectedDesignation('');
+    })();
+  }, [selectedPost, isOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPost || !selectedDesignation || !roomNumber) return;
-
+    if (!selectedExam || !selectedPost || !selectedDesignation || !panelName || !roomNumber) return;
     setIsLoading(true);
     try {
-      await mockApi.createPanel({
-        venueId,
-        postId: selectedPost,
-        designationId: selectedDesignation,
-        roomNumber,
+      const res = await saveInterviewPanel({
+        panelId: 0,
+        venueId: Number(venueId),
+        examId: Number(selectedExam),
+        postId: Number(selectedPost),
+        designationId: Number(selectedDesignation),
+        panelName: panelName,
+        roomNumber: roomNumber,
+        entryUserId: user?.user_id ?? 0,
       });
 
-      setSelectedPost('');
-      setSelectedDesignation('');
-      setRoomNumber('');
-      onSuccess();
-      onClose();
+      if (res?.status === 0) {
+        toast({
+          title: 'Panel saved',
+          description: 'Panel created successfully',
+        });
+        setSelectedExam('');
+        setSelectedPost('');
+        setSelectedDesignation('');
+        setRoomNumber('');
+        setPanelName('');
+        onSuccess();
+        onClose();
+      } else {
+        toast({
+          title: 'Save failed',
+          description: res?.message || 'Unable to save panel',
+          variant: 'destructive',
+        });
+      }
     } catch (error) {
       console.error('Error creating panel:', error);
+      toast({
+        title: 'Save failed',
+        description: 'An unexpected error occurred while saving the panel',
+        variant: 'destructive',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -115,7 +186,7 @@ export default function AddPanelModal({
                   <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                   <input
                     type="text"
-                    value={venueLabel}
+                    value={`${venue?.venue_name} | ${venue?.venue_address}` || ''}
                     disabled
                     className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-100 text-slate-900 text-sm"
                   />
@@ -123,7 +194,17 @@ export default function AddPanelModal({
               </div>
 
               <SearchableDropdown
-                options={posts.map((p) => ({ id: p.id, label: p.label }))}
+                options={exams.map((e: any) => ({ id: e.exam_id, label: e.exam_name }))}
+                value={selectedExam}
+                onChange={setSelectedExam}
+                placeholder="Select a exam..."
+                icon={<Briefcase className="h-4 w-4" />}
+                label="Exam"
+              />
+
+              <SearchableDropdown
+                disabled={!selectedExam}
+                options={posts.map((p: any) => ({ id: p.post_id, label: p.post_name }))}
                 value={selectedPost}
                 onChange={setSelectedPost}
                 placeholder="Select a position..."
@@ -132,13 +213,30 @@ export default function AddPanelModal({
               />
 
               <SearchableDropdown
-                options={designations.map((d) => ({ id: d.id, label: d.label }))}
+                disabled={!selectedPost}
+                options={designations.map((d: any) => ({ id: d.designation_id, label: d.designation_name }))}
                 value={selectedDesignation}
                 onChange={setSelectedDesignation}
                 placeholder="Select a designation..."
                 icon={<Award className="h-4 w-4" />}
                 label="Designation"
               />
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
+                  Panel name
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={panelName}
+                    onChange={(e) => setPanelName(e.target.value)}
+                    placeholder="e.g. Panel 1"
+                    className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/30 text-slate-900 text-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 focus:outline-none transition-all placeholder:text-slate-400 hover:bg-white"
+                  />
+                </div>
+              </div>
 
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
@@ -166,7 +264,7 @@ export default function AddPanelModal({
                 </button>
                 <button
                   type="submit"
-                  disabled={!selectedPost || !selectedDesignation || !roomNumber || isLoading}
+                  disabled={!selectedExam || !selectedPost || !selectedDesignation || !panelName || !roomNumber || isLoading}
                   className="flex-1 h-11 px-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-md shadow-cyan-200/50 hover:shadow-cyan-200 active:scale-[0.98] flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
