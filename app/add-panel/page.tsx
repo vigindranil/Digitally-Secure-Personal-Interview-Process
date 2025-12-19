@@ -14,13 +14,19 @@ import {
 import SearchableDropdown from '../../components/SearchableDropdown';
 import AddPanelModal from '../../components/AddPanelModal';
 import EditPanelModal from '../../components/EditPanelModal';
-import { mockApi, Venue, Panel, getVenueList } from './api';
+import { mockApi, Venue, Panel, getVenueList, getInterviewPanelInfo } from './api';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function PanelManagement() {
   const router = useRouter();
   const [venues, setVenues] = useState<Venue[]>([]);
   const [selectedVenue, setSelectedVenue] = useState('');
+
+
+  const assignTypes = [
+    { assign_type_id: 1, assign_type_name: 'Panel Assigned' },
+    { assign_type_id: 2, assign_type_name: 'Not Assigned' },
+  ];
   const [panels, setPanels] = useState<Panel[]>([]);
   const [isLoadingVenues, setIsLoadingVenues] = useState(true);
   const [isLoadingPanels, setIsLoadingPanels] = useState(false);
@@ -30,6 +36,8 @@ export default function PanelManagement() {
   const [deletingPanelId, setDeletingPanelId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmTargetId, setConfirmTargetId] = useState<string | null>(null);
+
+  const [assignType, setAssignType] = useState('');
 
   useEffect(() => {
     loadVenues();
@@ -42,6 +50,11 @@ export default function PanelManagement() {
       setPanels([]);
     }
   }, [selectedVenue]);
+
+  useEffect(() => {
+    if (!selectedVenue || !assignType) return;
+    loadPanels();
+  }, [assignType]);
 
   console.log(selectedVenue)
 
@@ -57,12 +70,13 @@ export default function PanelManagement() {
     }
   };
 
+
   const loadPanels = async () => {
     if (!selectedVenue) return;
 
     setIsLoadingPanels(true);
     try {
-      const data = await mockApi.getPanelsByVenue(selectedVenue);
+      const data = await getInterviewPanelInfo(Number(selectedVenue), Number(assignType));
       setPanels(data);
     } catch (error) {
       console.error('Error loading panels:', error);
@@ -114,14 +128,33 @@ export default function PanelManagement() {
                     <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
                   </div>
                 ) : (
-                  <SearchableDropdown
-                    options={venues.map((v) => ({ id: v.venue_id, label: `${v.venue_name} | ${v.venue_address}` }))}
-                    value={selectedVenue}
-                    onChange={setSelectedVenue}
-                    placeholder="Select a venue..."
-                    icon={<Building2 className="h-4 w-4" />}
-                    label="Interview Venue"
-                  />
+                  <div className="grid grid-cols-[3fr_2fr] gap-4 w-full">
+                    <SearchableDropdown
+                      options={venues.map((v) => ({
+                        id: Number(v.venue_id),
+                        label: `${v.venue_name} | ${v.venue_address}`,
+                      }))}
+                      value={selectedVenue}
+                      onChange={setSelectedVenue}
+                      placeholder="Select a venue..."
+                      icon={<Building2 className="h-4 w-4" />}
+                      label="Interview Venue"
+                    />
+
+                    <SearchableDropdown
+                      disabled={!selectedVenue}
+                      options={assignTypes.map((a) => ({
+                        id: Number(a.assign_type_id),
+                        label: a.assign_type_name,
+                      }))}
+                      value={assignType}
+                      onChange={setAssignType}
+                      placeholder="Select"
+                      icon={<Building2 className="h-4 w-4" />}
+                      label="Status"
+                    />
+                  </div>
+
                 )}
               </div>
 
@@ -153,7 +186,7 @@ export default function PanelManagement() {
                 <Loader2 className="h-10 w-10 animate-spin mb-4" />
                 <p className="text-sm font-medium">Loading panels...</p>
               </div>
-            ) : panels.length === 0 ? (
+            ) : panels?.length === 0 ? (
               <div className="py-20 flex flex-col items-center justify-center text-slate-400">
                 <div className="p-4 bg-slate-100 rounded-full mb-4">
                   <AlertCircle className="h-10 w-10 opacity-50" />
@@ -186,7 +219,7 @@ export default function PanelManagement() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {panels.map((panel) => (
+                    {panels?.map((panel) => (
                       <tr
                         key={panel.id}
                         className="group hover:bg-slate-50/50 transition-colors"

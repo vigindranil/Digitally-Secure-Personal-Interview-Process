@@ -282,16 +282,17 @@ export async function getDesignationList(postId: number) {
   )
   return response.data;
 }
-export async function getInterviewPanelInfo(venueId: number, examId: number, postId: number, designationId: number, examDate: string) {
+export async function getInterviewPanelInfo(venueId: number, typeId: number) {
   const response = await callAPIWithEnc(
     '/admin/getInterviewPanelInfoByVenue',
     'POST',
     {
       venue_id: venueId,
-      exam_id: examId,
-      post_id: postId,
-      designation_id: designationId,
-      exam_date: examDate,
+      exam_id: 0,
+      post_id: 0,
+      designation_id: 0,
+      assign_type_id: typeId,
+      exam_date: '19-12-2025',
     }
   )
   return response.data;
@@ -320,6 +321,6 @@ export async function saveInterviewPanel(interviewPanel: {
       entry_user_id: interviewPanel.entryUserId,
     }
   )
-  return response.data;
+  return response;
 }
 
