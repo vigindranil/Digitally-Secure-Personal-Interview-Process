@@ -183,8 +183,10 @@ export default function LoginPage() {
           router.push("/pre-interview")
         } else if (code === 3) {
           router.push("/interviews")
+        } else if (code === 2) {
+          router.push("/inprogress")
         } else {
-          router.push("/dashboard")
+          router.push("/unauthorized")
         }
 
       } else {
@@ -221,7 +223,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/30 backdrop-blur-sm" />
       </div>
 
-      <div className="relative z-10 min-h-screen flex flex-col lg:items-center lg:justify-center p-3 sm:p-6">
+      <div className="relative z-10 min-h-screen flex flex-col lg:items-center p-3 sm:p-6">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-12 items-start lg:items-center">
 
           {/* Left side - Hero content */}
@@ -277,7 +279,7 @@ export default function LoginPage() {
           </div>
 
           {/* Right side - Login card */}
-          <div className="w-full max-w-md mx-auto lg:mx-0">
+          <div className="w-full max-w-md mx-auto lg:mx-0 lg:-mt-28">
             <div className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-5 sm:p-8 space-y-4 sm:space-y-6">
 
               <div className="text-center space-y-2">

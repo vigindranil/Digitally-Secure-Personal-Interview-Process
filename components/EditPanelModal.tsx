@@ -12,14 +12,15 @@ interface EditPanelModalProps {
     id: string;
     panelName: string;
     roomNumber: string;
-    postId: string;
+    postId: string | number;
+    examId?: string;
     postLabel: string;
     designationId: string;
     designationLabel: string;
     venueId: string;
   };
   onSuccess: () => void;
-  examId: string;
+  examId?: string;
   interviewerId?: string;
 }
 
@@ -56,7 +57,7 @@ export default function EditPanelModal({
       try {
         const [venuesRes, desigsRes] = await Promise.all([
           getVenueList(),
-          getDesignationList(panel.postId),
+          getDesignationList(Number(panel.postId)),
         ]);
         const vopts = Array.isArray(venuesRes) ? venuesRes.map((v: any) => ({ id: String(v.venue_id), label: `${v.venue_name} | ${v.venue_address}` })) : [];
         const v = vopts.find(v => v.id === panel.venueId);
@@ -76,14 +77,14 @@ export default function EditPanelModal({
     setIsLoading(true);
     try {
       await saveInterviewPanel({
-        panelId: panel?.panelId || panel.id,
-        postId: selectedPost,
-        designationId: selectedDesignation,
+        panelId: Number(panel.id),
+        postId: Number(selectedPost),
+        designationId: Number(selectedDesignation),
         panelName,
         roomNumber,
-        venueId: panel.venueId,
-        examId,
-        interviewerId,
+        venueId: Number(panel.venueId),
+        examId: Number(examId),
+        entryUserId: Number(interviewerId),
       });
 
       onSuccess();

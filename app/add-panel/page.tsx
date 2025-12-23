@@ -131,7 +131,7 @@ export default function PanelManagement() {
                   <div className="grid grid-cols-[3fr_2fr] gap-4 w-full">
                     <SearchableDropdown
                       options={venues.map((v) => ({
-                        id: Number(v.venue_id),
+                        id: String(v.venue_id),
                         label: `${v.venue_name} | ${v.venue_address}`,
                       }))}
                       value={selectedVenue}
@@ -144,7 +144,7 @@ export default function PanelManagement() {
                     <SearchableDropdown
                       disabled={!selectedVenue}
                       options={assignTypes.map((a) => ({
-                        id: Number(a.assign_type_id),
+                        id: String(a.assign_type_id),
                         label: a.assign_type_name,
                       }))}
                       value={assignType}

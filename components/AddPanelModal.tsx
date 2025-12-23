@@ -151,8 +151,8 @@ export default function AddPanelModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-        <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-gradient-to-r from-cyan-50 to-blue-50">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[calc(100vh-2rem)] overflow-hidden flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-gradient-to-r from-cyan-50 to-blue-50 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="bg-gradient-to-br from-cyan-600 to-blue-600 p-2 rounded-lg shadow-lg shadow-cyan-900/20">
               <Plus className="h-5 w-5 text-white" />
@@ -170,15 +170,15 @@ export default function AddPanelModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto flex-1">
           {isLoadingData ? (
-            <div className="py-12 flex flex-col items-center justify-center text-slate-400">
+            <div className="py-8 flex flex-col items-center justify-center text-slate-400">
               <Loader2 className="h-8 w-8 animate-spin mb-3" />
               <p className="text-sm">Loading options...</p>
             </div>
           ) : (
             <>
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
                   Venue
                 </label>
@@ -188,7 +188,7 @@ export default function AddPanelModal({
                     type="text"
                     value={`${venue?.venue_name} | ${venue?.venue_address}` || ''}
                     disabled
-                    className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-100 text-slate-900 text-sm"
+                    className="w-full h-10 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-100 text-slate-900 text-sm"
                   />
                 </div>
               </div>
@@ -222,7 +222,7 @@ export default function AddPanelModal({
                 label="Designation"
               />
 
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
                   Panel name
                 </label>
@@ -233,12 +233,12 @@ export default function AddPanelModal({
                     value={panelName}
                     onChange={(e) => setPanelName(e.target.value)}
                     placeholder="e.g. Panel 1"
-                    className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/30 text-slate-900 text-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 focus:outline-none transition-all placeholder:text-slate-400 hover:bg-white"
+                    className="w-full h-10 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/30 text-slate-900 text-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 focus:outline-none transition-all placeholder:text-slate-400 hover:bg-white"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">
                   Room Number
                 </label>
@@ -249,23 +249,23 @@ export default function AddPanelModal({
                     value={roomNumber}
                     onChange={(e) => setRoomNumber(e.target.value)}
                     placeholder="e.g. Conference Hall A"
-                    className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/30 text-slate-900 text-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 focus:outline-none transition-all placeholder:text-slate-400 hover:bg-white"
+                    className="w-full h-10 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50/30 text-slate-900 text-sm focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 focus:outline-none transition-all placeholder:text-slate-400 hover:bg-white"
                   />
                 </div>
               </div>
 
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-3 pt-1">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 h-11 px-4 rounded-xl border border-slate-200 text-slate-700 font-medium hover:bg-slate-50 transition-colors"
+                  className="flex-1 h-10 px-4 rounded-xl border border-slate-200 text-slate-700 font-medium hover:bg-slate-50 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={!selectedExam || !selectedPost || !selectedDesignation || !panelName || !roomNumber || isLoading}
-                  className="flex-1 h-11 px-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-md shadow-cyan-200/50 hover:shadow-cyan-200 active:scale-[0.98] flex items-center justify-center gap-2"
+                  className="flex-1 h-10 px-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-md shadow-cyan-200/50 hover:shadow-cyan-200 active:scale-[0.98] flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <>
