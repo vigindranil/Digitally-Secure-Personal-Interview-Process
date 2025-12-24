@@ -2,6 +2,11 @@ import { callAPIWithEnc } from "@/lib/commonApi";
 
 
 
+export interface Exam {
+  exam_id: number;
+  exam_name: string;
+}
+
 
 export interface Post {
   exam_id: number;
@@ -30,6 +35,8 @@ export interface SaveInterviewerRequest {
   user_password: string;
   entry_user_id: number;
   user_id: number;
+  examId?: string;
+  examLabel?: string;
 }
 
 export interface SaveInterviewerResponse {
@@ -86,5 +93,16 @@ export async function saveInterviewer(data: SaveInterviewerRequest): Promise<Sav
   } catch (error) {
     console.error('Error saving interviewer:', error);
     throw error;
+  }
+}
+
+
+export async function getExamList(): Promise<Exam[]> {
+  try {
+    const response = await callAPIWithEnc(`/admin/getExamList`, 'POST', {});
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching exams:', error);
+    return [];
   }
 }

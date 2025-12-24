@@ -5,7 +5,7 @@ import { Mail, Phone, Award, BookOpen, User, Save, X, Building2, Eye, EyeClosedI
 import { Interviewer } from "@/lib/interviewers"
 import SearchableDropdown from "@/components/SearchableDropdown"
 import { mockApi } from "@/app/add-panel/api"
-import { getPostList, getDesignationList, saveInterviewer, SaveInterviewerRequest } from "@/app/interviewers/api"
+import { getPostList, getDesignationList, saveInterviewer, SaveInterviewerRequest, getExamList } from "@/app/interviewers/api"
 import { getUser } from "@/hooks/getUser"
 import { useToast } from "@/components/ui/use-toast";
 
@@ -33,6 +33,8 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
     ifscCode: interviewer?.ifscCode || "",
     bankAccountNumber: interviewer?.bankAccountNumber || "",
     address: interviewer?.address || "",
+    examId: interviewer?.examId || "",
+    examLabel: interviewer?.examLabel || "",
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -41,6 +43,7 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
   const [loadingDesignations, setLoadingDesignations] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [exams, setExams] = useState<{ id: string; label: string }[]>([])
   const [user, setUser] = useState<any>(null);
   const { toast } = useToast()
 
@@ -48,14 +51,31 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
 
   useEffect(() => {
     (async () => {
-      const postData = await getPostList()
-      const formattedPosts = postData.map(p => ({
-        id: p.post_id.toString(),
-        label: p.post_name
+      const examData = await getExamList()
+      const formattedExams = examData.map(e => ({
+        id: e.exam_id.toString(),
+        label: e.exam_name
       }))
-      setPosts(formattedPosts)
+      setExams(formattedExams)
     })()
   }, [])
+
+
+
+  useEffect(() => {
+    if (formData.examId) {
+      (async () => {
+        const postData = await getPostList(parseInt(formData.examId))
+        const formattedPosts = postData.map(p => ({
+          id: p.post_id.toString(),
+          label: p.post_name
+        }))
+        setPosts(formattedPosts)
+      })()
+    } else {
+      setPosts([])
+    }
+  }, [formData.examId])
 
   // Add new useEffect to fetch designations when post changes
   useEffect(() => {
@@ -90,6 +110,7 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
     if (!formData.username.trim()) newErrors.username = "Username is required"
     if (!formData.password.trim()) newErrors.password = "Password is required"
     if (!formData.bankName.trim()) newErrors.bankName = "Bank name is required"
+    if (!formData.examId) newErrors.examId = "Exam is required"
     if (!formData.branchName.trim()) newErrors.branchName = "Branch name is required"
     if (!formData.ifscCode.trim()) newErrors.ifscCode = "IFSC code is required"
     if (!formData.bankAccountNumber.trim()) newErrors.bankAccountNumber = "Account number is required"
@@ -173,26 +194,51 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Post / Role */}
+      {/* Exam */}
       <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-bold text-slate-700">
-          <Building2 className="h-4 w-4 text-blue-600" />
-          Post / Role
+          <BookOpen className="h-4 w-4 text-blue-600" />
+          Exam
         </label>
         <SearchableDropdown
-          options={posts.map(p => ({ id: p.id, label: p.label }))}
-          value={formData.postId || ""}
+          options={exams}
+          value={formData.examId || ""}
           onChange={(val) => {
-            const label = posts.find(p => p.id === val)?.label || ""
-            setFormData(prev => ({ ...prev, postId: val, postLabel: label }))
-            if (errors.postId) setErrors(prev => ({ ...prev, postId: "" }))
+            const label = exams.find(e => e.id === val)?.label || ""
+            setFormData(prev => ({
+              ...prev,
+              examId: val,
+              examLabel: label,
+              postId: "",
+              postLabel: "",
+              designationId: "",
+              designationLabel: ""
+            }))
+            if (errors.examId) setErrors(prev => ({ ...prev, examId: "" }))
           }}
-          placeholder="Select a post / role"
-          icon={<Building2 className="h-4 w-4" />}
+          placeholder="Select an exam"
+          icon={<BookOpen className="h-4 w-4" />}
           label=""
         />
-        {errors.postId && <p className="text-xs font-semibold text-rose-600">{errors.postId}</p>}
+        {errors.examId && <p className="text-xs font-semibold text-rose-600">{errors.examId}</p>}
       </div>
+      {/* Post / Role */}
+      <SearchableDropdown
+        options={posts.map(p => ({ id: p.id, label: p.label }))}
+        value={formData.postId || ""}
+        onChange={(val) => {
+          const label = posts.find(p => p.id === val)?.label || ""
+          setFormData(prev => ({ ...prev, postId: val, postLabel: label }))
+          if (errors.postId) setErrors(prev => ({ ...prev, postId: "" }))
+        }}
+        placeholder="Select a post / role"
+        icon={<Building2 className="h-4 w-4" />}
+        label=""
+        disabled={!formData.examId}
+      />
+      {!formData.examId && (
+        <p className="text-xs text-slate-500">Please select an exam first</p>
+      )}
 
       {/* Designation */}
       <div className="space-y-2">
