@@ -16,6 +16,7 @@ import AddPanelModal from '../../components/AddPanelModal';
 import EditPanelModal from '../../components/EditPanelModal';
 import { mockApi, Venue, Panel, getVenueList, getInterviewPanelInfo } from './api';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import Cookies from "js-cookie";
 
 export default function PanelManagement() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function PanelManagement() {
     { assign_type_id: 1, assign_type_name: 'Panel Assigned' },
     { assign_type_id: 2, assign_type_name: 'Not Assigned' },
   ];
-  const [panels, setPanels] = useState<Panel[]>([]);
+  const [panels, setPanels] = useState<any[]>([]);
   const [isLoadingVenues, setIsLoadingVenues] = useState(true);
   const [isLoadingPanels, setIsLoadingPanels] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -38,6 +39,17 @@ export default function PanelManagement() {
   const [confirmTargetId, setConfirmTargetId] = useState<string | null>(null);
 
   const [assignType, setAssignType] = useState('');
+
+  const normalizePanel = (p: any): Panel => ({
+    id: String(p?.panel_id ?? ''),
+    panelName: String(p?.panel_name ?? ''),
+    roomNumber: String(p?.room_no ?? ''),
+    postId: String(p?.post_id ?? ''),
+    postLabel: String(p?.post_name ?? ''),
+    designationId: String(p?.designation_id ?? ''),
+    designationLabel: String(p?.designation_name ?? ''),
+    venueId: String(p?.venue_id ?? ''),
+  });
 
   useEffect(() => {
     loadVenues();
@@ -76,8 +88,9 @@ export default function PanelManagement() {
 
     setIsLoadingPanels(true);
     try {
-      const data = await getInterviewPanelInfo(Number(selectedVenue), Number(assignType));
-      setPanels(data);
+      const res = await getInterviewPanelInfo(Number(selectedVenue), Number(assignType));
+      const next = res?.status === 0 && Array.isArray(res?.data) ? res.data : [];
+      setPanels(next);
     } catch (error) {
       console.error('Error loading panels:', error);
     } finally {
@@ -221,55 +234,56 @@ export default function PanelManagement() {
                   <tbody className="divide-y divide-slate-100">
                     {panels?.map((panel) => (
                       <tr
-                        key={panel.id}
+                        key={String(panel.panel_id)}
                         className="group hover:bg-slate-50/50 transition-colors"
                       >
                         <td className="py-4 px-4">
                           <span className="text-sm font-semibold text-slate-900">
-                            {panel.panelName}
+                            {panel.panel_name}
                           </span>
                         </td>
                         <td className="py-4 px-4">
                           <span className="text-sm text-slate-700">
-                            {panel.roomNumber}
+                            {panel.room_no}
                           </span>
                         </td>
                         <td className="py-4 px-4">
                           <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-cyan-50 text-xs font-medium text-cyan-700 border border-cyan-100">
-                            {panel.postLabel}
+                            {panel.post_name}
                           </span>
                         </td>
                         <td className="py-4 px-4">
                           <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-50 text-xs font-medium text-blue-700 border border-blue-100">
-                            {panel.designationLabel}
+                            {panel.designation_name}
                           </span>
                         </td>
 
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-center gap-2">
                             <button
-                              onClick={() => handleEditClick(panel)}
+                              onClick={() => handleEditClick(normalizePanel(panel))}
                               className="h-9 w-9 flex items-center justify-center hover:bg-blue-50 text-blue-600 rounded-lg transition-colors border border-transparent hover:border-blue-100"
                               title="Edit panel"
                             >
                               <Edit2 className="h-4 w-4" />
                             </button>
                             <button
-                              onClick={() => { setConfirmTargetId(panel.id); setConfirmOpen(true) }}
-                              disabled={deletingPanelId === panel.id}
+                              onClick={() => { setConfirmTargetId(String(panel.panel_id)); setConfirmOpen(true) }}
+                              disabled={deletingPanelId === String(panel.panel_id)}
                               className="h-9 w-9 flex items-center justify-center hover:bg-rose-50 text-rose-600 rounded-lg transition-colors border border-transparent hover:border-rose-100 disabled:opacity-50 disabled:cursor-not-allowed"
                               title="Delete panel"
                             >
-                              {deletingPanelId === panel.id ? (
+                              {deletingPanelId === String(panel.panel_id) ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />
                               ) : (
                                 <Trash2 className="h-4 w-4" />
                               )}
                             </button>
                             <button
-                              onClick={() =>
-                                router.push(`/panel-details/${panel.id}?venueId=${selectedVenue}`)
-                              }
+                              onClick={() => {
+                                Cookies.set('selected_panel', JSON.stringify(panel), { path: '/' });
+                                router.push(`/panel-details/${String(panel.panel_id)}?venueId=${selectedVenue}`);
+                              }}
                               className="inline-flex items-center justify-center h-9 w-9 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 shadow-sm shadow-cyan-200 transition-all"
                               title="View panel details"
                             >
