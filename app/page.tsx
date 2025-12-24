@@ -184,7 +184,8 @@ export default function LoginPage() {
         } else if (code === 3) {
           router.push("/interviews")
         } else if (code === 2) {
-          router.push("/inprogress")
+          router.push("/dashboard")
+          // router.push("/inprogress")
         } else {
           router.push("/unauthorized")
         }

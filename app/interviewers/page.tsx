@@ -24,6 +24,8 @@ import {
 import InterviewerForm from "@/components/interviewer-form"
 import { interviewers as mockInterviewers, Interviewer } from "@/lib/interviewers"
 
+
+
 // --- Sub-components ---
 
 function StatusBadge() {
@@ -109,6 +111,8 @@ export default function InterviewersPage() {
       setInterviewers((prev) => [newInterviewer, ...prev])
     }
     setShowForm(false)
+    // Optionally show success message
+    // alert('Interviewer saved successfully!')
   }
 
   const handleEdit = (interviewer: Interviewer) => {

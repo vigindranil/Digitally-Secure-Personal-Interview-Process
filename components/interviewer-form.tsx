@@ -1,10 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Mail, Phone, Award, BookOpen, User, Save, X, Building2 } from "lucide-react"
+import { Mail, Phone, Award, BookOpen, User, Save, X, Building2, Eye, EyeClosedIcon } from "lucide-react"
 import { Interviewer } from "@/lib/interviewers"
 import SearchableDropdown from "@/components/SearchableDropdown"
 import { mockApi } from "@/app/add-panel/api"
+import { getPostList, getDesignationList, saveInterviewer, SaveInterviewerRequest } from "@/app/interviewers/api"
+import { getUser } from "@/hooks/getUser"
+import { useToast } from "@/components/ui/use-toast";
+
 
 interface InterviewerFormProps {
   interviewer?: Interviewer
@@ -34,16 +38,45 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [posts, setPosts] = useState<{ id: string; label: string }[]>([])
   const [designations, setDesignations] = useState<{ id: string; label: string }[]>([])
+  const [loadingDesignations, setLoadingDesignations] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [user, setUser] = useState<any>(null);
+  const { toast } = useToast()
+
+
 
   useEffect(() => {
     (async () => {
-      const p = await mockApi.getPosts()
-      const d = await mockApi.getDesignations()
-      setPosts(p)
-      setDesignations(d)
+      const postData = await getPostList()
+      const formattedPosts = postData.map(p => ({
+        id: p.post_id.toString(),
+        label: p.post_name
+      }))
+      setPosts(formattedPosts)
     })()
   }, [])
 
+  // Add new useEffect to fetch designations when post changes
+  useEffect(() => {
+    if (formData.postId) {
+      (async () => {
+        setLoadingDesignations(true)
+        setDesignations([]) // Clear previous designations
+        setFormData(prev => ({ ...prev, designationId: "", designationLabel: "" })) // Reset designation
+
+        const designationData = await getDesignationList(parseInt(formData.postId))
+        const formattedDesignations = designationData.map(d => ({
+          id: d.designation_id.toString(),
+          label: d.designation_name
+        }))
+        setDesignations(formattedDesignations)
+        setLoadingDesignations(false)
+      })()
+    } else {
+      setDesignations([])
+    }
+  }, [formData.postId])
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
@@ -66,10 +99,51 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (validateForm()) {
-      onSubmit(formData)
+    if (!validateForm()) return
+
+    setIsSubmitting(true)
+    try {
+      // Prepare API payload
+      const payload: SaveInterviewerRequest = {
+        inuser_id: interviewer?.id ? parseInt(interviewer.id.replace('int-', '')) : 0,
+        post_id: parseInt(formData.postId),
+        designation_id: parseInt(formData.designationId),
+        full_name: formData.name,
+        bank_name: formData.bankName,
+        branch_name: formData.branchName,
+        ifsc: formData.ifscCode,
+        bank_acc_no: formData.bankAccountNumber,
+        contact_no: formData.mobile,
+        address: formData.address,
+        user_name: formData.username,
+        user_password: formData.password,
+        entry_user_id: user?.user_id,
+        user_id: 0, // Replace with actual logged-in user ID if available
+      }
+
+      // Call API
+      const response = await saveInterviewer(payload)
+      console.log('API response:', response)
+
+      if (response.status === 0) {
+        // Success - call parent's onSubmit with form data
+        onSubmit(formData)
+        toast({
+          title: "Success",
+          description: "Interviewer saved successfully.",
+          // duration: 5000,
+        });
+      } else {
+        // Handle API error
+        alert(response.message || 'Failed to save interviewer')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('An error occurred while saving the interviewer. Please try again.')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -87,6 +161,15 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
       }))
     }
   }
+
+  useEffect(() => {
+    (async () => {
+      const u = await getUser()
+      setUser(u)
+    })()
+  }, [])
+
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -118,17 +201,21 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           Designation
         </label>
         <SearchableDropdown
-          options={designations.map(d => ({ id: d.id, label: d.label }))}
+          options={designations}
           value={formData.designationId || ""}
           onChange={(val) => {
             const label = designations.find(d => d.id === val)?.label || ""
             setFormData(prev => ({ ...prev, designationId: val, designationLabel: label }))
             if (errors.designationId) setErrors(prev => ({ ...prev, designationId: "" }))
           }}
-          placeholder="Select a designation"
+          placeholder={loadingDesignations ? "Loading designations..." : "Select a designation"}
           icon={<Award className="h-4 w-4" />}
           label=""
+          disabled={!formData.postId || loadingDesignations}
         />
+        {!formData.postId && (
+          <p className="text-xs text-slate-500">Please select a post first</p>
+        )}
         {errors.designationId && <p className="text-xs font-semibold text-rose-600">{errors.designationId}</p>}
       </div>
 
@@ -198,17 +285,28 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
           <User className="h-4 w-4 text-blue-600" />
           Password
         </label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password || ""}
-          onChange={handleChange}
-          placeholder="Enter password"
-          className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.password
-            ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
-            : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-            } focus:outline-none`}
-        />
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={formData.password || ""}
+            onChange={handleChange}
+            placeholder="Enter password"
+            className={`w-full px-4 py-3 rounded-xl border-2 font-medium transition-all ${errors.password
+              ? "border-rose-500 bg-rose-50 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+              : "border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+              } focus:outline-none`}
+
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-slate-700"
+          >
+            {showPassword ? <EyeClosedIcon className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+          </button>
+        </div>
+
         {errors.password && <p className="text-xs font-semibold text-rose-600">{errors.password}</p>}
       </div>
 
@@ -386,7 +484,7 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
       <div className="flex items-center gap-3 pt-4">
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || isSubmitting}
           className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Save className="h-4 w-4" />
