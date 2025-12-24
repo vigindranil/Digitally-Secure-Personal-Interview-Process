@@ -22,6 +22,8 @@ export default function InterviewerForm({ interviewer, onSubmit, onCancel, isLoa
     name: interviewer?.name || "",
     mobile: interviewer?.mobile || "",
     email: interviewer?.email || "",
+    qualification: interviewer?.qualification || "",
+    interviewSubject: interviewer?.interviewSubject || "",
     postId: interviewer?.postId || "",
     postLabel: interviewer?.postLabel || "",
     designationId: interviewer?.designationId || "",
