@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, Search, Check } from "lucide-react";
 
 interface Option {
-  id: string;
+  id: string | number;
   label: string;
 }
 
@@ -147,7 +147,7 @@ export default function SearchableDropdown({
                     key={option.id}
                     type="button"
                     onClick={() => {
-                      onChange(option.id);
+                      onChange(String(option.id));
                       setIsOpen(false);
                       setSearchTerm("");
                     }}

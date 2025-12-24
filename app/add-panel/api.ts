@@ -1,16 +1,21 @@
 export interface Venue {
   id: string;
   label: string;
+  venue_id?: string;
+  venue_name?: string;
+  venue_address?: string;
 }
 
 export interface Post {
-  post_id: string;
-  post_name: string;
+  // post_id: string | number;
+  id: string;
+  label: string;
+  // post_name: string;
 }
 
 export interface Designation {
-  designation_id: string;
-  designation_name: string;
+  id: string;
+  label: string;
 }
 
 export interface Panel {
@@ -22,6 +27,7 @@ export interface Panel {
   designationId: string;
   designationLabel: string;
   venueId: string;
+  examId?: string;
 }
 
 export interface PanelAssignment {
@@ -262,7 +268,7 @@ export async function getVenueList() {
   )
   return response.data;
 }
-export async function getPostList(examId: number) {
+export async function getPostList(examId: String | number) {
   const response = await callAPIWithEnc(
     '/admin/getPostList',
     'POST',
@@ -272,7 +278,7 @@ export async function getPostList(examId: number) {
   )
   return response.data;
 }
-export async function getDesignationList(postId: number) {
+export async function getDesignationList(postId: String |number) {
   const response = await callAPIWithEnc(
     '/admin/getDesignationList',
     'POST',
