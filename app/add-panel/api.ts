@@ -295,7 +295,7 @@ export async function getInterviewPanelInfo(venueId: number, typeId: number) {
       exam_date: '19-12-2025',
     }
   )
-  return response.data;
+  return response;
 }
 export async function saveInterviewPanel(interviewPanel: {
   panelId: number;

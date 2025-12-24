@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { mockApi, Panel, PanelAssignment } from "@/app/add-panel/api"
 import { interviewers as allInterviewers } from "@/lib/interviewers"
 import { MultiSelect } from "@/components/multiSelect"
+import Cookies from "js-cookie"
 
 export default function PanelDetailsPage() {
   const params = useParams()
@@ -48,7 +49,29 @@ export default function PanelDetailsPage() {
   useEffect(() => {
     ; (async () => {
       setLoading(true)
-      const p = await mockApi.getPanelById(panelId)
+      let p: Panel | null = null
+      try {
+        const stored = Cookies.get('selected_panel')
+        if (stored) {
+          const parsed = JSON.parse(stored)
+          const normalized: Panel | null = parsed?.panel_id
+            ? {
+              id: String(parsed.panel_id ?? ''),
+              panelName: String(parsed.panel_name ?? ''),
+              roomNumber: String(parsed.room_no ?? ''),
+              postId: String(parsed.post_id ?? ''),
+              postLabel: String(parsed.post_name ?? ''),
+              designationId: String(parsed.designation_id ?? ''),
+              designationLabel: String(parsed.designation_name ?? ''),
+              venueId: String(parsed.venue_id ?? ''),
+            }
+            : parsed
+          if (normalized?.id === panelId) p = normalized
+        }
+      } catch { }
+      if (!p) {
+        p = await mockApi.getPanelById(panelId)
+      }
       setPanel(p)
       const v = await mockApi.getVenueById(venueId)
       setVenueLabel(v?.label || "")
