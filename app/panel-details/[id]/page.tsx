@@ -25,6 +25,7 @@ export default function PanelDetailsPage() {
   const venueId = String(searchParams?.get("venueId") || "")
 
   const [panel, setPanel] = useState<Panel | null>(null)
+  const [panelRaw, setPanelRaw] = useState<any | null>(null)
   const [venueLabel, setVenueLabel] = useState<string>("")
   const [assignments, setAssignments] = useState<PanelAssignment[]>([])
   const [loading, setLoading] = useState(true)
@@ -54,6 +55,7 @@ export default function PanelDetailsPage() {
         const stored = Cookies.get('selected_panel')
         if (stored) {
           const parsed = JSON.parse(stored)
+          setPanelRaw(parsed)
           const normalized: Panel | null = parsed?.panel_id
             ? {
               id: String(parsed.panel_id ?? ''),
@@ -127,16 +129,16 @@ export default function PanelDetailsPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg font-bold text-slate-800">
-                  {panel?.panelName || "Loading Panel..."}
+                  {panelRaw?.panel_name || panel?.panelName || "Loading Panel..."}
                 </h2>
                 <div className="flex flex-wrap items-center gap-3 mt-2">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-600 shadow-sm">
                     <Building2 className="h-3.5 w-3.5 text-cyan-600" />
-                    {venueLabel || "Loading Venue..."}
+                    {panelRaw?.venue_name || venueLabel || "Loading Venue..."}
                   </div>
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-600 shadow-sm">
                     <CalendarDays className="h-3.5 w-3.5 text-blue-600" />
-                    Room: {panel?.roomNumber || "..."}
+                    Room: {panelRaw?.room_no || panel?.roomNumber || "..."}
                   </div>
                 </div>
               </div>
@@ -163,93 +165,72 @@ export default function PanelDetailsPage() {
                 <Loader2 className="h-10 w-10 animate-spin mb-4 text-cyan-600" />
                 <p className="text-sm font-medium">Loading assignments...</p>
               </div>
-            ) : assignments.length === 0 ? (
-              <div className="py-20 flex flex-col items-center justify-center text-slate-400">
-                <div className="p-4 bg-slate-100 rounded-full mb-4">
-                  <Users className="h-10 w-10 opacity-50" />
-                </div>
-                <p className="text-sm font-medium">No assignments yet</p>
-                <p className="text-xs opacity-70 mt-1">
-                  Click "Assign Interviews" to schedule interviewers
-                </p>
-              </div>
             ) : (
-              <div className="overflow-x-auto -mx-6 px-6">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-slate-200">
-                      <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Panel Name
-                      </th>
-                      <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Interview Date
-                      </th>
-                      <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Interviewers
-                      </th>
-                      <th className="text-center py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {assignments.map((a) => (
-                      <tr key={a.id} className="group hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 px-4">
-                          <span className="text-sm font-semibold text-slate-900">
-                            {panel?.panelName}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <input
-                            type="date"
-                            value={a.date}
-                            disabled={true}
-                            onChange={(e) => handleUpdateAssignment(a.id, undefined, e.target.value)}
-                            className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-xs text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all cursor-default"
-                          />
-                        </td>
-                        <td className="py-4 px-4">
-                          <div className="flex flex-wrap gap-1">
-                            {assignments
-                              .filter(x => x.date === a.date)
-                              .map((x, i) => (
-                                <span key={i} className="inline-flex items-center px-2 py-1 rounded-md bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200">
-                                  {x.interviewerName}
-                                </span>
+              <div className="space-y-8">
+                {Array.isArray(panelRaw?.lstDate) && panelRaw.lstDate.length > 0 ? (
+                  panelRaw.lstDate.map((d: any, idx: number) => {
+                    const dateStr = String(d?.exam_date || '')
+                    const rows = assignments.filter(a => a.date === dateStr)
+                    return (
+                      <div key={idx} className="overflow-x-auto -mx-6 px-6">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="text-sm font-bold text-slate-700">Interview Date: {dateStr || '—'}</div>
+                        </div>
+                        {rows.length === 0 ? (
+                          <div className="py-10 flex flex-col items-center justify-center text-slate-400">
+                            <div className="p-4 bg-slate-100 rounded-full mb-3">
+                              <Users className="h-8 w-8 opacity-50" />
+                            </div>
+                            <div className="text-sm font-medium">No assignments for this date</div>
+                          </div>
+                        ) : (
+                          <table className="w-full">
+                            <thead>
+                              <tr className="border-b border-slate-200">
+                                <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Interviewer</th>
+                                <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100">
+                              {rows.map((a) => (
+                                <tr key={a.id} className="group hover:bg-slate-50/50 transition-colors">
+                                  <td className="py-4 px-4">
+                                    <span className="text-sm font-medium text-slate-900">{a.interviewerName}</span>
+                                  </td>
+                                  <td className="py-4 px-4">
+                                    <div className="flex items-center gap-2">
+                                      <button
+                                        onClick={() => { setEditAssignmentId(a.id); setSelectedInterviewers([a.interviewerId]); setAssignDate(a.date); setAssignOpen(true) }}
+                                        className="inline-flex items-center justify-center h-9 px-3 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
+                                        title="Edit"
+                                      >
+                                        <Edit2 className="h-4 w-4" />
+                                      </button>
+                                      <button
+                                        onClick={() => { setConfirmTargetId(a.id); setConfirmOpen(true) }}
+                                        className="inline-flex items-center justify-center h-9 px-3 rounded-lg border border-rose-200 text-rose-700 hover:bg-rose-50 transition-colors"
+                                        title="Delete"
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
                               ))}
-                          </div>
-                        </td>
-                        <td className="py-4 px-4">
-                          <div className="flex items-center justify-center gap-2">
-                            <button
-                              onClick={() => {
-                                setEditAssignmentId(a.id);
-                                setSelectedInterviewers([a.interviewerId]);
-                                setAssignDate(a.date);
-                                setAssignOpen(true);
-                              }}
-                              className="h-9 w-9 flex items-center justify-center hover:bg-blue-50 text-blue-600 rounded-lg transition-colors border border-transparent hover:border-blue-100"
-                              title="Edit assignment"
-                            >
-                              <Edit2 className="h-4 w-4" />
-                            </button>
-                            <button
-                              onClick={() => {
-                                setConfirmTargetId(a.id);
-                                setConfirmOpen(true);
-                              }}
-                              className="h-9 w-9 flex items-center justify-center hover:bg-rose-50 text-rose-600 rounded-lg transition-colors border border-transparent hover:border-rose-100"
-                              title="Delete assignment"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                            </tbody>
+                          </table>
+                        )}
+                      </div>
+                    )
+                  })
+                ) : (
+                  <div className="py-20 flex flex-col items-center justify-center text-slate-400">
+                    <div className="p-4 bg-slate-100 rounded-full mb-4">
+                      <Users className="h-10 w-10 opacity-50" />
+                    </div>
+                    <p className="text-sm font-medium">No interview dates available</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
