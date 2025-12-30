@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Briefcase, Award, MapPin, Loader2, Building2 } from 'lucide-react';
 import SearchableDropdown from './SearchableDropdown';
-import { Post, Designation, getVenueList, getDesignationList, getPostList, getExamList, saveInterviewPanel } from '../app/add-panel/api';
+import { Post, Designation, getVenueList, getDesignationList, getPostList, getExamList, saveInterviewPanel, getExamDate } from '../app/add-panel/api';
 import { getUser } from '@/hooks/getUser';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -11,6 +11,7 @@ interface AddPanelModalProps {
   onClose: () => void;
   venueId: string;
   onSuccess: () => void;
+  panel?: any;
 }
 
 export default function AddPanelModal({
@@ -18,6 +19,7 @@ export default function AddPanelModal({
   onClose,
   venueId,
   onSuccess,
+  panel,
 }: AddPanelModalProps) {
   const { toast } = useToast();
   const [posts, setPosts] = useState<Post[]>([]);
@@ -29,6 +31,8 @@ export default function AddPanelModal({
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [venue, setVenue] = useState<any>(null);
   const [exams, setExams] = useState<any[]>([]);
+  const [examDates, setExamDates] = useState<any[]>([]);
+  const [examDate, setExamDate] = useState('');
   const [selectedExam, setSelectedExam] = useState('');
   const [panelName, setPanelName] = useState('');
   const [user, setUser] = useState<any>(null);
@@ -53,13 +57,15 @@ export default function AddPanelModal({
       setVenue(v);
       const examsData = await getExamList();
       setExams(examsData);
-      if (selectedExam) {
-        const postsData = await getPostList(selectedExam);
-        setPosts(postsData);
-      }
-      if (selectedPost) {
-        const designationsData = await getDesignationList(selectedPost);
-        setDesignations(designationsData);
+      if (panel) {
+        const initialExamId = Number(panel?.exam_id ?? 0);
+        const initialPostId = Number(panel?.post_id ?? 0);
+        const initialDesigId = Number(panel?.designation_id ?? 0);
+        setSelectedExam(initialExamId);
+        setSelectedPost(initialPostId);
+        setSelectedDesignation(initialDesigId);
+        setPanelName(String(panel?.panel_name ?? ''));
+        setRoomNumber(String(panel?.room_no ?? ''));
       }
     } catch (error) {
       console.error('Error loading data:', error);
@@ -76,9 +82,14 @@ export default function AddPanelModal({
         setSelectedPost('');
         setDesignations([]);
         setSelectedDesignation('');
+        setExamDates([]);
+        setExamDate('');
         return;
       }
-      const postsData = await getPostList(selectedExam);
+      const edRes = await getExamDate(Number(selectedExam));
+      const dates = Array.isArray(edRes?.data) ? edRes.data : Array.isArray(edRes) ? edRes : [];
+      setExamDates(dates || []);
+      const postsData = await getPostList(Number(selectedExam));
       setPosts(postsData || []);
       setSelectedPost('');
       setDesignations([]);
@@ -94,7 +105,7 @@ export default function AddPanelModal({
         setSelectedDesignation('');
         return;
       }
-      const designationsData = await getDesignationList(selectedPost);
+      const designationsData = await getDesignationList(Number(selectedPost));
       setDesignations(designationsData || []);
       setSelectedDesignation('');
     })();
@@ -106,26 +117,29 @@ export default function AddPanelModal({
     setIsLoading(true);
     try {
       const res = await saveInterviewPanel({
-        panelId: 0,
+        panelId: Number(panel?.panel_id ?? 0),
         venueId: Number(venueId),
         examId: Number(selectedExam),
         postId: Number(selectedPost),
         designationId: Number(selectedDesignation),
         panelName: panelName,
         roomNumber: roomNumber,
+        examDate: examDate,
         entryUserId: user?.user_id ?? 0,
       });
 
       if (res?.status === 0) {
         toast({
           title: 'Panel saved',
-          description: 'Panel created successfully',
+          description: panel ? 'Panel updated successfully' : 'Panel created successfully',
         });
         setSelectedExam('');
         setSelectedPost('');
         setSelectedDesignation('');
         setRoomNumber('');
         setPanelName('');
+        setExamDate('');
+        setExamDates([]);
         onSuccess();
         onClose();
       } else {
@@ -158,7 +172,7 @@ export default function AddPanelModal({
               <Plus className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Add New Panel</h2>
+              <h2 className="text-lg font-bold text-slate-900">{panel ? 'Edit Panel' : 'Add New Panel'}</h2>
               <p className="text-xs text-slate-500 mt-0.5">Configure panel details</p>
             </div>
           </div>
@@ -194,17 +208,26 @@ export default function AddPanelModal({
               </div>
 
               <SearchableDropdown
-                options={exams.map((e: any) => ({ id: e.exam_id, label: e.exam_name }))}
+                options={exams.map((e: any) => ({ id: String(e.exam_id), label: e.exam_name }))}
                 value={selectedExam}
                 onChange={setSelectedExam}
                 placeholder="Select a exam..."
                 icon={<Briefcase className="h-4 w-4" />}
                 label="Exam"
               />
-
               <SearchableDropdown
                 disabled={!selectedExam}
-                options={posts.map((p: any) => ({ id: p.post_id, label: p.post_name }))}
+                options={(examDates || []).map((d: any) => ({ id: String(d?.exam_date || ''), label: String(d?.exam_date || '') }))}
+                value={examDate}
+                onChange={setExamDate}
+                placeholder="Select a exam date..."
+                icon={<Briefcase className="h-4 w-4" />}
+                label="Exam Date"
+              />
+
+              <SearchableDropdown
+                disabled={!examDate}
+                options={posts.map((p: any) => ({ id: String(p.post_id), label: p.post_name }))}
                 value={selectedPost}
                 onChange={setSelectedPost}
                 placeholder="Select a position..."
@@ -214,7 +237,7 @@ export default function AddPanelModal({
 
               <SearchableDropdown
                 disabled={!selectedPost}
-                options={designations.map((d: any) => ({ id: d.designation_id, label: d.designation_name }))}
+                options={designations.map((d: any) => ({ id: String(d.designation_id), label: d.designation_name }))}
                 value={selectedDesignation}
                 onChange={setSelectedDesignation}
                 placeholder="Select a designation..."
@@ -275,7 +298,7 @@ export default function AddPanelModal({
                   ) : (
                     <>
                       <Plus className="h-4 w-4" />
-                      Add Panel
+                      {panel ? 'Update Panel' : 'Add Panel'}
                     </>
                   )}
                 </button>

@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import SearchableDropdown from '../../components/SearchableDropdown';
 import AddPanelModal from '../../components/AddPanelModal';
-import EditPanelModal from '../../components/EditPanelModal';
 import { mockApi, Venue, Panel, getVenueList, getInterviewPanelInfo } from './api';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Cookies from "js-cookie";
@@ -24,21 +23,17 @@ export default function PanelManagement() {
   const [selectedVenue, setSelectedVenue] = useState('');
 
 
-  const assignTypes = [
-    { assign_type_id: 1, assign_type_name: 'Panel Assigned' },
-    { assign_type_id: 2, assign_type_name: 'Not Assigned' },
-  ];
   const [panels, setPanels] = useState<any[]>([]);
   const [isLoadingVenues, setIsLoadingVenues] = useState(true);
   const [isLoadingPanels, setIsLoadingPanels] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingPanel, setEditingPanel] = useState<Panel | null>(null);
+  const [editingPanelRaw, setEditingPanelRaw] = useState<any | null>(null);
   const [deletingPanelId, setDeletingPanelId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmTargetId, setConfirmTargetId] = useState<string | null>(null);
 
-  const [assignType, setAssignType] = useState('');
+
 
   const normalizePanel = (p: any): Panel => ({
     id: String(p?.panel_id ?? ''),
@@ -63,12 +58,6 @@ export default function PanelManagement() {
     }
   }, [selectedVenue]);
 
-  useEffect(() => {
-    if (!selectedVenue || !assignType) return;
-    loadPanels();
-  }, [assignType]);
-
-  console.log(selectedVenue)
 
   const loadVenues = async () => {
     setIsLoadingVenues(true);
@@ -88,7 +77,7 @@ export default function PanelManagement() {
 
     setIsLoadingPanels(true);
     try {
-      const res = await getInterviewPanelInfo(Number(selectedVenue), Number(assignType));
+      const res = await getInterviewPanelInfo(Number(selectedVenue), 0);
       const next = res?.status === 0 && Array.isArray(res?.data) ? res.data : [];
       setPanels(next);
     } catch (error) {
@@ -110,8 +99,8 @@ export default function PanelManagement() {
     }
   };
 
-  const handleEditClick = (panel: Panel) => {
-    setEditingPanel(panel);
+  const handleEditClick = (panel: any) => {
+    setEditingPanelRaw(panel);
     setIsEditModalOpen(true);
   };
 
@@ -141,7 +130,7 @@ export default function PanelManagement() {
                     <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
                   </div>
                 ) : (
-                  <div className="grid grid-cols-[3fr_2fr] gap-4 w-full">
+                  <div className="grid grid-cols-1 gap-4 w-full">
                     <SearchableDropdown
                       options={venues.map((v) => ({
                         id: String(v.venue_id),
@@ -152,19 +141,6 @@ export default function PanelManagement() {
                       placeholder="Select a venue..."
                       icon={<Building2 className="h-4 w-4" />}
                       label="Interview Venue"
-                    />
-
-                    <SearchableDropdown
-                      disabled={!selectedVenue}
-                      options={assignTypes.map((a) => ({
-                        id: String(a.assign_type_id),
-                        label: a.assign_type_name,
-                      }))}
-                      value={assignType}
-                      onChange={setAssignType}
-                      placeholder="Select"
-                      icon={<Building2 className="h-4 w-4" />}
-                      label="Status"
                     />
                   </div>
 
@@ -341,15 +317,16 @@ export default function PanelManagement() {
         />
       )}
 
-      {editingPanel && (
-        <EditPanelModal
+      {editingPanelRaw && (
+        <AddPanelModal
           isOpen={isEditModalOpen}
           onClose={() => {
             setIsEditModalOpen(false);
-            setEditingPanel(null);
+            setEditingPanelRaw(null);
           }}
-          panel={editingPanel}
+          venueId={selectedVenue}
           onSuccess={loadPanels}
+          panel={editingPanelRaw}
         />
       )}
     </div>

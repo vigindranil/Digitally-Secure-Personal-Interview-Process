@@ -310,6 +310,7 @@ export async function saveInterviewPanel(interviewPanel: {
   panelName: string;
   roomNumber: string;
   venueId: number;
+  examDate: string;
   examId: number;
   entryUserId: number;
 }) {
@@ -324,6 +325,7 @@ export async function saveInterviewPanel(interviewPanel: {
       room_no: interviewPanel.roomNumber,
       venue_id: interviewPanel.venueId,
       exam_id: interviewPanel.examId,
+      exam_date: interviewPanel.examDate,
       entry_user_id: interviewPanel.entryUserId,
     }
   )
