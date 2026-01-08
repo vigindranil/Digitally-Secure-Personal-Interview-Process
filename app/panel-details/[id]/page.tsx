@@ -10,6 +10,11 @@ import {
   Plus,
   Loader2,
   ArrowLeft,
+  MapPin,
+  Briefcase,
+  Calendar,
+  Award,
+  UserCheck,
 } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { mockApi, Panel, PanelAssignment } from "@/app/add-panel/api"
@@ -26,6 +31,8 @@ export default function PanelDetailsPage() {
 
   const [panel, setPanel] = useState<Panel | null>(null)
   const [venueLabel, setVenueLabel] = useState<string>("")
+  const [examName, setExamName] = useState<string>("")
+  const [scheduleDates, setScheduleDates] = useState<string[]>([])
   const [assignments, setAssignments] = useState<PanelAssignment[]>([])
   const [loading, setLoading] = useState(true)
   const [assignOpen, setAssignOpen] = useState(false)
@@ -54,6 +61,12 @@ export default function PanelDetailsPage() {
         const stored = Cookies.get('selected_panel')
         if (stored) {
           const parsed = JSON.parse(stored)
+
+          if (parsed.exam_name) setExamName(parsed.exam_name)
+          if (parsed.lstDate && Array.isArray(parsed.lstDate)) {
+            setScheduleDates(parsed.lstDate.map((d: any) => d.exam_date))
+          }
+
           const normalized: Panel | null = parsed?.panel_id
             ? {
               id: String(parsed.panel_id ?? ''),
@@ -93,6 +106,21 @@ export default function PanelDetailsPage() {
     setAssignments(a)
   }
 
+  const formatDate = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr)
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    } catch {
+      return dateStr
+    }
+  }
+
+  const groupedAssignments = assignments.reduce((acc, curr) => {
+    if (!acc[curr.date]) acc[curr.date] = []
+    acc[curr.date].push(curr)
+    return acc
+  }, {} as Record<string, PanelAssignment[]>)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-cyan-50/30 p-4 sm:p-6 lg:p-8 font-sans">
       <div className="max-w-7xl mx-auto">
@@ -120,10 +148,75 @@ export default function PanelDetailsPage() {
           </button>
         </div>
 
+        {/* Info Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between mb-2">
+              <div className="p-2 bg-cyan-50 rounded-lg">
+                <Award className="h-5 w-5 text-cyan-600" />
+              </div>
+            </div>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Examination</p>
+            <p className="text-base font-bold text-slate-900">{examName || "N/A"}</p>
+          </div>
+
+          <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between mb-2">
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <Building2 className="h-5 w-5 text-blue-600" />
+              </div>
+            </div>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Venue</p>
+            <p className="text-base font-bold text-slate-900">{venueLabel || "Loading..."}</p>
+          </div>
+
+          <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between mb-2">
+              <div className="p-2 bg-cyan-50 rounded-lg">
+                <MapPin className="h-5 w-5 text-cyan-600" />
+              </div>
+            </div>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Room Number</p>
+            <p className="text-base font-bold text-slate-900">Room {panel?.roomNumber || "..."}</p>
+          </div>
+
+          <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-start justify-between mb-2">
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <Briefcase className="h-5 w-5 text-blue-600" />
+              </div>
+            </div>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Post</p>
+            <p className="text-base font-bold text-slate-900">{panel?.postLabel || "N/A"}</p>
+          </div>
+        </div>
+
+        {/* Schedule Dates */}
+        {scheduleDates.length > 0 && (
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="p-2 bg-cyan-50 rounded-lg">
+                <Calendar className="h-4 w-4 text-cyan-600" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Scheduled Interview Dates</h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {scheduleDates.map((date, idx) => (
+                <div
+                  key={idx}
+                  className="inline-flex items-center gap-2 px-3 py-2 bg-cyan-50 border border-cyan-100 rounded-lg"
+                >
+                  <CalendarDays className="h-3.5 w-3.5 text-cyan-600" />
+                  <span className="text-sm font-semibold text-slate-900">{formatDate(date)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Main Content Card */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
-          {/* Card Header / Info Bar */}
-          <div className="px-6 py-2 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-blue-50/30">
+          <div className="px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-blue-50/30">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg font-bold text-slate-800">
@@ -135,7 +228,7 @@ export default function PanelDetailsPage() {
                     {venueLabel || "Loading Venue..."}
                   </div>
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-600 shadow-sm">
-                    <CalendarDays className="h-3.5 w-3.5 text-blue-600" />
+                    <MapPin className="h-3.5 w-3.5 text-blue-600" />
                     Room: {panel?.roomNumber || "..."}
                   </div>
                 </div>
@@ -174,82 +267,83 @@ export default function PanelDetailsPage() {
                 </p>
               </div>
             ) : (
-              <div className="overflow-x-auto -mx-6 px-6">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-slate-200">
-                      <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Panel Name
-                      </th>
-                      <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Interview Date
-                      </th>
-                      <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Interviewers
-                      </th>
-                      <th className="text-center py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {assignments.map((a) => (
-                      <tr key={a.id} className="group hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 px-4">
-                          <span className="text-sm font-semibold text-slate-900">
-                            {panel?.panelName}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <input
-                            type="date"
-                            value={a.date}
-                            disabled={true}
-                            onChange={(e) => handleUpdateAssignment(a.id, undefined, e.target.value)}
-                            className="h-9 rounded-lg border border-slate-200 bg-white px-3 text-xs text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all cursor-default"
-                          />
-                        </td>
-                        <td className="py-4 px-4">
-                          <div className="flex flex-wrap gap-1">
-                            {assignments
-                              .filter(x => x.date === a.date)
-                              .map((x, i) => (
-                                <span key={i} className="inline-flex items-center px-2 py-1 rounded-md bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200">
-                                  {x.interviewerName}
+              <div className="space-y-5">
+                {Object.entries(groupedAssignments).map(([date, dateAssignments]) => (
+                  <div key={date}>
+                    <div className="flex items-center gap-3 mb-3 pb-2 border-b border-slate-200">
+                      <div className="p-1.5 bg-cyan-50 rounded-lg">
+                        <CalendarDays className="h-4 w-4 text-cyan-600" />
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900">{formatDate(date)}</h3>
+                      <span className="ml-auto px-2.5 py-1 bg-slate-100 rounded-full text-xs font-semibold text-slate-600">
+                        {dateAssignments.length} {dateAssignments.length === 1 ? 'Interviewer' : 'Interviewers'}
+                      </span>
+                    </div>
+
+                    <div className="overflow-x-auto -mx-6 px-6">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b border-slate-200">
+                            <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                              Panel Name
+                            </th>
+                            <th className="text-left py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                              Interviewer
+                            </th>
+                            <th className="text-center py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                          {dateAssignments.map((a) => (
+                            <tr key={a.id} className="group hover:bg-slate-50/50 transition-colors">
+                              <td className="py-4 px-4">
+                                <span className="text-sm font-semibold text-slate-900">
+                                  {panel?.panelName}
                                 </span>
-                              ))}
-                          </div>
-                        </td>
-                        <td className="py-4 px-4">
-                          <div className="flex items-center justify-center gap-2">
-                            <button
-                              onClick={() => {
-                                setEditAssignmentId(a.id);
-                                setSelectedInterviewers([a.interviewerId]);
-                                setAssignDate(a.date);
-                                setAssignOpen(true);
-                              }}
-                              className="h-9 w-9 flex items-center justify-center hover:bg-blue-50 text-blue-600 rounded-lg transition-colors border border-transparent hover:border-blue-100"
-                              title="Edit assignment"
-                            >
-                              <Edit2 className="h-4 w-4" />
-                            </button>
-                            <button
-                              onClick={() => {
-                                setConfirmTargetId(a.id);
-                                setConfirmOpen(true);
-                              }}
-                              className="h-9 w-9 flex items-center justify-center hover:bg-rose-50 text-rose-600 rounded-lg transition-colors border border-transparent hover:border-rose-100"
-                              title="Delete assignment"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                                    {a.interviewerName.charAt(0)}
+                                  </div>
+                                  <span className="text-sm font-medium text-slate-900">{a.interviewerName}</span>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex items-center justify-center gap-2">
+                                  <button
+                                    onClick={() => {
+                                      setEditAssignmentId(a.id);
+                                      setSelectedInterviewers([a.interviewerId]);
+                                      setAssignDate(a.date);
+                                      setAssignOpen(true);
+                                    }}
+                                    className="h-9 w-9 flex items-center justify-center hover:bg-blue-50 text-blue-600 rounded-lg transition-colors border border-transparent hover:border-blue-100"
+                                    title="Edit assignment"
+                                  >
+                                    <Edit2 className="h-4 w-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setConfirmTargetId(a.id);
+                                      setConfirmOpen(true);
+                                    }}
+                                    className="h-9 w-9 flex items-center justify-center hover:bg-rose-50 text-rose-600 rounded-lg transition-colors border border-transparent hover:border-rose-100"
+                                    title="Delete assignment"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -270,7 +364,7 @@ export default function PanelDetailsPage() {
       {assignOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm z-50 p-4" role="dialog" aria-modal="true">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+            <div className="px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-blue-50/30 flex justify-between items-center">
               <h2 className="text-lg font-bold text-slate-800">
                 {editAssignmentId ? 'Edit Assignment' : 'Assign Interviews'}
               </h2>
@@ -300,7 +394,7 @@ export default function PanelDetailsPage() {
               <div className="flex gap-2">
                 <button
                   onClick={() => setSelectedInterviewers(allInterviewers.map(i => i.id))}
-                  className="text-xs px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-medium transition-colors"
+                  className="text-xs px-3 py-1.5 rounded-lg bg-cyan-50 text-cyan-700 hover:bg-cyan-100 font-medium transition-colors border border-cyan-100"
                 >
                   Select All
                 </button>
