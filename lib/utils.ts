@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 
  
 
-const hexToUint8Array = (hex) =>
+const hexToUint8Array = (hex:any) =>
   new Uint8Array(hex.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
 
 export const encryptAESGCM = async (data, ivHex = "aabbccddeeff001122334455") => {

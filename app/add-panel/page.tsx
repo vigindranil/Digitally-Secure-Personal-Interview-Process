@@ -16,13 +16,13 @@ import AddPanelModal from '../../components/AddPanelModal';
 import { mockApi, Venue, Panel, getVenueList, getInterviewPanelInfo } from './api';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Cookies from "js-cookie";
+import { sanitizeString } from '@/lib/security-utils';
+
 
 export default function PanelManagement() {
   const router = useRouter();
   const [venues, setVenues] = useState<Venue[]>([]);
   const [selectedVenue, setSelectedVenue] = useState('');
-
-
   const [panels, setPanels] = useState<any[]>([]);
   const [isLoadingVenues, setIsLoadingVenues] = useState(true);
   const [isLoadingPanels, setIsLoadingPanels] = useState(false);
@@ -36,14 +36,14 @@ export default function PanelManagement() {
 
 
   const normalizePanel = (p: any): Panel => ({
-    id: String(p?.panel_id ?? ''),
-    panelName: String(p?.panel_name ?? ''),
-    roomNumber: String(p?.room_no ?? ''),
-    postId: String(p?.post_id ?? ''),
-    postLabel: String(p?.post_name ?? ''),
-    designationId: String(p?.designation_id ?? ''),
-    designationLabel: String(p?.designation_name ?? ''),
-    venueId: String(p?.venue_id ?? ''),
+    id: sanitizeString(String(p?.panel_id ?? '')),
+    panelName: sanitizeString(String(p?.panel_name ?? '')),
+    roomNumber: sanitizeString(String(p?.room_no ?? '')),
+    postId: sanitizeString(String(p?.post_id ?? '')),
+    postLabel: sanitizeString(String(p?.post_name ?? '')),
+    designationId: sanitizeString(String(p?.designation_id ?? '')),
+    designationLabel: sanitizeString(String(p?.designation_name ?? '')),
+    venueId: sanitizeString(String(p?.venue_id ?? '')),
   });
 
   useEffect(() => {
@@ -57,6 +57,12 @@ export default function PanelManagement() {
       setPanels([]);
     }
   }, [selectedVenue]);
+
+
+  const handleTestError = () => {
+    throw new Error('This is a test error from the Test Error button');
+  };
+
 
 
   const loadVenues = async () => {
@@ -74,10 +80,16 @@ export default function PanelManagement() {
 
   const loadPanels = async () => {
     if (!selectedVenue) return;
+    const venueId = parseInt(selectedVenue, 10);
+    if (isNaN(venueId)) {
+      // handle error
+      return;
+    }
+
 
     setIsLoadingPanels(true);
     try {
-      const res = await getInterviewPanelInfo(Number(selectedVenue), 0);
+      const res = await getInterviewPanelInfo(venueId, 0);
       const next = res?.status === 0 && Array.isArray(res?.data) ? res.data : [];
       setPanels(next);
     } catch (error) {
