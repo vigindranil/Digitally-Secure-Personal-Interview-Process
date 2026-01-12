@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { generateOtpApi, validateOtpApi } from "./api"
 import { getUser } from "@/hooks/getUser"
+import { isValidIndianMobile, sanitizeNumericInput, sanitizeString } from "@/lib/security-utils"
 
 
 type RoleId = number
@@ -81,11 +82,16 @@ export default function LoginPage() {
   const [secondsLeft, setSecondsLeft] = useState(0)
   const [status, setStatus] = useState<{ tone: "info" | "error" | "success"; message: string } | null>(null)
   const [verifying, setVerifying] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const currentRole = useMemo(
     () => roleOptions.find((role) => role.id == selectedRole) ?? roleOptions[0],
     [selectedRole]
   )
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [])
 
   const firstOtpInputRef = useRef<HTMLInputElement>(null)
 
@@ -122,10 +128,21 @@ export default function LoginPage() {
 
   const handleSendOtp = async () => {
 
+    // Validate mobile number format
+    if (!isValidIndianMobile(mobile)) {
+      setStatus({
+        tone: "error",
+        message: "Please enter a valid 10-digit mobile number"
+      });
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const response = await generateOtpApi(mobile);
+      // Sanitize input before sending
+      const sanitizedMobile = sanitizeString(mobile);
+      const response = await generateOtpApi(sanitizedMobile);
 
       if (response.status === 0) {
         setOtp("");
@@ -148,6 +165,15 @@ export default function LoginPage() {
       setStatus({ tone: "error", message: error.message });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = sanitizeNumericInput(e.target.value, 10);
+    setMobile(value);
+
+    if (status?.tone === "error") {
+      setStatus(null);
     }
   };
 
@@ -335,8 +361,10 @@ export default function LoginPage() {
                   </div>
                   <input
                     type="tel"
+                    inputMode="numeric"
                     value={mobile}
-                    onChange={(e) => setMobile(e.target.value)}
+                    ref={inputRef}
+                    onChange={handleMobileChange}
                     onKeyDown={handleMobileKeyDown}
                     disabled={otpSent}
                     maxLength={10}

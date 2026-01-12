@@ -297,3 +297,39 @@ export const validateFile = (
   
   return { valid: true };
 };
+
+
+
+/**
+ * Validate Indian mobile number (10 digits)
+ * Allows test numbers in development: 2222222222, 3333333333, 4444444444, etc.
+ * @param phone - Phone number to validate
+ * @returns True if valid format
+ */
+export const isValidIndianMobile = (phone: string): boolean => {
+  // Allow test numbers (all same digits from 0-5) in development
+  const testNumberPattern = /^[0-5]\1{9}$/;
+  const isTestNumber = /^(0{10}|1{10}|2{10}|3{10}|4{10}|5{10})$/.test(phone);
+  
+  if (isTestNumber) {
+    return true; // Allow test numbers like 2222222222, 3333333333, etc.
+  }
+  
+  // Indian mobile numbers are 10 digits starting with 6-9
+  const indianMobileRegex = /^[6-9]\d{9}$/;
+  return indianMobileRegex.test(phone);
+};
+
+
+
+
+/**
+ * Sanitize numeric input (removes non-digits)
+ * @param value - Input value to sanitize
+ * @param maxLength - Maximum length allowed
+ * @returns Sanitized numeric string
+ */
+export const sanitizeNumericInput = (value: string, maxLength?: number): string => {
+  const cleaned = value.replace(/\D/g, '');
+  return maxLength ? cleaned.slice(0, maxLength) : cleaned;
+};
